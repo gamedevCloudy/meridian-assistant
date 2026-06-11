@@ -60,6 +60,22 @@ uv run python -m eval.run_eval --no-gate
 See `eval/README.md` for metrics, targets, and methodology. Latest results
 in `eval/summary.md`.
 
+## Latest results
+
+| Stage | Metric | Value | Target | Status |
+|---|---|---|---|---|
+| Retrieval | hit@3 | 0.8462 | ≥0.85 | ⚠️ (0.003 below) |
+| | mrr | 0.8485 | ≥0.75 | ✅ |
+| Action | action_accuracy | 0.9333 | ≥0.85 | ✅ |
+| | action_accuracy_on_evaluated | 1.0 | ≥0.85 | ✅ |
+| | handoff_f1 | 1.0 | ≥0.90 | ✅ |
+| Judge | grounded | 1.0 | ≥0.80 | ✅ |
+| | correct | 0.975 | ≥0.80 | ✅ |
+| | cited | 0.85 | ≥0.80 | ✅ |
+
+28/30 action cases evaluated (2 rate-limited). All 8 handoffs triggered correctly.
+Judge skips handoff cases (covered by action eval) and uses `openai/gpt-4o-mini`.
+
 ## Layout
 
 ```
@@ -131,10 +147,9 @@ meridian-assistant/
 
 ## Known issues / follow-ups
 
-- **Handoff intent is sometimes answered in prose without calling the tool** (eval cases 13, 15). The system prompt says "call handoff_to_human", but the free-tier LLM occasionally paraphrases instead. Likely a model-quality issue; would tighten with a stronger model or a "must call tool or be empty" guardrail. Tracked in `eval/summary.md`.
 - **30 cases is small.** Statistically meaningful thresholds need 200+. Coverage is stratified by intent but the per-class n is 1–2.
-- **LLM judge uses the same model as the agent.** Known bias. Would use a separate, larger judge in production.
 - **Date arithmetic in the prompt.** The agent gets a `Current date:` line, but the model still occasionally misinterprets. Hardening idea: serve a tiny tool that returns `today()` instead of injecting text.
+- **Judge retrieves fresh context at eval time.** The KB chunks may differ from what the agent actually saw during the conversation, causing minor scoring drift.
 
 ## How to debug
 
