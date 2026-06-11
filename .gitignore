@@ -226,4 +226,3 @@ data/chroma_db/
 
 # Sqlite files
 *.db
-output-samples/
