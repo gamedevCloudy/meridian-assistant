@@ -66,22 +66,22 @@ CORRECT (does the answer address the customer's question factually?)
   0.5: Partially correct, or asks a clarifying question that moves toward the answer.
   0.0: Wrong answer, or completely misses the point.
 
-CITED (does it cite sources by name?)
-  1.0: Contains at least one citation in the format [Document Name, p.N] or [Document Name | p.N].
-         OR: the response contains only clarifying questions with no factual claims (nothing to cite).
-  0.5: Mentions document names inline but not in the exact bracket format.
+CITED (does it cite sources?)
+  1.0: Contains at least one numbered citation like [1], [2], [3].
+          OR: the response contains only clarifying questions with no factual claims (nothing to cite).
+  0.5: Mentions sources inline but not in numbered bracket format.
   0.0: Contains factual claims but no citation at all.
 
 --- FEW-SHOT EXAMPLES ---
 
 Example 1 (score: grounded=1.0, correct=1.0, cited=1.0):
   Question: "What are your Saturday hours?"
-  Answer: "The Herndon branch opens at 8:00 AM on Saturdays and closes at 2:00 PM. [Branch Hours, p.0]"
+  Answer: "The Herndon branch opens at 8:00 AM on Saturdays and closes at 2:00 PM [1]."
   → All facts from KB, directly answers, cites properly.
 
 Example 2 (score: grounded=1.0, correct=0.5, cited=1.0):
   Question: "Can I book a panel inspection in Rockville?"
-  Answer: "Rockville is in our service area. To book, I need your preferred date and time window. [Service Area North, p.0]"
+  Answer: "Rockville is in our service area [1]. To book, I need your preferred date and time window."
   → Grounded and cited, but partially correct (asks for confirmation rather than giving direct answer).
 
 Example 3 (score: grounded=0.0, correct=0.0, cited=0.0):
