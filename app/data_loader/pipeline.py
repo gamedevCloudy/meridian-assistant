@@ -13,6 +13,7 @@ from app.data_loader.store import get_vector_store
 logger = logging.getLogger(__name__)
 
 DATA_DIR = Path(Config.DATA_DIR)
+EXCLUDE_DIRS = {"_eval_data"}
 
 DOC_TYPE_MAP: dict[str, str] = {
     "faqs": "faq",
@@ -50,6 +51,8 @@ def load_pdf(file_path: Path) -> list[Document]:
 def load_all_pdfs() -> list[Document]:
     docs: list[Document] = []
     for pdf_path in DATA_DIR.rglob("*.pdf"):
+        if any(part in EXCLUDE_DIRS for part in pdf_path.relative_to(DATA_DIR).parts):
+            continue
         docs.extend(load_pdf(pdf_path))
     return docs
 
