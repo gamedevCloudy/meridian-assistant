@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meridian Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       Carbon Design System — IBM-inspired token layer
+       ============================================================ */
+    :root {
+      /* --cds-* semantic tokens */
+      --cds-background: #ffffff;
+      --cds-text-primary: #161616;
+      --cds-text-secondary: #525252;
+      --cds-text-placeholder: #6f6f6f;
+      --cds-text-disabled: #8d8d8d;
+      --cds-text-inverse: #ffffff;
+      --cds-layer-01: #f4f4f4;
+      --cds-layer-02: #e0e0e0;
+      --cds-layer-hover-01: #e8e8e8;
+      --cds-border-subtle: #c6c6c6;
+      --cds-border-strong: #e0e0e0;
+      --cds-border-inverse: #161616;
+      --cds-focus: #0f62fe;
+      --cds-button-primary: #0f62fe;
+      --cds-button-primary-hover: #0353e9;
+      --cds-button-primary-active: #002d9c;
+      --cds-button-secondary: #393939;
+      --cds-button-secondary-hover: #4c4c4c;
+      --cds-button-secondary-active: #6f6f6f;
+      --cds-button-danger: #da1e28;
+      --cds-button-danger-hover: #b81921;
+      --cds-link-primary: #0f62fe;
+      --cds-link-primary-hover: #0043ce;
+      --cds-support-error: #da1e28;
+      --cds-support-success: #24a148;
+      --cds-support-warning: #f1c21b;
+      --cds-support-info: #0f62fe;
+      --cds-field: #f4f4f4;
+      --cds-field-hover: #e8e8e8;
+      --cds-inverse-01: #ffffff;
+      --cds-inverse-02: #f4f4f4;
+      --cds-overlay: rgba(0, 0, 0, 0.5);
+      --cds-shadow: rgba(0, 0, 0, 0.3);
+      /* Spacing: 8px base */
+      --cds-spacing-01: 2px;
+      --cds-spacing-02: 4px;
+      --cds-spacing-03: 8px;
+      --cds-spacing-04: 12px;
+      --cds-spacing-05: 16px;
+      --cds-spacing-06: 24px;
+      --cds-spacing-07: 32px;
+      --cds-spacing-08: 40px;
+      --cds-spacing-09: 48px;
+      --cds-spacing-10: 64px;
+      --cds-spacing-11: 80px;
+      --cds-spacing-12: 96px;
+      --cds-spacing-13: 160px;
+      /* Layout tokens */
+      --sidebar-width: 256px;
+      --header-height: 48px;
+      --input-height: 48px;
+      --icon-size: 20px;
+      --touch-target: 48px;
+      --border-radius: 0px;
+      --border-radius-pill: 24px;
+    }
+
+    /* Base ----------------------------------------------------------- */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--cds-text-primary);
+      background: var(--cds-background);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Layout: app shell ----------------------------------------------- */
+    .app {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar ---------------------------------------------------------- */
+    .sidebar {
+      width: var(--sidebar-width);
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      background: var(--cds-layer-01);
+      border-right: 1px solid var(--cds-border-subtle);
+    }
+    .sidebar-header {
+      height: var(--header-height);
+      padding: 0 var(--cds-spacing-05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--cds-border-subtle);
+      background: var(--cds-text-primary);
+    }
+    .sidebar-header h2 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.16px;
+      color: var(--cds-text-inverse);
+      line-height: 1.29;
+    }
+    .sidebar-header .cds--btn {
+      padding: 0 var(--cds-spacing-03);
+      height: 32px;
+      font-size: 12px;
+      letter-spacing: 0.32px;
+      background: transparent;
+      color: var(--cds-text-inverse);
+      border: 1px solid var(--cds-text-inverse);
+    }
+    .sidebar-header .cds--btn:hover {
+      background: var(--cds-text-inverse);
+      color: var(--cds-text-primary);
+    }
+    .sessions-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--cds-spacing-03);
+    }
+    .session-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--cds-spacing-04) var(--cds-spacing-05);
+      margin-bottom: var(--cds-spacing-02);
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+      border-left: 3px solid transparent;
+    }
+    .session-item:hover {
+      background: var(--cds-layer-hover-01);
+    }
+    .session-item.active {
+      background: var(--cds-layer-hover-01);
+      border-left-color: var(--cds-focus);
+    }
+    .session-info {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+    }
+    .session-id {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.16px;
+      line-height: 1.29;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--cds-text-primary);
+    }
+    .session-meta {
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.32px;
+      line-height: 1.33;
+      color: var(--cds-text-secondary);
+      margin-top: var(--cds-spacing-02);
+    }
+    .session-actions {
+      display: flex;
+      gap: var(--cds-spacing-02);
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+    .session-item:hover .session-actions,
+    .session-item.active .session-actions {
+      opacity: 1;
+    }
+    .session-actions .cds--btn {
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      min-height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+      background: transparent;
+      color: var(--cds-text-secondary);
+      border: none;
+    }
+    .session-actions .cds--btn:hover {
+      background: var(--cds-button-danger);
+      color: var(--cds-text-inverse);
+    }
+
+    /* Main area -------------------------------------------------------- */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: var(--cds-background);
+    }
+    .main-header {
+      height: var(--header-height);
+      padding: 0 var(--cds-spacing-05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--cds-border-subtle);
+      background: var(--cds-text-primary);
+    }
+    .main-header h1 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.5;
+      color: var(--cds-text-inverse);
+    }
+    .main-header .status {
+      font-size: 12px;
+      letter-spacing: 0.32px;
+      color: var(--cds-text-inverse);
+      display: flex;
+      align-items: center;
+      gap: var(--cds-spacing-03);
+    }
+
+    /* Chat area -------------------------------------------------------- */
+    .chat-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--cds-spacing-05);
+      display: flex;
+      flex-direction: column;
+      gap: var(--cds-spacing-05);
+      background: var(--cds-background);
+    }
+    .message {
+      max-width: 75%;
+      padding: var(--cds-spacing-05);
+      border-radius: var(--border-radius);
+      line-height: 1.5;
+      font-size: 14px;
+      letter-spacing: 0.16px;
+    }
+    .message.user {
+      align-self: flex-end;
+      background: var(--cds-text-primary);
+      color: var(--cds-text-inverse);
+    }
+    .message.assistant {
+      align-self: flex-start;
+      background: var(--cds-layer-01);
+      border: 1px solid var(--cds-border-subtle);
+      color: var(--cds-text-primary);
+    }
+    .message.system {
+      align-self: center;
+      background: var(--cds-layer-02);
+      color: var(--cds-text-secondary);
+      font-size: 12px;
+      letter-spacing: 0.32px;
+      padding: var(--cds-spacing-03) var(--cds-spacing-05);
+      max-width: 90%;
+    }
+    .message-header {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.32px;
+      line-height: 1.33;
+      margin-bottom: var(--cds-spacing-03);
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+    .message.user .message-header {
+      color: var(--cds-text-inverse);
+      opacity: 0.8;
+    }
+    .message-content p {
+      margin: 0 0 var(--cds-spacing-03) 0;
+    }
+    .message-content p:last-child {
+      margin-bottom: 0;
+    }
+    .message-content ul,
+    .message-content ol {
+      margin: var(--cds-spacing-03) 0;
+      padding-left: var(--cds-spacing-05);
+    }
+    .message-content li {
+      margin-bottom: var(--cds-spacing-02);
+    }
+    .message-content pre {
+      background: var(--cds-field);
+      padding: var(--cds-spacing-05);
+      border-radius: var(--border-radius);
+      overflow-x: auto;
+      font-size: 14px;
+      line-height: 1.43;
+      font-family: 'IBM Plex Mono', Menlo, Courier, monospace;
+      letter-spacing: 0.16px;
+      margin: var(--cds-spacing-03) 0;
+    }
+    .message-content pre code {
+      background: none;
+      padding: 0;
+      font-family: 'IBM Plex Mono', Menlo, Courier, monospace;
+      letter-spacing: 0.16px;
+    }
+    .message-content code {
+      background: var(--cds-field);
+      padding: 0 var(--cds-spacing-02);
+      border-radius: var(--border-radius);
+      font-size: 14px;
+      font-family: 'IBM Plex Mono', Menlo, Courier, monospace;
+      letter-spacing: 0.16px;
+    }
+    .message-content blockquote {
+      border-left: 3px solid var(--cds-focus);
+      margin: var(--cds-spacing-03) 0;
+      padding-left: var(--cds-spacing-05);
+      color: var(--cds-text-secondary);
+      font-style: italic;
+    }
+    .message-content h1,
+    .message-content h2,
+    .message-content h3,
+    .message-content h4 {
+      font-weight: 600;
+      line-height: 1.4;
+      margin: var(--cds-spacing-05) 0 var(--cds-spacing-03) 0;
+      color: var(--cds-text-primary);
+    }
+    .message-content h1 { font-size: 20px; }
+    .message-content h2 { font-size: 18px; }
+    .message-content h3 { font-size: 16px; }
+    .message-content h4 { font-size: 14px; }
+    .message-content a {
+      color: var(--cds-link-primary);
+      text-decoration: none;
+    }
+    .message-content a:hover {
+      color: var(--cds-link-primary-hover);
+      text-decoration: underline;
+    }
+    .message-content strong {
+      font-weight: 600;
+    }
+    .message-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--cds-spacing-03) 0;
+      font-size: 14px;
+      letter-spacing: 0.16px;
+    }
+    .message-content th,
+    .message-content td {
+      padding: var(--cds-spacing-03) var(--cds-spacing-05);
+      border-bottom: 1px solid var(--cds-border-subtle);
+      text-align: left;
+    }
+    .message-content th {
+      font-weight: 600;
+      background: var(--cds-layer-01);
+      border-bottom: 2px solid var(--cds-border-subtle);
+    }
+    .message-content tr:hover {
+      background: var(--cds-layer-hover-01);
+    }
+
+    /* Tool call chips --------------------------------------------------- */
+    .tool-call {
+      font-size: 12px;
+      letter-spacing: 0.32px;
+      line-height: 1.33;
+      background: var(--cds-field);
+      padding: var(--cds-spacing-03) var(--cds-spacing-05);
+      border-radius: var(--border-radius);
+      margin-top: var(--cds-spacing-03);
+      display: flex;
+      align-items: center;
+      gap: var(--cds-spacing-03);
+      font-family: 'IBM Plex Mono', Menlo, Courier, monospace;
+    }
+    .tool-call .cds--tag {
+      background: var(--cds-focus);
+      color: var(--cds-text-inverse);
+      padding: var(--cds-spacing-02) var(--cds-spacing-03);
+      border-radius: var(--border-radius);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.32px;
+      line-height: 1;
+      text-transform: uppercase;
+      font-family: 'IBM Plex Sans', sans-serif;
+    }
+
+    /* Handoff banner --------------------------------------------------- */
+    .handoff-banner {
+      background: var(--cds-layer-01);
+      border: 2px solid var(--cds-focus);
+      border-radius: var(--border-radius);
+      padding: var(--cds-spacing-05);
+      margin: var(--cds-spacing-03) 0;
+      text-align: center;
+      max-width: 600px;
+      align-self: center;
+    }
+    .handoff-banner .cds--tag {
+      background: var(--cds-focus);
+      color: var(--cds-text-inverse);
+      padding: var(--cds-spacing-03) var(--cds-spacing-05);
+      border-radius: var(--border-radius);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.32px;
+      line-height: 1.33;
+      text-transform: uppercase;
+      font-family: 'IBM Plex Sans', sans-serif;
+    }
+    .handoff-banner p {
+      margin: var(--cds-spacing-03) 0 0 0;
+      font-size: 14px;
+      letter-spacing: 0.16px;
+      color: var(--cds-text-secondary);
+    }
+
+    /* Citations — Perplexity style ----------------------------------- */
+    .citation-ref {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      background: var(--cds-focus);
+      color: var(--cds-text-inverse);
+      font-size: 10px;
+      font-weight: 600;
+      font-family: 'IBM Plex Mono', Menlo, Courier, monospace;
+      letter-spacing: 0.32px;
+      line-height: 1;
+      border-radius: 2px;
+      cursor: pointer;
+      text-decoration: none;
+      margin-left: 2px;
+      position: relative;
+      vertical-align: super;
+      transition: background-color 0.15s ease;
+    }
+    .citation-ref:hover {
+      background: var(--cds-button-primary-hover);
+    }
+    .citation-ref:hover .citation-tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(-4px);
+    }
+    .citation-tooltip {
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%) translateY(0);
+      background: var(--cds-text-primary);
+      color: var(--cds-text-inverse);
+      padding: var(--cds-spacing-03) var(--cds-spacing-05);
+      border-radius: 2px;
+      font-size: 12px;
+      font-weight: 400;
+      font-family: 'IBM Plex Sans', sans-serif;
+      letter-spacing: 0.32px;
+      line-height: 1.33;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      pointer-events: none;
+      z-index: 100;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+    .citation-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: var(--cds-text-primary);
+    }
+    .citation-list {
+      margin-top: var(--cds-spacing-05);
+      padding-top: var(--cds-spacing-05);
+      border-top: 1px solid var(--cds-border-subtle);
+    }
+    .citation-list-title {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.32px;
+      text-transform: uppercase;
+      color: var(--cds-text-secondary);
+      margin-bottom: var(--cds-spacing-03);
+    }
+    .citation-list-item {
+      font-size: 12px;
+      letter-spacing: 0.32px;
+      line-height: 1.5;
+      color: var(--cds-text-secondary);
+      margin-bottom: var(--cds-spacing-02);
+      display: flex;
+      align-items: flex-start;
+      gap: var(--cds-spacing-03);
+    }
+    .citation-list-item .citation-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      background: var(--cds-focus);
+      color: var(--cds-text-inverse);
+      font-size: 10px;
+      font-weight: 600;
+      font-family: 'IBM Plex Mono', Menlo, Courier, monospace;
+      border-radius: 2px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .citation-list-item .citation-source {
+      color: var(--cds-text-primary);
+    }
+
+    /* Input area ------------------------------------------------------- */
+    .input-area {
+      border-top: 1px solid var(--cds-border-subtle);
+      padding: var(--cds-spacing-05);
+      display: flex;
+      gap: var(--cds-spacing-05);
+      align-items: flex-end;
+      background: var(--cds-background);
+    }
+    .input-area textarea {
+      flex: 1;
+      margin: 0;
+      min-height: 48px;
+      max-height: 160px;
+      resize: vertical;
+      background: var(--cds-field);
+      border: none;
+      border-bottom: 2px solid var(--cds-border-subtle);
+      border-radius: var(--border-radius);
+      padding: var(--cds-spacing-04) var(--cds-spacing-05);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 14px;
+      letter-spacing: 0.16px;
+      line-height: 1.5;
+      color: var(--cds-text-primary);
+      transition: border-bottom-color 0.15s ease;
+    }
+    .input-area textarea:focus {
+      outline: none;
+      border-bottom-color: var(--cds-focus);
+    }
+    .input-area textarea::placeholder {
+      color: var(--cds-text-placeholder);
+    }
+    .input-area textarea:disabled {
+      background: var(--cds-layer-02);
+      color: var(--cds-text-disabled);
+      cursor: not-allowed;
+    }
+
+    /* Buttons (Carbon) ------------------------------------------------- */
+    .cds--btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 48px;
+      min-height: 48px;
+      padding: 14px 63px 14px 15px;
+      border: 1px solid transparent;
+      border-radius: var(--border-radius);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.16px;
+      line-height: 1.29;
+      cursor: pointer;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+      text-decoration: none;
+      white-space: nowrap;
+      background: var(--cds-button-primary);
+      color: var(--cds-text-inverse);
+    }
+    .cds--btn:hover {
+      background: var(--cds-button-primary-hover);
+    }
+    .cds--btn:active {
+      background: var(--cds-button-primary-active);
+    }
+    .cds--btn:focus {
+      outline: 2px solid var(--cds-focus);
+      outline-offset: -2px;
+    }
+    .cds--btn:disabled {
+      background: var(--cds-layer-02);
+      color: var(--cds-text-disabled);
+      cursor: not-allowed;
+      border-color: transparent;
+    }
+    .cds--btn--secondary {
+      background: var(--cds-button-secondary);
+      color: var(--cds-text-inverse);
+    }
+    .cds--btn--secondary:hover {
+      background: var(--cds-button-secondary-hover);
+    }
+    .cds--btn--secondary:active {
+      background: var(--cds-button-secondary-active);
+    }
+    .cds--btn--tertiary {
+      background: transparent;
+      color: var(--cds-button-primary);
+      border-color: var(--cds-button-primary);
+    }
+    .cds--btn--tertiary:hover {
+      background: var(--cds-layer-01);
+      color: var(--cds-button-primary-hover);
+      border-color: var(--cds-button-primary-hover);
+    }
+    .cds--btn--ghost {
+      background: transparent;
+      color: var(--cds-button-primary);
+      border-color: transparent;
+      padding: 14px 16px;
+    }
+    .cds--btn--ghost:hover {
+      background: var(--cds-layer-hover-01);
+    }
+    .cds--btn--danger {
+      background: var(--cds-button-danger);
+      color: var(--cds-text-inverse);
+    }
+    .cds--btn--danger:hover {
+      background: var(--cds-button-danger-hover);
+    }
+    .cds--btn--sm {
+      height: 32px;
+      min-height: 32px;
+      padding: 0 12px;
+      font-size: 12px;
+      letter-spacing: 0.32px;
+    }
+
+    /* Typing indicator ------------------------------------------------- */
+    .typing-indicator {
+      display: flex;
+      gap: var(--cds-spacing-02);
+      padding: var(--cds-spacing-03);
+      align-self: flex-start;
+    }
+    .typing-indicator span {
+      width: 6px;
+      height: 6px;
+      background: var(--cds-text-placeholder);
+      border-radius: 50%;
+      animation: bounce 1.4s infinite ease-in-out;
+    }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+
+    /* Empty state ------------------------------------------------------ */
+    .empty-state {
+      text-align: center;
+      padding: var(--cds-spacing-10);
+      color: var(--cds-text-secondary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+    }
+    .empty-state h3 {
+      margin: 0 0 var(--cds-spacing-03) 0;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--cds-text-primary);
+    }
+    .empty-state p {
+      margin: 0;
+      font-size: 14px;
+      letter-spacing: 0.16px;
+      line-height: 1.5;
+      color: var(--cds-text-secondary);
+      max-width: 480px;
+    }
+
+    /* Error banner ----------------------------------------------------- */
+    .error-banner {
+      background: var(--cds-layer-01);
+      border-left: 3px solid var(--cds-support-error);
+      color: var(--cds-support-error);
+      padding: var(--cds-spacing-04) var(--cds-spacing-05);
+      font-size: 14px;
+      letter-spacing: 0.16px;
+      line-height: 1.5;
+      margin: 0 var(--cds-spacing-05);
+    }
+
+    /* Scrollbars ------------------------------------------------------- */
+    .sessions-list::-webkit-scrollbar,
+    .chat-area::-webkit-scrollbar {
+      width: 6px;
+    }
+    .sessions-list::-webkit-scrollbar-track,
+    .chat-area::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .sessions-list::-webkit-scrollbar-thumb,
+    .chat-area::-webkit-scrollbar-thumb {
+      background: var(--cds-border-subtle);
+      border-radius: 3px;
+    }
+    .sessions-list::-webkit-scrollbar-thumb:hover,
+    .chat-area::-webkit-scrollbar-thumb:hover {
+      background: var(--cds-text-placeholder);
+    }
+
+    /* Responsive ------------------------------------------------------- */
+    @media (max-width: 672px) {
+      .sidebar {
+        width: 0;
+        display: none;
+      }
+      .message {
+        max-width: 90%;
+      }
+      .input-area {
+        padding: var(--cds-spacing-03);
+      }
+      .chat-area {
+        padding: var(--cds-spacing-03);
+      }
+    }
+    @media (min-width: 1056px) {
+      .sidebar {
+        width: 320px;
+      }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+</head>
+<body>
+  <div class="app" x-data="chatApp()" x-init="init()">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>Sessions</h2>
+        <button @click="newChat()" class="cds--btn cds--btn--sm">+ New Chat</button>
+      </div>
+      <div class="sessions-list">
+        <template x-if="sessions.length === 0">
+          <div class="empty-state" style="padding: var(--cds-spacing-06);">
+            <p style="font-size: 12px; letter-spacing: 0.32px; color: var(--cds-text-placeholder);">
+              No sessions yet
+            </p>
+          </div>
+        </template>
+        <template x-for="s in sessions" :key="s.session_id">
+          <div class="session-item" :class="{ active: currentSession === s.session_id }" @click="loadSession(s.session_id)">
+            <div class="session-info">
+              <div class="session-id" x-text="s.session_id"></div>
+              <div class="session-meta">
+                <span x-text="s.message_count"></span> msg · <span x-text="formatDate(s.last_active)"></span>
+              </div>
+            </div>
+            <div class="session-actions">
+              <button class="cds--btn cds--btn--sm" @click.stop="deleteSession(s.session_id)" title="Delete">×</button>
+            </div>
+          </div>
+        </template>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <div class="main-header">
+        <h1>Meridian Assistant</h1>
+        <div class="status">
+          <span x-show="isStreaming" style="display: inline-flex; align-items: center; gap: var(--cds-spacing-03);">
+            <span class="typing-indicator" style="padding: 0;">
+              <span></span><span></span><span></span>
+            </span>
+            Streaming…
+          </span>
+        </div>
+      </div>
+
+      <div x-show="error" class="error-banner" x-text="error" x-cloak></div>
+
+      <div class="chat-area" x-ref="chatArea">
+        <template x-if="messages.length === 0">
+          <div class="empty-state">
+            <h3>Welcome to Meridian Assistant</h3>
+            <p>Ask about HVAC, plumbing, or electrical services.<br>Start a new chat or select a session.</p>
+          </div>
+        </template>
+
+        <template x-for="(msg, i) in messages" :key="i">
+          <div>
+            <!-- Handoff banner -->
+            <template x-if="msg.handoff">
+              <div class="handoff-banner">
+                <span class="cds--tag">Handoff</span>
+                <p x-text="msg.handoffReason || 'Escalated to human agent'"></p>
+              </div>
+            </template>
+
+            <!-- Message bubble -->
+            <div class="message" :class="msg.role" x-show="msg.content || msg.role === 'user'">
+              <div class="message-header" x-text="msg.role === 'user' ? 'You' : 'Assistant'"></div>
+              <div class="message-content" x-html="msg.html"></div>
+
+              <!-- Tool calls -->
+              <template x-if="msg.toolCalls && msg.toolCalls.length">
+                <div style="margin-top: var(--cds-spacing-03);">
+                  <template x-for="tc in msg.toolCalls" :key="tc">
+                    <div class="tool-call">
+                      <span class="cds--tag">TOOL</span>
+                      <span x-text="tc"></span>
+                    </div>
+                  </template>
+                </div>
+              </template>
+
+              <!-- Citation list -->
+              <template x-if="msg.citations && msg.citations.length">
+                <div class="citation-list">
+                  <div class="citation-list-title">Sources</div>
+                  <template x-for="c in msg.citations" :key="c.number">
+                    <div class="citation-list-item">
+                      <span class="citation-number" x-text="c.number"></span>
+                      <span class="citation-source" x-text="c.source + ', p.' + c.page"></span>
+                    </div>
+                  </template>
+                </div>
+              </template>
+            </div>
+          </div>
+        </template>
+      </div>
+
+      <div class="input-area">
+        <textarea
+          x-model="input"
+          @keydown.enter.prevent="send()"
+          placeholder="Ask about services, pricing, bookings…"
+          :disabled="isStreaming"
+          x-ref="inputBox"
+        ></textarea>
+        <button class="cds--btn" @click="send()" :disabled="isStreaming || !input.trim()">Send</button>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function chatApp() {
+      return {
+        sessions: [],
+        currentSession: null,
+        messages: [],
+        input: '',
+        isStreaming: false,
+        error: null,
+
+        async init() {
+          await this.loadSessions();
+        },
+
+        async loadSessions() {
+          try {
+            const res = await fetch('/sessions');
+            if (!res.ok) throw new Error('Failed to load sessions');
+            const data = await res.json();
+            this.sessions = data.sessions || [];
+          } catch (e) {
+            this.error = 'Could not load sessions: ' + e.message;
+          }
+        },
+
+        async loadSession(id) {
+          this.currentSession = id;
+          this.messages = [];
+          this.error = null;
+          try {
+            const res = await fetch('/sessions/' + id);
+            if (!res.ok) throw new Error('Session not found');
+            const data = await res.json();
+            this.messages = (data.messages || []).map(m => this.formatMessage(m));
+          } catch (e) {
+            this.error = e.message;
+          }
+          this.scrollToBottom();
+        },
+
+        async deleteSession(id) {
+          if (!confirm('Delete this session?')) return;
+          try {
+            const res = await fetch('/sessions/' + id, { method: 'DELETE' });
+            if (!res.ok) throw new Error('Failed to delete');
+            if (this.currentSession === id) {
+              this.currentSession = null;
+              this.messages = [];
+            }
+            await this.loadSessions();
+          } catch (e) {
+            this.error = e.message;
+          }
+        },
+
+        newChat() {
+          this.currentSession = null;
+          this.messages = [];
+          this.error = null;
+          this.input = '';
+          this.$nextTick(() => this.$refs.inputBox?.focus());
+        },
+
+        async send() {
+          const text = this.input.trim();
+          if (!text || this.isStreaming) return;
+
+          const sessionId = this.currentSession || 'web-' + Math.random().toString(36).slice(2, 10);
+          this.currentSession = sessionId;
+          this.error = null;
+
+          // Add user message
+          this.messages.push({
+            role: 'user',
+            content: text,
+            html: this.processCitations(marked.parse(text)).html,
+            toolCalls: [],
+            citations: [],
+            handoff: false,
+          });
+          this.input = '';
+          this.scrollToBottom();
+
+          // Add assistant placeholder
+          const assistantIdx = this.messages.length;
+          this.messages.push({
+            role: 'assistant',
+            content: '',
+            html: '',
+            toolCalls: [],
+            citations: [],
+            handoff: false,
+            handoffReason: null,
+          });
+
+          this.isStreaming = true;
+
+          try {
+            const response = await fetch('/chat/stream', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ message: text, session_id: sessionId }),
+            });
+
+            if (!response.ok) {
+              const err = await response.text();
+              throw new Error('HTTP ' + response.status + ': ' + err);
+            }
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let buffer = '';
+            let currentText = '';
+            let toolCalls = [];
+            let handoff = false;
+            let handoffReason = null;
+
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+
+              buffer += decoder.decode(value, { stream: true });
+
+              // Parse complete SSE events (separated by \n\n)
+              let eventEnd = buffer.indexOf('\n\n');
+              while (eventEnd !== -1) {
+                const eventText = buffer.slice(0, eventEnd);
+                buffer = buffer.slice(eventEnd + 2);
+
+                const event = this.parseSSEEvent(eventText);
+                if (event) {
+                  if (event.type === 'token') {
+                    currentText += event.data.delta || '';
+                    this.messages[assistantIdx].content = currentText;
+                    const result = this.processCitations(marked.parse(currentText));
+                    this.messages[assistantIdx].html = result.html;
+                    this.messages[assistantIdx].citations = result.citations;
+                    this.scrollToBottom();
+                  } else if (event.type === 'tool_call') {
+                    toolCalls.push(event.data.name);
+                    this.messages[assistantIdx].toolCalls = toolCalls.slice();
+                    this.scrollToBottom();
+                  } else if (event.type === 'handoff') {
+                    handoff = true;
+                    handoffReason = event.data.reason || 'Escalated to human agent';
+                    this.messages[assistantIdx].handoff = true;
+                    this.messages[assistantIdx].handoffReason = handoffReason;
+                    this.scrollToBottom();
+                  } else if (event.type === 'done') {
+                    // Final state — prefer done.answer over accumulated text
+                    const finalAnswer = event.data.answer || currentText;
+                    this.messages[assistantIdx].content = finalAnswer;
+                    const finalResult = this.processCitations(marked.parse(finalAnswer));
+                    this.messages[assistantIdx].html = finalResult.html;
+                    this.messages[assistantIdx].citations = finalResult.citations;
+                    this.messages[assistantIdx].toolCalls = event.data.tool_calls || toolCalls;
+                    this.messages[assistantIdx].handoff = event.data.handoff || handoff;
+                    this.messages[assistantIdx].handoffReason = event.data.handoff_reason || handoffReason;
+                    this.scrollToBottom();
+                  } else if (event.type === 'error') {
+                    this.error = event.data.message || 'Stream error';
+                  }
+                }
+
+                eventEnd = buffer.indexOf('\n\n');
+              }
+            }
+          } catch (e) {
+            this.error = e.message;
+            this.messages[assistantIdx].content = 'Error: ' + e.message;
+            const errResult = this.processCitations(marked.parse('**Error:** ' + e.message));
+            this.messages[assistantIdx].html = errResult.html;
+            this.messages[assistantIdx].citations = errResult.citations;
+          } finally {
+            this.isStreaming = false;
+            await this.loadSessions();
+            this.scrollToBottom();
+          }
+        },
+
+        parseSSEEvent(text) {
+          const lines = text.split('\n');
+          let type = null;
+          let data = null;
+          for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            if (line.indexOf('event: ') === 0) {
+              type = line.slice(7);
+            } else if (line.indexOf('data: ') === 0) {
+              try {
+                data = JSON.parse(line.slice(6));
+              } catch (e) {
+                data = line.slice(6);
+              }
+            }
+          }
+          if (type && data !== null) {
+            return { type: type, data: data };
+          }
+          return null;
+        },
+
+        processCitations(html) {
+          // Extract unique citations, assign sequential numbers, render as superscript [n]
+          const citations = [];
+          const seen = new Map(); // key -> number
+          let nextNum = 1;
+
+          const processed = html.replace(
+            /\[([^\]]+),\s*p\.([\d?]+)\]/g,
+            function(match, source, page) {
+              const key = source + '|' + page;
+              let num = seen.get(key);
+              if (!num) {
+                num = nextNum++;
+                seen.set(key, num);
+                citations.push({ number: num, source: source, page: page });
+              }
+              return '<span class="citation-ref">' + num +
+                     '<span class="citation-tooltip">' + source + ', p.' + page + '</span></span>';
+            }
+          );
+          return { html: processed, citations: citations };
+        },
+
+        formatMessage(m) {
+          var result = this.processCitations(marked.parse(m.content || ''));
+          return {
+            role: m.role,
+            content: m.content,
+            html: result.html,
+            toolCalls: [],
+            citations: result.citations,
+            handoff: false,
+            handoffReason: null,
+          };
+        },
+
+        scrollToBottom() {
+          this.$nextTick(function() {
+            const el = this.$refs.chatArea;
+            if (el) el.scrollTop = el.scrollHeight;
+          }.bind(this));
+        },
+
+        formatDate(iso) {
+          if (!iso) return '';
+          const d = new Date(iso);
+          return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        },
+      };
+    }
+  </script>
+</body>
+</html>

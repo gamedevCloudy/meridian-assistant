@@ -4,6 +4,7 @@ from collections.abc import AsyncIterator
 
 from dotenv import load_dotenv
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
 from langchain_core.messages import HumanMessage
 
 from app.agents.chat_models import ChatRequest, ChatResponse
@@ -36,6 +37,11 @@ app = FastAPI(title="Meridian Assistant", lifespan=lifespan)
 
 app.include_router(bookings_router, prefix="/api/v1")
 app.include_router(chat_router)
+
+
+@app.get("/", include_in_schema=False)
+def index():
+    return FileResponse("app/static/index.html")
 
 
 @app.get("/health")
