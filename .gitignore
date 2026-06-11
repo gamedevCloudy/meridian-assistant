@@ -222,3 +222,7 @@ __marimo__/
 
 # Chroma
 data/chroma_db/
+
+
+# Sqlite files
+*.db
