@@ -85,8 +85,8 @@ async def stream_chat(session_id: str, user_message: str) -> AsyncIterator[dict]
                                     "id": tc.get("id"),
                                 },
                             }
-                    if handoff_payload is None and output.content and not output.tool_calls:
-                        final_text = (
+                    if output.content:
+                        text = (
                             output.content
                             if isinstance(output.content, str)
                             else "".join(
@@ -94,36 +94,46 @@ async def stream_chat(session_id: str, user_message: str) -> AsyncIterator[dict]
                                 for p in output.content
                             )
                         )
+                        if text and not full_text_parts:
+                            full_text_parts.append(text)
+                            yield {"event": "token", "data": {"delta": text}}
+                        final_text = text
 
             elif kind == "on_tool_end":
                 output = ev["data"].get("output")
+                tool_name = ev.get("name", name)
                 if isinstance(output, ToolMessage):
-                    name = output.name or name
+                    tool_name = output.name or tool_name
                     raw = output.content
-                    if isinstance(raw, str):
-                        try:
-                            parsed = json.loads(raw)
-                            payload = parsed
-                        except Exception:
-                            payload = raw
-                    else:
+                else:
+                    raw = output
+                if isinstance(raw, str):
+                    try:
+                        parsed = json.loads(raw)
+                        payload = parsed
+                    except Exception:
                         payload = raw
-                    if name == "handoff_to_human":
-                        handoff_flag = True
-                        if isinstance(payload, dict):
-                            handoff_payload = {
-                                "reason": payload.get("reason"),
-                                "context": payload.get("context"),
-                            }
-                        yield {
-                            "event": "handoff",
-                            "data": handoff_payload or {"reason": None, "context": None},
+                else:
+                    payload = raw
+                if tool_name == "handoff_to_human":
+                    handoff_flag = True
+                    if isinstance(payload, dict):
+                        handoff_payload = {
+                            "reason": payload.get("reason"),
+                            "context": payload.get("context"),
                         }
-                    else:
-                        yield {
-                            "event": "tool_result",
-                            "data": {"name": name, "result": payload},
-                        }
+                    transfer_msg = "I understand this is a sensitive situation. I'm transferring you to a human agent right away."
+                    full_text_parts.append(transfer_msg)
+                    yield {"event": "token", "data": {"delta": transfer_msg}}
+                    yield {
+                        "event": "handoff",
+                        "data": handoff_payload or {"reason": None, "context": None},
+                    }
+                else:
+                    yield {
+                        "event": "tool_result",
+                        "data": {"name": tool_name, "result": payload},
+                    }
 
         if not final_text and full_text_parts:
             final_text = "".join(full_text_parts)

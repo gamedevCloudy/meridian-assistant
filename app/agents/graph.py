@@ -92,10 +92,11 @@ def retrieve_node(state: AgentState) -> dict:
     if last_user is None:
         return {}
     docs = retrieve(_text_content(last_user.content), k=4)
-    context = "\n\n---\n\n".join(
-        f"[{d.metadata.get('doc_name', 'unknown')} | p.{d.metadata.get('page', '?')}]\n{d.page_content}"
-        for d in docs
-    )
+    chunks = []
+    for i, d in enumerate(docs, 1):
+        source = f"{d.metadata.get('doc_name', 'unknown')}, p.{d.metadata.get('page', '?')}"
+        chunks.append(f"[{i}] Source: {source}\n{d.page_content}")
+    context = "\n\n---\n\n".join(chunks)
     logger.info("Retrieved %d chunks for first-turn query", len(docs))
     return {"retrieved_context": context}
 
@@ -104,6 +105,8 @@ def llm_call_node(state: AgentState) -> dict:
     """Single LLM invocation with the system prompt and message history.
     First, runs a safety keyword pre-filter; if matched, we handoff immediately
     without calling the LLM."""
+    if state.get("handoff_requested"):
+        return {}
     last_user = next(
         (m for m in reversed(state["messages"]) if m.type == "human"), None
     )
