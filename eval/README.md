@@ -27,9 +27,9 @@ python -m eval.run_eval
 python -m eval.run_eval --skip-judge
 
 # Just one stage
-python -m eval.run_eval --only retrieval
-python -m eval.run_eval --only action
-python -m eval.run_eval --only judge
+python -m eval.run_retrieval
+python -m eval.run_action
+python -m eval.run_judge
 ```
 
 The action stage needs the live LLM reachable (set `OPENROUTER_API_KEY` in `.env`).
@@ -78,13 +78,12 @@ Each case has: `user_message`, `expected_action`, `expected_sources`,
   in the loop. Safe to re-run.
 - **Action eval calls the live agent.** Results depend on model and
   prompt state. Pin the model and freeze the prompt before trusting numbers.
-- **Judge uses the same model as the agent** (no separate account). Known
-  bias: the model grades itself leniently. A separate, larger judge model
-  would help. Documented as a limitation in `summary.md`.
+- **Judge uses a stronger model** (`openai/gpt-4o-mini` by default, via `JUDGE_MODEL` env var). This mitigates self-grading bias. The judge prompt includes a rubric, few-shot examples, and expected-action context.
 - **Test set is hand-authored.** No LLM-generated adversarial cases yet.
   Spec §7.1.2 mentions this as an extension.
+- **Judge skips handoff cases.** Action eval already covers handoffs via `handoff_f1`; grading handoff messages for grounded/correct/cited is nonsensical.
 - **Eval is offline.** No telemetry, no human feedback, no online metrics.
-  Production would add thumps-up/down logging, handoff rate per branch,
+  Production would add thumbs-up/down logging, handoff rate per branch,
   retrieval latency p50/p95.
 
 ## Re-running safely

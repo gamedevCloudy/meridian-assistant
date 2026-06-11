@@ -2,7 +2,8 @@
 eval.run_action
 
 Runs the full LangGraph agent against every test case and compares the
-observed action to `expected_action`.
+observed action to `expected_action`. Uses asyncio with a semaphore for
+parallel execution.
 
 Action classes:
     answer            -> final answer, no handoff
@@ -19,12 +20,11 @@ Run:
 from __future__ import annotations
 
 import argparse
-import concurrent.futures
+import asyncio
 import json
 import logging
 import os
 import sqlite3
-import time
 import uuid
 from collections import Counter
 from pathlib import Path
@@ -50,26 +50,31 @@ ACCEPTED_ALTERNATIVES = {
     "answer_or_handoff": {"answer", "answer_or_handoff", "handoff"},
 }
 
+# Concurrency limit for parallel agent calls
+SEM_COUNT = int(os.environ.get("EVAL_SEM_COUNT", "10"))
+
 
 def load_cases() -> list[dict]:
     return json.loads((EVAL_DIR / "test_set.json").read_text())["cases"]
 
 
-def run_agent(case: dict, timeout_s: float) -> dict:
+async def run_agent(case: dict, timeout_s: float, sem: asyncio.Semaphore) -> dict:
+    """Async agent call using ainvoke (native async LangGraph)."""
     session_id = f"eval-{case['id']}-{uuid.uuid4().hex[:6]}"
-
-    def _run():
-        return agent.invoke({"messages": [HumanMessage(content=case["user_message"])]})
-
-    try:
-        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as ex:
-            try:
-                result = ex.submit(_run).result(timeout=timeout_s)
-            except concurrent.futures.TimeoutError:
-                return {"error": f"timeout after {timeout_s}s", "session_id": session_id}
-    except Exception as e:
-        log.exception("Agent error on case %d", case["id"])
-        return {"error": str(e), "session_id": session_id}
+    async with sem:
+        try:
+            result = await asyncio.wait_for(
+                agent.ainvoke(
+                    {"messages": [HumanMessage(content=case["user_message"])]},
+                    config={"recursion_limit": 10},
+                ),
+                timeout=timeout_s,
+            )
+        except asyncio.TimeoutError:
+            return {"error": f"timeout after {timeout_s}s", "session_id": session_id}
+        except Exception as e:
+            log.exception("Agent error on case %d", case["id"])
+            return {"error": str(e), "session_id": session_id}
 
     final = result["messages"][-1]
     tool_names = [
@@ -113,8 +118,7 @@ def verify_booking_against_db(tool_calls: list[str]) -> bool:
     return row is not None and str(row[0]).startswith("BK-")
 
 
-def evaluate_case(case: dict, timeout_s: float) -> dict:
-    observed = run_agent(case, timeout_s)
+def evaluate_case(observed: dict, case: dict) -> dict:
     obs_class = classify_observed(observed)
     expected = case["expected_action"]
 
@@ -141,6 +145,7 @@ def evaluate_case(case: dict, timeout_s: float) -> dict:
         "llm_calls": observed.get("llm_calls", 0),
         "error": observed.get("error"),
         "answer_excerpt": (observed.get("answer") or "")[:200],
+        "answer_full": observed.get("answer") or "",
     }
 
 
@@ -185,6 +190,22 @@ def aggregate(per_case: list[dict]) -> dict:
     }
 
 
+async def run_all(cases: list[dict], timeout_s: float) -> list[dict]:
+    sem = asyncio.Semaphore(SEM_COUNT)
+    tasks = [run_agent(c, timeout_s, sem) for c in cases]
+    results = await asyncio.gather(*tasks, return_exceptions=True)
+
+    per_case: list[dict] = []
+    for case, result in zip(cases, results):
+        if isinstance(result, Exception):
+            log.error("Async error on case %d: %s", case["id"], result)
+            observed = {"error": str(result), "session_id": f"eval-{case['id']}-{uuid.uuid4().hex[:6]}"}
+        else:
+            observed = result
+        per_case.append(evaluate_case(observed, case))
+    return per_case
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--limit", type=int, default=None)
@@ -204,20 +225,13 @@ def main() -> int:
         done = {r["id"] for r in existing if not r.get("error")}
         cases = [c for c in cases if c["id"] not in done]
 
-    sleep_s = float(os.environ.get("EVAL_INTER_CASE_SLEEP", "2"))
-    log.info("Running %d new cases (timeout=%ss)", len(cases), args.timeout)
-    new: list[dict] = []
-    for i, case in enumerate(cases, 1):
-        log.info("[%d/%d] case %d (%s)", i, len(cases), case["id"], case["category"])
-        new.append(evaluate_case(case, args.timeout))
-        partial = existing + new
-        RESULTS_PATH.parent.mkdir(parents=True, exist_ok=True)
-        RESULTS_PATH.write_text(json.dumps({"summary": aggregate(partial), "per_case": partial}, indent=2))
-        if i < len(cases) and sleep_s > 0:
-            time.sleep(sleep_s)
+    log.info("Running %d new cases (timeout=%ss, sem=%s)", len(cases), args.timeout, SEM_COUNT)
+
+    new = asyncio.run(run_all(cases, args.timeout))
 
     per_case = existing + new
     summary = aggregate(per_case)
+    RESULTS_PATH.parent.mkdir(parents=True, exist_ok=True)
     RESULTS_PATH.write_text(json.dumps({"summary": summary, "per_case": per_case}, indent=2))
     log.info("Wrote %s", RESULTS_PATH)
 
@@ -232,7 +246,6 @@ def main() -> int:
     acc = summary["action_accuracy_on_evaluated"]
     if acc is not None and acc < TARGET_ACTION_ACCURACY:
         failures.append(f"action_accuracy_on_evaluated={acc} < {TARGET_ACTION_ACCURACY}")
-    # Only gate handoff_f1 when we have >=3 evaluated handoff cases (avoid noise)
     handoff_eval_n = sum(
         1 for c in per_case
         if c["handoff_expected"] and c["observed_action"] != "error"

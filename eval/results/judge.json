@@ -1,0 +1,220 @@
+{
+  "summary": {
+    "cases_evaluated": 20,
+    "grounded_mean": 1.0,
+    "correct_mean": 0.975,
+    "cited_mean": 0.85
+  },
+  "per_case": [
+    {
+      "id": 1,
+      "category": "faq_hours",
+      "grounded": 1.0,
+      "correct": 1.0,
+      "cited": 1.0,
+      "explanation": "The answer is fully grounded in the provided context, directly addresses the customer's question about the Herndon branch's Saturday hours, and includes a proper citation."
+    },
+    {
+      "id": 2,
+      "category": "service_area",
+      "grounded": 1.0,
+      "correct": 1.0,
+      "cited": 1.0,
+      "explanation": "The assistant accurately states that plumbing services are not directly available in the area and provides correct information about HVAC services. All claims are supported by the retrieved context and properly cited."
+    },
+    {
+      "id": 3,
+      "category": "booking_new",
+      "grounded": 1.0,
+      "correct": 0.5,
+      "cited": 0.0,
+      "explanation": "The response is grounded in the context regarding service availability but is partially correct as it does not provide a direct answer about scheduling an HVAC tune-up. There are no citations included."
+    },
+    {
+      "id": 4,
+      "skipped": true,
+      "reason": "handoff"
+    },
+    {
+      "id": 5,
+      "category": "reschedule",
+      "grounded": 1.0,
+      "correct": 1.0,
+      "cited": 1.0,
+      "explanation": "The assistant's response is fully grounded in the provided context, directly addresses the customer's request to reschedule, and cites the cancellation policy correctly."
+    },
+    {
+      "id": 6,
+      "category": "pricing",
+      "grounded": 1.0,
+      "correct": 1.0,
+      "cited": 1.0,
+      "explanation": "The answer is fully grounded in the provided context, directly addresses the customer's question about the cost of replacing a 40-gallon water heater, and includes a proper citation."
+    },
+    {
+      "id": 7,
+      "category": "warranty",
+      "grounded": 1.0,
+      "correct": 1.0,
+      "cited": 1.0,
+      "explanation": "The assistant's response is fully grounded in the KB context regarding warranty coverage, directly answers the customer's question, and includes a proper citation."
+    },
+    {
+      "id": 8,
+      "skipped": true,
+      "reason": "handoff"
+    },
+    {
+      "id": 9,
+      "category": "out_of_area",
+      "grounded": 1.0,
+      "correct": 1.0,
+      "cited": 0.0,
+      "explanation": "The response accurately states that electrical services are not available in Manassas, which is consistent with the provided context. However, it does not include any citations from the KB."
+    },
+    {
+      "id": 10,
+      "skipped": true,
+      "reason": "handoff"
+    },
+    {
+      "id": 11,
+      "category": "pricing_plan",
+      "grounded": 1.0,
+      "correct": 1.0,
+      "cited": 0.0,
+      "explanation": "The answer accurately describes the differences between the Gold and Platinum HVAC plans and addresses the customer's question about whether upgrading is worth it. However, it does not cite any sources from the provided context."
+    },
+    {
+      "id": 12,
+      "category": "booking_new",
+      "grounded": 1.0,
+      "correct": 1.0,
+      "cited": 1.0,
+      "explanation": "The response is grounded in the context by confirming Rockville is within the service area and correctly asks for details to proceed with the booking. It cites the relevant document for the service area."
+    },
+    {
+      "id": 13,
+      "skipped": true,
+      "reason": "no_answer"
+    },
+    {
+      "id": 14,
+      "category": "payment",
+      "grounded": 1.0,
+      "correct": 1.0,
+      "cited": 1.0,
+      "explanation": "The answer is fully grounded in the provided context, directly addresses the customer's question about payment methods, and includes proper citations."
+    },
+    {
+      "id": 15,
+      "skipped": true,
+      "reason": "handoff"
+    },
+    {
+      "id": 16,
+      "category": "pricing_surcharge",
+      "grounded": 1.0,
+      "correct": 1.0,
+      "cited": 1.0,
+      "explanation": "The answer is fully grounded in the provided context, directly addresses the customer's question about the extra charge for Sunday bookings, and includes a proper citation."
+    },
+    {
+      "id": 17,
+      "category": "reschedule_same_day",
+      "grounded": 1.0,
+      "correct": 1.0,
+      "cited": 1.0,
+      "explanation": "The assistant's response is fully grounded in the provided context, accurately explains the cancellation policy, and directly addresses the customer's request while citing the relevant document."
+    },
+    {
+      "id": 18,
+      "skipped": true,
+      "reason": "handoff"
+    },
+    {
+      "id": 19,
+      "category": "pricing_estimate",
+      "grounded": 1.0,
+      "correct": 1.0,
+      "cited": 1.0,
+      "explanation": "The answer is fully grounded in the provided context, directly addresses the customer's question about the price for replacing the breaker panel, and includes a proper citation."
+    },
+    {
+      "id": 20,
+      "category": "preferred_tech",
+      "grounded": 1.0,
+      "correct": 1.0,
+      "cited": 1.0,
+      "explanation": "The answer is fully grounded in the context, directly addresses the customer's question about requesting a specific technician, and includes proper citations."
+    },
+    {
+      "id": 21,
+      "skipped": true,
+      "reason": "no_answer"
+    },
+    {
+      "id": 22,
+      "category": "edge_sunday_booking",
+      "grounded": 1.0,
+      "correct": 1.0,
+      "cited": 1.0,
+      "explanation": "The assistant correctly identifies that Sunday is not available for standard plumbing service calls and provides an alternative date. It cites the relevant source for branch hours."
+    },
+    {
+      "id": 23,
+      "category": "edge_warranty_booking",
+      "grounded": 1.0,
+      "correct": 1.0,
+      "cited": 1.0,
+      "explanation": "The assistant accurately states that the furnace is covered under the 90-day labor warranty, directly addressing the customer's concern. The response is well-grounded in the provided context and includes a proper citation."
+    },
+    {
+      "id": 24,
+      "category": "edge_missing_zip",
+      "grounded": 1.0,
+      "correct": 1.0,
+      "cited": 1.0,
+      "explanation": "The response is grounded in the context as it addresses the customer's request for an electrician and asks for necessary details to schedule the service. It also cites the need for a ZIP code to confirm service area, which aligns with the context."
+    },
+    {
+      "id": 25,
+      "skipped": true,
+      "reason": "handoff"
+    },
+    {
+      "id": 26,
+      "category": "edge_electrical_outside_area",
+      "grounded": 1.0,
+      "correct": 1.0,
+      "cited": 1.0,
+      "explanation": "The response accurately reflects the information from the KB about the lack of licensed electrical services in Prince George's County and provides a proper citation. It directly addresses the customer's request."
+    },
+    {
+      "id": 27,
+      "skipped": true,
+      "reason": "no_answer"
+    },
+    {
+      "id": 28,
+      "skipped": true,
+      "reason": "handoff"
+    },
+    {
+      "id": 29,
+      "category": "edge_partial_zip",
+      "grounded": 1.0,
+      "correct": 1.0,
+      "cited": 1.0,
+      "explanation": "The answer accurately states the diagnostic fee and its waiver condition, directly addressing the customer's question. It also cites the source correctly."
+    },
+    {
+      "id": 30,
+      "category": "edge_repeated_missing_info",
+      "grounded": 1.0,
+      "correct": 1.0,
+      "cited": 1.0,
+      "explanation": "The response is fully grounded in the context, directly addresses the customer's request to book an appointment, and cites the necessary details for scheduling. It also includes a citation format that aligns with the requirements."
+    }
+  ]
+}
