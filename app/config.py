@@ -16,8 +16,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 class Config:
-    DEFAULT_LLM_MED = "nvidia/nemotron-3-super-120b-a12b:free"
-    DEFAULT_LLM_SM = "openrouter/free"
+    DEFAULT_LLM_MED = "qwen/qwen3.6-flash"
+    DEFAULT_LLM_SM = "qwen/qwen3.6-flash"
     EMBEDDING_MODEL = "all-MiniLM-L6-v2"
     DATA_DIR = str(BASE_DIR / "data")
     CHROMA_DB_PATH = str(BASE_DIR / "data" / "chroma_db")
