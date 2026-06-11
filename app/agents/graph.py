@@ -16,6 +16,7 @@ handoff_requested flag so the /chat endpoint can decide how to respond.
 import json
 import logging
 import operator
+import uuid
 from typing import Annotated, Any
 
 from langchain_core.messages import AIMessage, AnyMessage, ToolMessage
@@ -49,6 +50,37 @@ def _text_content(content: Any) -> str:
     return str(content)
 
 
+# Safety-critical keyword pre-filter.
+# If the user message matches any of these patterns, we immediately handoff
+# without calling the LLM. This is a safety net for cases where the LLM
+# might fail to call the handoff tool.
+_HANDOFF_KEYWORDS = {
+    "emergency_gas": ["gas smell", "smell gas", "gas leak", "leaking gas", "gas odor"],
+    "emergency_water": ["flood", "flooding", "water pouring", "water leaking"],
+    "emergency_electrical": ["sparking", "electrical fire", "outlet smoking"],
+    "emergency_heat": ["no heat", "no heating", "boiler failed", "furnace broken"],
+    "emergency_sewage": ["sewage backup", "sewage"],
+    "commercial": ["net-30", "net 30", "property management", "property manager",
+                   "commercial account", "commercial invoice", "volume discount",
+                   "recurring maintenance", "maintenance contract", "small office",
+                   "office building", "multi-unit", "apartment complex"],
+    "billing_dispute": ["billing dispute", "fee dispute", "charge dispute", "refund",
+                        "waiver", "fee waived", "$75 fee", "$35 fee", "no-show fee"],
+    "manager_request": ["speak to a manager", "talk to a manager", "manager",
+                        "supervisor", "complaint", "angry", "frustrated", "unhappy"],
+}
+
+
+def _check_handoff_keywords(text: str) -> dict[str, Any] | None:
+    """Return handoff payload if any safety keyword matches, else None."""
+    lower = text.lower()
+    for reason, keywords in _HANDOFF_KEYWORDS.items():
+        for kw in keywords:
+            if kw in lower:
+                return {"reason": reason, "context": text[:200]}
+    return None
+
+
 def retrieve_node(state: AgentState) -> dict:
     """First-turn retrieval. Skips if context already populated (follow-up
     turns rely on the LLM calling retrieve_kb tool when needed)."""
@@ -69,7 +101,33 @@ def retrieve_node(state: AgentState) -> dict:
 
 
 def llm_call_node(state: AgentState) -> dict:
-    """Single LLM invocation with the system prompt and message history."""
+    """Single LLM invocation with the system prompt and message history.
+    First, runs a safety keyword pre-filter; if matched, we handoff immediately
+    without calling the LLM."""
+    last_user = next(
+        (m for m in reversed(state["messages"]) if m.type == "human"), None
+    )
+    if last_user is not None:
+        user_text = _text_content(last_user.content)
+        payload = _check_handoff_keywords(user_text)
+        if payload:
+            logger.info("HANDOFF pre-filter triggered: %s", payload["reason"])
+            return {
+                "messages": [
+                    AIMessage(
+                        content="I understand this is a sensitive situation. I'm transferring you to a human agent right away.",
+                        tool_calls=[
+                            {
+                                "id": f"handoff_prefilter_{uuid.uuid4().hex[:8]}",
+                                "name": "handoff_to_human",
+                                "args": payload,
+                            }
+                        ],
+                    )
+                ],
+                "llm_calls": state.get("llm_calls", 0) + 1,
+            }
+
     messages = get_prompt_messages(state["messages"], state.get("retrieved_context", ""))
     response = model_with_tools.invoke(messages)
     return {
