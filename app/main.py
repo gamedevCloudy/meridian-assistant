@@ -1,4 +1,5 @@
 import logging
+import threading
 from contextlib import asynccontextmanager
 from collections.abc import AsyncIterator
 
@@ -9,6 +10,7 @@ from langchain_core.messages import HumanMessage
 
 from app.agents.chat_models import ChatRequest, ChatResponse
 from app.agents.graph import agent
+from app.data_loader.store import get_vector_store
 from app.db import DB_PATH, init_db
 from app.history import (
     append_history,
@@ -25,10 +27,20 @@ logger = logging.getLogger(__name__)
 load_dotenv()
 
 
+def _warm_vector_store() -> None:
+    """Load embeddings + chroma in background so first request is fast."""
+    try:
+        get_vector_store()
+        logger.info("Vector store pre-loaded")
+    except Exception:
+        logger.exception("Failed to pre-load vector store")
+
+
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     init_db()
     ensure_history()
+    threading.Thread(target=_warm_vector_store, daemon=True).start()
     logger.info("Meridian Assistant started; bookings DB=%s", DB_PATH)
     yield
 
