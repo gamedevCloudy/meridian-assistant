@@ -1,11 +1,11 @@
 {
   "summary": {
     "cases": 30,
-    "cases_evaluated": 28,
-    "cases_errored": 2,
-    "action_accuracy": 0.9333,
+    "cases_evaluated": 30,
+    "cases_errored": 0,
+    "action_accuracy": 1.0,
     "action_accuracy_on_evaluated": 1.0,
-    "handoff_accuracy": 0.9667,
+    "handoff_accuracy": 1.0,
     "handoff_precision": 1.0,
     "handoff_recall": 1.0,
     "handoff_f1": 1.0,
@@ -138,10 +138,10 @@
       },
       "edge_out_of_area_zip": {
         "n": 1,
-        "action_ok": 0,
+        "action_ok": 1,
         "handoff_ok": 1,
         "reason_ok": 1,
-        "action_accuracy": 0.0
+        "action_accuracy": 1.0
       },
       "edge_sunday_booking": {
         "n": 1,
@@ -180,10 +180,10 @@
       },
       "edge_umd_campus": {
         "n": 1,
-        "action_ok": 0,
-        "handoff_ok": 0,
+        "action_ok": 1,
+        "handoff_ok": 1,
         "reason_ok": 1,
-        "action_accuracy": 0.0
+        "action_accuracy": 1.0
       },
       "edge_gas_emergency": {
         "n": 1,
@@ -208,9 +208,8 @@
       }
     },
     "observed_action_distribution": {
-      "answer": 20,
-      "handoff": 8,
-      "error": 2
+      "answer": 21,
+      "handoff": 9
     }
   },
   "per_case": [
@@ -228,8 +227,8 @@
       "tool_calls": [],
       "llm_calls": 1,
       "error": null,
-      "answer_excerpt": "Hi there! The Herndon branch opens at 8:00 am on Saturdays and closes at 2:00 pm. [Branch Hours | p.0] Please let me know if there's anything else I can assist you with today.",
-      "answer_full": "Hi there! The Herndon branch opens at 8:00 am on Saturdays and closes at 2:00 pm. [Branch Hours | p.0] Please let me know if there's anything else I can assist you with today."
+      "answer_excerpt": "The Herndon branch opens at 8:00 AM on Saturdays [2]. Let me know if you need help with anything else!",
+      "answer_full": "The Herndon branch opens at 8:00 AM on Saturdays [2]. Let me know if you need help with anything else!"
     },
     {
       "id": 2,
@@ -247,8 +246,8 @@
       ],
       "llm_calls": 2,
       "error": null,
-      "answer_excerpt": "I checked the service area for ZIP code 20147, and unfortunately, Meridian does not directly service this area for plumbing [Service Area North | p.0]. Plumbing services in Loudoun County are sub-cont",
-      "answer_full": "I checked the service area for ZIP code 20147, and unfortunately, Meridian does not directly service this area for plumbing [Service Area North | p.0]. Plumbing services in Loudoun County are sub-contracted, and electrical services are not available in this region [Service Area North | p.0]. However, HVAC services are available in your area [Service Area North | p.0].\n\nIf you need assistance with plumbing, I can help you find a sub-contracted provider or provide more details about our HVAC services. Let me know how I can assist further!"
+      "answer_excerpt": "Unfortunately, Meridian does not directly service ZIP code 20147 for plumbing. In the Loudoun area, we only offer HVAC services directly [1]. Plumbing work in that region is handled by a subcontractor",
+      "answer_full": "Unfortunately, Meridian does not directly service ZIP code 20147 for plumbing. In the Loudoun area, we only offer HVAC services directly [1]. Plumbing work in that region is handled by a subcontractor, and electrical service is not currently available there.\n\nIf you need HVAC service in that area, I'd be happy to help you book that. Otherwise, if you specifically need plumbing assistance, I can connect you with a human agent who can provide more details about the subcontractor options or alternative solutions."
     },
     {
       "id": 3,
@@ -266,8 +265,8 @@
       ],
       "llm_calls": 2,
       "error": null,
-      "answer_excerpt": "I'd be happy to help you schedule an HVAC tune-up. However, I checked our service area for ZIP code 22046 in Falls Church, and unfortunately, Meridian does not currently serve that location for HVAC s",
-      "answer_full": "I'd be happy to help you schedule an HVAC tune-up. However, I checked our service area for ZIP code 22046 in Falls Church, and unfortunately, Meridian does not currently serve that location for HVAC services. \n\nWould you like me to check a different ZIP code, or is there anything else I can assist you with?"
+      "answer_excerpt": "I checked our service area for ZIP 22046, and unfortunately, Meridian does not currently serve that location for HVAC services [4].\n\nWould you like to provide a different ZIP code, or would you prefer",
+      "answer_full": "I checked our service area for ZIP 22046, and unfortunately, Meridian does not currently serve that location for HVAC services [4].\n\nWould you like to provide a different ZIP code, or would you prefer to speak with a human agent to see if there are any other options?"
     },
     {
       "id": 4,
@@ -284,10 +283,10 @@
         "handoff_to_human",
         "retrieve_kb"
       ],
-      "llm_calls": 3,
+      "llm_calls": 2,
       "error": null,
-      "answer_excerpt": "I've connected you with a human agent who can look up your booking details and provide the appointment window and technician information for BK-00391042. They'll be able to assist you right away.",
-      "answer_full": "I've connected you with a human agent who can look up your booking details and provide the appointment window and technician information for BK-00391042. They'll be able to assist you right away."
+      "answer_excerpt": "{\"handoff\": true, \"reason\": \"out_of_scope\", \"context\": \"Customer is requesting details for existing booking BK-00391042 (appointment window and assigned technician name). I do not have a tool to retri",
+      "answer_full": "{\"handoff\": true, \"reason\": \"out_of_scope\", \"context\": \"Customer is requesting details for existing booking BK-00391042 (appointment window and assigned technician name). I do not have a tool to retrieve existing booking details - only to create, reschedule, or check service area eligibility. Customer needs human agent to look up their booking information.\"}"
     },
     {
       "id": 5,
@@ -300,13 +299,11 @@
       "handoff_ok": true,
       "handoff_reason_ok": true,
       "booking_db_ok": true,
-      "tool_calls": [
-        "retrieve_kb"
-      ],
-      "llm_calls": 2,
+      "tool_calls": [],
+      "llm_calls": 1,
       "error": null,
-      "answer_excerpt": "I can help you reschedule your appointment. To proceed, I need a few details:\n\n1. **Booking ID**: What is your booking ID (format: BK-XXXXXXXX)?\n2. **Exact date**: When you say \"Friday the 24th,\" do y",
-      "answer_full": "I can help you reschedule your appointment. To proceed, I need a few details:\n\n1. **Booking ID**: What is your booking ID (format: BK-XXXXXXXX)?\n2. **Exact date**: When you say \"Friday the 24th,\" do you mean **June 24, 2026**?\n3. **Time window**: Would you prefer morning or afternoon for the new appointment?\n\nAlso, please note the rescheduling fee policy:\n- **More than 24 hours before your appointment**: Free, unlimited reschedules\n- **2 to 24 hours before**: $35 late-cancel fee\n- **Less than 2 hours or no-show**: $75 fee (waived once per 12-month period per customer) [Cancellation Policy | p.0]\n\nOnce you provide these details, I'll check if there are any fees and confirm the reschedule with you before proceeding."
+      "answer_excerpt": "I'd be happy to help you reschedule. To process this, I'll need your booking ID. Also, just to clarify, June 24th falls on a Wednesday, while June 26th is a Friday. Which date would you prefer? And wo",
+      "answer_full": "I'd be happy to help you reschedule. To process this, I'll need your booking ID. Also, just to clarify, June 24th falls on a Wednesday, while June 26th is a Friday. Which date would you prefer? And would you like a morning or afternoon window? \n\nSince your appointment is more than 24 hours away, there will be no rescheduling fee. Once you provide the booking ID and confirm the new date and time window, I can take care of it right away."
     },
     {
       "id": 6,
@@ -322,8 +319,8 @@
       "tool_calls": [],
       "llm_calls": 1,
       "error": null,
-      "answer_excerpt": "Based on our current pricing, replacing a standard 40-gallon water heater typically costs between $950 and $1,400 [Plumbing Pricing | p.0]. This range generally includes parts for standard models. Wou",
-      "answer_full": "Based on our current pricing, replacing a standard 40-gallon water heater typically costs between $950 and $1,400 [Plumbing Pricing | p.0]. This range generally includes parts for standard models. Would you like to schedule a diagnostic visit to get an exact quote for your home?"
+      "answer_excerpt": "Based on our pricing information, replacing a 40-gallon water heater typically costs between **$950 and $1,400** [1]. This price range includes parts for standard models.\n\nWould you like me to help yo",
+      "answer_full": "Based on our pricing information, replacing a 40-gallon water heater typically costs between **$950 and $1,400** [1]. This price range includes parts for standard models.\n\nWould you like me to help you schedule a service for this, or do you have any other questions?"
     },
     {
       "id": 7,
@@ -336,11 +333,13 @@
       "handoff_ok": true,
       "handoff_reason_ok": true,
       "booking_db_ok": true,
-      "tool_calls": [],
-      "llm_calls": 1,
+      "tool_calls": [
+        "retrieve_kb"
+      ],
+      "llm_calls": 2,
       "error": null,
-      "answer_excerpt": "Thanks for reaching out. I\u2019m sorry to hear the faucet is dripping again. Good news: Meridian\u2019s standard warranty covers all repairs for 90 days, and Gold or Platinum members receive extended coverage ",
-      "answer_full": "Thanks for reaching out. I\u2019m sorry to hear the faucet is dripping again. Good news: Meridian\u2019s standard warranty covers all repairs for 90 days, and Gold or Platinum members receive extended coverage for up to one year [Warranty Terms | p.0]. Since your service was just two weeks ago, it should be fully covered.\n\nTo pull up your account and confirm your warranty tier, could you please provide your customer ID or the name on the account? Once I have that, I can verify your coverage and get a technician out to fix it."
+      "answer_excerpt": "Yes, this is covered. All labor from Meridian comes with a 90-day warranty from the date of service, at no charge to return [1]. Since your faucet was fixed two weeks ago, you're well within that wind",
+      "answer_full": "Yes, this is covered. All labor from Meridian comes with a 90-day warranty from the date of service, at no charge to return [1]. Since your faucet was fixed two weeks ago, you're well within that window.\n\nWould you like me to schedule a technician to come back and take care of it? If so, I'll need:\n1. Your ZIP code\n2. Your preferred date (today or within the next 60 days)\n3. Whether you prefer a morning or afternoon window\n\nOnce you confirm those details, I can get that booked for you."
     },
     {
       "id": 8,
@@ -356,10 +355,10 @@
       "tool_calls": [
         "handoff_to_human"
       ],
-      "llm_calls": 2,
+      "llm_calls": 1,
       "error": null,
-      "answer_excerpt": "I understand you're disputing the $75 no-show fee because you believe you called to cancel. Per our policy, billing disputes regarding cancellation fees must be handled by a Branch Manager. I have esc",
-      "answer_full": "I understand you're disputing the $75 no-show fee because you believe you called to cancel. Per our policy, billing disputes regarding cancellation fees must be handled by a Branch Manager. I have escalated this to them so they can review your account and the details of your cancellation call."
+      "answer_excerpt": "{\"handoff\": true, \"reason\": \"billing_dispute\", \"context\": \"Customer was charged a $75 no-show fee but claims they called to cancel the appointment. They are disputing the fee and requesting a waiver. ",
+      "answer_full": "{\"handoff\": true, \"reason\": \"billing_dispute\", \"context\": \"Customer was charged a $75 no-show fee but claims they called to cancel the appointment. They are disputing the fee and requesting a waiver. Per Meridian policy, cancellation fee disputes must be escalated to the Branch Manager as agents cannot waive fees.\"}"
     },
     {
       "id": 9,
@@ -377,8 +376,8 @@
       ],
       "llm_calls": 2,
       "error": null,
-      "answer_excerpt": "I'm sorry, but we do not currently service Manassas (ZIP 20110) for electrical services. \n\nIf you have a property within one of our service areas and need help with HVAC, plumbing, or electrical work,",
-      "answer_full": "I'm sorry, but we do not currently service Manassas (ZIP 20110) for electrical services. \n\nIf you have a property within one of our service areas and need help with HVAC, plumbing, or electrical work, I'd be happy to assist you with that."
+      "answer_excerpt": "I'm sorry, but Meridian does not currently service ZIP 20110 (Manassas) for electrical work. Our service areas are limited to Fairfax, Arlington, Alexandria, Montgomery, Howard, and Prince George's co",
+      "answer_full": "I'm sorry, but Meridian does not currently service ZIP 20110 (Manassas) for electrical work. Our service areas are limited to Fairfax, Arlington, Alexandria, Montgomery, Howard, and Prince George's counties [1], [2].\n\nIf you are located in one of these areas, I'd be happy to help you book an appointment. Otherwise, I can transfer you to a human agent if you need further assistance."
     },
     {
       "id": 10,
@@ -394,10 +393,10 @@
       "tool_calls": [
         "handoff_to_human"
       ],
-      "llm_calls": 2,
+      "llm_calls": 1,
       "error": null,
-      "answer_excerpt": "I've escalated your request to a human agent immediately due to the emergency water leak. A representative will contact you right away to dispatch a technician.",
-      "answer_full": "I've escalated your request to a human agent immediately due to the emergency water leak. A representative will contact you right away to dispatch a technician."
+      "answer_excerpt": "{\"handoff\": true, \"reason\": \"emergency_active_leak\", \"context\": \"Customer reports active water pouring from under their sink and needs immediate dispatch.\"}",
+      "answer_full": "{\"handoff\": true, \"reason\": \"emergency_active_leak\", \"context\": \"Customer reports active water pouring from under their sink and needs immediate dispatch.\"}"
     },
     {
       "id": 11,
@@ -415,8 +414,8 @@
       ],
       "llm_calls": 2,
       "error": null,
-      "answer_excerpt": "Here is the breakdown of the differences between the Gold and Platinum HVAC plans:\n\n**Gold Plan ($249/year)**\n*   **Maintenance:** Includes 2 tune-ups per year.\n*   **Discounts:** 15% off repairs.\n*  ",
-      "answer_full": "Here is the breakdown of the differences between the Gold and Platinum HVAC plans:\n\n**Gold Plan ($249/year)**\n*   **Maintenance:** Includes 2 tune-ups per year.\n*   **Discounts:** 15% off repairs.\n*   **Scheduling:** Priority scheduling.\n*   **Warranty:** Extended to 1 year on all repairs.\n\n**Platinum Plan ($399/year)**\n*   **Maintenance:** Includes **unlimited** tune-ups.\n*   **Discounts:** 20% off repairs.\n*   **Scheduling:** Same-day priority.\n*   **Repairs:** Includes free Tier 1 (T1) repairs.\n*   **Warranty:** Extended to 1 year on all repairs.\n\n**Is it worth upgrading?**\nThe upgrade costs an additional $150 per year. It is likely worth it if you anticipate needing more than two tune-ups or if you want the convenience of same-day priority scheduling and free T1 repairs. If you only need standard maintenance and occasional minor fixes, the Gold plan provides a solid balance of value and coverage.\n\nWould you like to see the details for the Silver plan as well, or do you have any other questions?"
+      "answer_excerpt": "The main differences between the Gold and Platinum HVAC plans are:\n\n**Gold Plan ($249/year):**\n- 2 tune-ups per year\n- 15% discount on repairs\n- Priority scheduling\n- Extended 1-year warranty on all r",
+      "answer_full": "The main differences between the Gold and Platinum HVAC plans are:\n\n**Gold Plan ($249/year):**\n- 2 tune-ups per year\n- 15% discount on repairs\n- Priority scheduling\n- Extended 1-year warranty on all repairs\n\n**Platinum Plan ($399/year):**\n- Unlimited tune-ups per year\n- 20% discount on repairs\n- Same-day priority scheduling\n- Free T1 repairs (covered at no charge)\n- Extended 1-year warranty on all repairs\n\nThe key upgrades with Platinum are unlimited tune-ups, a higher repair discount, same-day scheduling priority, and free T1 repairs. The price difference is $150/year.\n\nWhether it's worth upgrading depends on your specific needs. If you frequently need tune-ups or repairs, or if you value same-day service availability, Platinum might be a good fit. If you only need occasional maintenance, Gold could be sufficient.\n\nWould you like help determining which plan might be better for your situation, or do you have any other questions about our services?"
     },
     {
       "id": 12,
@@ -434,8 +433,8 @@
       ],
       "llm_calls": 2,
       "error": null,
-      "answer_excerpt": "Rockville (20814) is within our electrical service area. To schedule your panel inspection, I'll need a few details:\n\n1. **Your name, phone number, and email address** (for the booking)\n2. **Preferred",
-      "answer_full": "Rockville (20814) is within our electrical service area. To schedule your panel inspection, I'll need a few details:\n\n1. **Your name, phone number, and email address** (for the booking)\n2. **Preferred date next week** (please provide a specific date in YYYY-MM-DD format)\n3. **Preferred time window**: morning or afternoon?\n\nOnce I have these, I can check availability and confirm the booking details with you before proceeding."
+      "answer_excerpt": "Good news \u2014 Rockville (20814) is within our electrical service area.\n\nI can help you book an electrical panel inspection right away. To proceed, I just need your preferred date and time window for nex",
+      "answer_full": "Good news \u2014 Rockville (20814) is within our electrical service area.\n\nI can help you book an electrical panel inspection right away. To proceed, I just need your preferred date and time window for next week:\n\n1. **Preferred date** (YYYY-MM-DD format, any day from June 15\u201321, 2026)\n2. **Preferred time window**: morning or afternoon\n\nOnce you confirm those, I'll also need:\n- Your full name\n- A contact phone number\n- A contact email address\n\nPlease share your preferred date and window, and your contact details, and I'll get that booked for you."
     },
     {
       "id": 13,
@@ -451,10 +450,10 @@
       "tool_calls": [
         "handoff_to_human"
       ],
-      "llm_calls": 2,
+      "llm_calls": 1,
       "error": null,
-      "answer_excerpt": "",
-      "answer_full": ""
+      "answer_excerpt": "{\"handoff\": true, \"reason\": \"out_of_scope\", \"context\": \"Customer is asking about the status of their technician for booking BK-00512883. Their appointment window was 10:00-12:00 and it's currently 11:",
+      "answer_full": "{\"handoff\": true, \"reason\": \"out_of_scope\", \"context\": \"Customer is asking about the status of their technician for booking BK-00512883. Their appointment window was 10:00-12:00 and it's currently 11:45. They want to know if the technician has already left. I do not have access to a tool that can check real-time booking status or technician location/ETA. Customer needs this information urgently as they are waiting for the technician to arrive.\"}"
     },
     {
       "id": 14,
@@ -470,8 +469,8 @@
       "tool_calls": [],
       "llm_calls": 1,
       "error": null,
-      "answer_excerpt": "Yes, we accept Zelle for residential customers up to $500 [Faq Payments | p.0]. Since you don't have your credit card, we also accept Apple Pay, Google Pay, or a personal check for residential account",
-      "answer_full": "Yes, we accept Zelle for residential customers up to $500 [Faq Payments | p.0]. Since you don't have your credit card, we also accept Apple Pay, Google Pay, or a personal check for residential accounts [Faq Payments | p.0]. Payment is due at the completion of service [Faq Payments | p.0]."
+      "answer_excerpt": "Yes, we do accept Zelle for residential customers, with a limit of up to $500 [1].\n\nWe also accept Visa, Mastercard, Amex, Discover, Apple Pay, Google Pay, and checks (personal for residential, busine",
+      "answer_full": "Yes, we do accept Zelle for residential customers, with a limit of up to $500 [1].\n\nWe also accept Visa, Mastercard, Amex, Discover, Apple Pay, Google Pay, and checks (personal for residential, business for commercial) [2].\n\nIs there anything else I can help you with today?"
     },
     {
       "id": 15,
@@ -487,10 +486,10 @@
       "tool_calls": [
         "handoff_to_human"
       ],
-      "llm_calls": 2,
+      "llm_calls": 1,
       "error": null,
-      "answer_excerpt": "I understand this is a sensitive situation. I'm transferring you to a human agent right away.",
-      "answer_full": "I understand this is a sensitive situation. I'm transferring you to a human agent right away."
+      "answer_excerpt": "{\"handoff\": true, \"reason\": \"manager_request\", \"context\": \"The technician left a huge mess in my garage. I want to speak to a manager.\"}",
+      "answer_full": "{\"handoff\": true, \"reason\": \"manager_request\", \"context\": \"The technician left a huge mess in my garage. I want to speak to a manager.\"}"
     },
     {
       "id": 16,
@@ -503,11 +502,13 @@
       "handoff_ok": true,
       "handoff_reason_ok": true,
       "booking_db_ok": true,
-      "tool_calls": [],
-      "llm_calls": 1,
+      "tool_calls": [
+        "retrieve_kb"
+      ],
+      "llm_calls": 2,
       "error": null,
-      "answer_excerpt": "Yes, there is an additional charge for Sunday appointments. We apply a $125 surcharge for services scheduled on Sundays and federal holidays [Hvac Pricing | p.0]. \n\nWould you like to proceed with book",
-      "answer_full": "Yes, there is an additional charge for Sunday appointments. We apply a $125 surcharge for services scheduled on Sundays and federal holidays [Hvac Pricing | p.0]. \n\nWould you like to proceed with booking for this Sunday, or would you prefer a different day?"
+      "answer_excerpt": "Yes, there is an extra charge for Sunday bookings. According to our pricing information, there is a **$125 surcharge** for appointments scheduled on Sundays and federal holidays [1].\n\nPlease note that",
+      "answer_full": "Yes, there is an extra charge for Sunday bookings. According to our pricing information, there is a **$125 surcharge** for appointments scheduled on Sundays and federal holidays [1].\n\nPlease note that this surcharge applies to HVAC services. If you're looking to book a plumbing or electrical service, I'd be happy to check the specific pricing for those trades as well.\n\nWould you like to proceed with booking a Sunday appointment, or do you have any other questions about the scheduling process?"
     },
     {
       "id": 17,
@@ -523,8 +524,8 @@
       "tool_calls": [],
       "llm_calls": 1,
       "error": null,
-      "answer_excerpt": "I can help you with that. To proceed, I'll need your booking ID (BK-XXXXXXXX).\n\nAlso, please note that according to our policy, same-day reschedules to a different day are treated as late cancellation",
-      "answer_full": "I can help you with that. To proceed, I'll need your booking ID (BK-XXXXXXXX).\n\nAlso, please note that according to our policy, same-day reschedules to a different day are treated as late cancellations [Cancellation Policy | p.0]. Depending on how close we are to your 2:00 PM appointment, this may incur a fee:\n*   **2\u201324 hours notice:** $35 late-cancel fee\n*   **Less than 2 hours or no-show:** $75 no-show fee (waived once per 12-month period per customer)\n\nCould you please provide:\n1. Your booking ID\n2. Your preferred new date and time window (morning or afternoon) for next week?"
+      "answer_excerpt": "I'd be happy to help you reschedule that appointment. To get started, could you please provide your booking ID (it starts with BK-)? Also, what specific date and time window (morning or afternoon) wou",
+      "answer_full": "I'd be happy to help you reschedule that appointment. To get started, could you please provide your booking ID (it starts with BK-)? Also, what specific date and time window (morning or afternoon) would you prefer for next week? \n\nOnce I have those details, I\u2019ll look up your booking and process the change for you. Since you\u2019re moving it to next week (more than 24 hours out), there will be no rescheduling fee."
     },
     {
       "id": 18,
@@ -540,10 +541,10 @@
       "tool_calls": [
         "handoff_to_human"
       ],
-      "llm_calls": 2,
+      "llm_calls": 1,
       "error": null,
-      "answer_excerpt": "I understand this is a sensitive situation. I'm transferring you to a human agent right away.",
-      "answer_full": "I understand this is a sensitive situation. I'm transferring you to a human agent right away."
+      "answer_excerpt": "{\"handoff\": true, \"reason\": \"commercial\", \"context\": \"We manage 12 units and want net-30 invoicing and a volume discount. Who do I talk to?\"}",
+      "answer_full": "{\"handoff\": true, \"reason\": \"commercial\", \"context\": \"We manage 12 units and want net-30 invoicing and a volume discount. Who do I talk to?\"}"
     },
     {
       "id": 19,
@@ -559,8 +560,8 @@
       "tool_calls": [],
       "llm_calls": 1,
       "error": null,
-      "answer_excerpt": "A full panel upgrade from 100A to 200A typically costs between $1,800 and $3,500 [Electrical Pricing | p.0]. This range covers the labor for the replacement. Would you like to schedule a diagnostic vi",
-      "answer_full": "A full panel upgrade from 100A to 200A typically costs between $1,800 and $3,500 [Electrical Pricing | p.0]. This range covers the labor for the replacement. Would you like to schedule a diagnostic visit to get an exact quote for your specific home?"
+      "answer_excerpt": "Based on our pricing information, a full panel upgrade from 100A to 200A typically ranges from **$800 to $3,500** [1][3].\n\nPlease note there is an **$85 service call fee** for the visit, which is waiv",
+      "answer_full": "Based on our pricing information, a full panel upgrade from 100A to 200A typically ranges from **$800 to $3,500** [1][3].\n\nPlease note there is an **$85 service call fee** for the visit, which is waived if the repair total exceeds $300 [4].\n\nWould you like to schedule a service call to get a more precise quote? If so, I can help you book that."
     },
     {
       "id": 20,
@@ -573,30 +574,30 @@
       "handoff_ok": true,
       "handoff_reason_ok": true,
       "booking_db_ok": true,
-      "tool_calls": [
-        "retrieve_kb"
-      ],
-      "llm_calls": 2,
+      "tool_calls": [],
+      "llm_calls": 1,
       "error": null,
-      "answer_excerpt": "Yes, you can request Marcus Webb for your next appointment! When you're ready to book, I can include his name as your preferred technician [Faq Booking | p.0].\n\nJust keep in mind that availability isn",
-      "answer_full": "Yes, you can request Marcus Webb for your next appointment! When you're ready to book, I can include his name as your preferred technician [Faq Booking | p.0].\n\nJust keep in mind that availability isn't guaranteed\u2014the system will let you know if he's not available on your preferred date and time [Faq Booking | p.0].\n\nWould you like to go ahead and schedule an appointment now? If so, I'll need a few details:\n1. What type of service do you need (HVAC, plumbing, or electrical)?\n2. What's the nature of the job (e.g., diagnostic visit, repair, installation)?\n3. Your ZIP code\n4. Your preferred date and time window (morning or afternoon)"
+      "answer_excerpt": "Yes, you can request Marcus Webb for your next appointment! When you book, you can specify him as your preferred technician [1]. Please note that availability isn't guaranteed, and the system will not",
+      "answer_full": "Yes, you can request Marcus Webb for your next appointment! When you book, you can specify him as your preferred technician [1]. Please note that availability isn't guaranteed, and the system will notify you if he's unavailable on your preferred date.\n\nWould you like to go ahead and schedule an appointment with Marcus? If so, I'll need a few details:\n1. Service type (HVAC, plumbing, or electrical)\n2. ZIP code\n3. Preferred date and time window (morning or afternoon)\n4. Brief description of the issue or service needed"
     },
     {
       "id": 21,
       "category": "edge_out_of_area_zip",
       "expected_action": "answer_or_handoff",
-      "observed_action": "error",
-      "action_ok": false,
+      "observed_action": "answer",
+      "action_ok": true,
       "handoff_expected": false,
       "handoff_observed": false,
       "handoff_ok": true,
       "handoff_reason_ok": true,
       "booking_db_ok": true,
-      "tool_calls": [],
-      "llm_calls": 0,
-      "error": "timeout after 60s",
-      "answer_excerpt": "",
-      "answer_full": ""
+      "tool_calls": [
+        "check_service_area"
+      ],
+      "llm_calls": 2,
+      "error": null,
+      "answer_excerpt": "I\u2019d be happy to help with your AC repair. However, ZIP code 12345 is not currently within Meridian\u2019s HVAC service area [3]. \n\nWould you like me to check if we serve your area for another service type,",
+      "answer_full": "I\u2019d be happy to help with your AC repair. However, ZIP code 12345 is not currently within Meridian\u2019s HVAC service area [3]. \n\nWould you like me to check if we serve your area for another service type, or would you prefer to be connected with a local provider through our referral network?"
     },
     {
       "id": 22,
@@ -614,8 +615,8 @@
       ],
       "llm_calls": 2,
       "error": null,
-      "answer_excerpt": "I can help you with that. I see that 22030 is in our service area for plumbing.\n\nHowever, please note that our branches are generally closed on Sundays for standard service calls, operating only for e",
-      "answer_full": "I can help you with that. I see that 22030 is in our service area for plumbing.\n\nHowever, please note that our branches are generally closed on Sundays for standard service calls, operating only for emergencies (such as active water leaks or flooding) via our 24/7 line [Branch Hours | p.0].\n\nIf your issue is not an emergency, I can schedule you for **Monday, June 15th** instead. Would you like to proceed with Monday?\n\nTo book the appointment, I'll also need a few more details:\n1.  **Job Type:** What specifically do you need help with? (e.g., leak repair, drain unclogging, water heater installation)\n2.  **Contact Info:** Your full name, phone number, and email address.\n\nOnce you confirm the date and provide these details, I can finalize the booking."
+      "answer_excerpt": "I can certainly help you with that. To finalize the appointment, could you please specify the job type (e.g., diagnostic visit, drain unclog, repair)?\n\nTo confirm the booking details:\n1. Service type:",
+      "answer_full": "I can certainly help you with that. To finalize the appointment, could you please specify the job type (e.g., diagnostic visit, drain unclog, repair)?\n\nTo confirm the booking details:\n1. Service type: Plumbing\n2. Job type: [Awaiting your input]\n3. ZIP code: 22030\n4. Preferred date: Sunday, June 14, 2026\n5. Preferred window: Morning\n\nPlease reply with the job type and confirm that these details are correct. Once confirmed, I'll also need your full name, phone number, and email address to complete the booking."
     },
     {
       "id": 23,
@@ -631,8 +632,8 @@
       "tool_calls": [],
       "llm_calls": 1,
       "error": null,
-      "answer_excerpt": "I\u2019m sorry to hear your furnace stopped working. Since it was serviced just three weeks ago, it is fully covered under our 90-day labor warranty, so there will be no charge for the return visit [Warran",
-      "answer_full": "I\u2019m sorry to hear your furnace stopped working. Since it was serviced just three weeks ago, it is fully covered under our 90-day labor warranty, so there will be no charge for the return visit [Warranty Terms | p.0].\n\nTo get a technician out to you as soon as possible, I\u2019ll need a few details to schedule the appointment:\n1. Your name or customer ID\n2. The service ZIP code\n3. Your preferred date (today or within the next 60 days)\n4. Your preferred time window (morning or afternoon)\n\nOnce you provide those, I\u2019ll verify service availability and confirm the booking details with you before finalizing."
+      "answer_excerpt": "I'm sorry to hear your furnace stopped working. To assist you with a potential warranty return or repair, I'll need a few details:\n\n1. Your ZIP code (to confirm service area)\n2. Your name or customer ",
+      "answer_full": "I'm sorry to hear your furnace stopped working. To assist you with a potential warranty return or repair, I'll need a few details:\n\n1. Your ZIP code (to confirm service area)\n2. Your name or customer ID (if you have one)\n3. What type of service was performed 3 weeks ago? (e.g., tune-up, repair, or a major install like a furnace replacement)\n\nOnce I have this, I can check your warranty status and schedule a service visit."
     },
     {
       "id": 24,
@@ -648,8 +649,8 @@
       "tool_calls": [],
       "llm_calls": 1,
       "error": null,
-      "answer_excerpt": "I'd be happy to help you get an electrician out to check that faulty outlet. To get this scheduled, I'll need a few details:\n\n1. **Your ZIP code** (so I can confirm we service your area)\n2. **Your pre",
-      "answer_full": "I'd be happy to help you get an electrician out to check that faulty outlet. To get this scheduled, I'll need a few details:\n\n1. **Your ZIP code** (so I can confirm we service your area)\n2. **Your preferred date** and whether you'd prefer a **morning or afternoon** window\n3. **Your full name, phone number, and email address**\n4. **Do you have an existing customer account with Meridian**, or should I set one up for you?\n\nOnce I have this information, I'll check availability and confirm the booking details with you before finalizing."
+      "answer_excerpt": "I can help you schedule an electrician to inspect and repair that faulty outlet. To get this set up, I'll need a few details:\n\n1.  **Your ZIP code** (so I can check service availability)\n2.  **Your pr",
+      "answer_full": "I can help you schedule an electrician to inspect and repair that faulty outlet. To get this set up, I'll need a few details:\n\n1.  **Your ZIP code** (so I can check service availability)\n2.  **Your preferred date** (must be today or within the next 60 days)\n3.  **Preferred time window** (morning or afternoon)\n4.  **Your full name**\n5.  **Your phone number**\n6.  **Your email address**\n\nOnce you provide these, I'll check availability and confirm the booking details with you."
     },
     {
       "id": 25,
@@ -665,10 +666,10 @@
       "tool_calls": [
         "handoff_to_human"
       ],
-      "llm_calls": 2,
+      "llm_calls": 1,
       "error": null,
-      "answer_excerpt": "I understand this is a sensitive situation. I'm transferring you to a human agent right away.",
-      "answer_full": "I understand this is a sensitive situation. I'm transferring you to a human agent right away."
+      "answer_excerpt": "{\"handoff\": true, \"reason\": \"commercial\", \"context\": \"We run a small office in 22030 and need a recurring maintenance contract.\"}",
+      "answer_full": "{\"handoff\": true, \"reason\": \"commercial\", \"context\": \"We run a small office in 22030 and need a recurring maintenance contract.\"}"
     },
     {
       "id": 26,
@@ -681,28 +682,33 @@
       "handoff_ok": true,
       "handoff_reason_ok": true,
       "booking_db_ok": true,
-      "tool_calls": [],
-      "llm_calls": 1,
+      "tool_calls": [
+        "check_service_area"
+      ],
+      "llm_calls": 2,
       "error": null,
-      "answer_excerpt": "Thank you for reaching out. I checked our service area for ZIP code 20707, and unfortunately, Meridian does not currently offer licensed electrical services in Prince George's County [Service Area Cen",
-      "answer_full": "Thank you for reaching out. I checked our service area for ZIP code 20707, and unfortunately, Meridian does not currently offer licensed electrical services in Prince George's County [Service Area Central | p.0]. I recommend contacting our sister contractor, EcoPower, for electrical needs. \n\nIf you need help with HVAC or plumbing services in that area, or if you'd like to book a different type of service, please let me know and I\u2019d be happy to assist!"
+      "answer_excerpt": "I\u2019m sorry, but Meridian does not provide electrical services in ZIP code 20707 (Prince George\u2019s County) because we are not yet licensed in that area [4]. \n\nI recommend contacting our sister contractor",
+      "answer_full": "I\u2019m sorry, but Meridian does not provide electrical services in ZIP code 20707 (Prince George\u2019s County) because we are not yet licensed in that area [4]. \n\nI recommend contacting our sister contractor, **EcoPower**, for electrical work in that location. Would you like me to help you with anything else, such as scheduling an HVAC or plumbing service?"
     },
     {
       "id": 27,
       "category": "edge_umd_campus",
       "expected_action": "answer_or_handoff",
-      "observed_action": "error",
-      "action_ok": false,
+      "observed_action": "handoff",
+      "action_ok": true,
       "handoff_expected": true,
-      "handoff_observed": false,
-      "handoff_ok": false,
+      "handoff_observed": true,
+      "handoff_ok": true,
       "handoff_reason_ok": true,
       "booking_db_ok": true,
-      "tool_calls": [],
-      "llm_calls": 0,
-      "error": "Provider returned error",
-      "answer_excerpt": "",
-      "answer_full": ""
+      "tool_calls": [
+        "check_service_area",
+        "handoff_to_human"
+      ],
+      "llm_calls": 2,
+      "error": null,
+      "answer_excerpt": "{\"handoff\": true, \"reason\": \"commercial_request\", \"context\": \"Customer is requesting plumbing services for a building on the University of Maryland campus in College Park (ZIP 20742). This is a commer",
+      "answer_full": "{\"handoff\": true, \"reason\": \"commercial_request\", \"context\": \"Customer is requesting plumbing services for a building on the University of Maryland campus in College Park (ZIP 20742). This is a commercial/institutional facilities work request. The service area check confirmed eligibility for plumbing in 20742, but noted that UMD campus requires facilities-office coordination and should be flagged to the scheduler before booking. Customer needs to speak with a human agent to arrange this commercial facilities service.\"}"
     },
     {
       "id": 28,
@@ -718,10 +724,10 @@
       "tool_calls": [
         "handoff_to_human"
       ],
-      "llm_calls": 2,
+      "llm_calls": 1,
       "error": null,
-      "answer_excerpt": "I understand this is a sensitive situation. I'm transferring you to a human agent right away.",
-      "answer_full": "I understand this is a sensitive situation. I'm transferring you to a human agent right away."
+      "answer_excerpt": "{\"handoff\": true, \"reason\": \"emergency_gas\", \"context\": \"I smell gas near my furnace. Should I call 911?\"}",
+      "answer_full": "{\"handoff\": true, \"reason\": \"emergency_gas\", \"context\": \"I smell gas near my furnace. Should I call 911?\"}"
     },
     {
       "id": 29,
@@ -737,8 +743,8 @@
       "tool_calls": [],
       "llm_calls": 1,
       "error": null,
-      "answer_excerpt": "The diagnostic fee is $89 flat, which is waived if you book a repair on the same day [Hvac Pricing | p.0]. \n\nOnce you locate your specific ZIP code in Fairfax, share it with me and I can verify servic",
-      "answer_full": "The diagnostic fee is $89 flat, which is waived if you book a repair on the same day [Hvac Pricing | p.0]. \n\nOnce you locate your specific ZIP code in Fairfax, share it with me and I can verify service area eligibility for the trade you need (HVAC, plumbing, or electrical). Would you like to move forward with scheduling a visit?"
+      "answer_excerpt": "The HVAC diagnostic fee is $89 flat, but it is waived if you book a repair on the same day [3]. If you'd like to check service eligibility for your specific Fairfax ZIP code or schedule a visit, just ",
+      "answer_full": "The HVAC diagnostic fee is $89 flat, but it is waived if you book a repair on the same day [3]. If you'd like to check service eligibility for your specific Fairfax ZIP code or schedule a visit, just let me know!"
     },
     {
       "id": 30,
@@ -754,8 +760,8 @@
       "tool_calls": [],
       "llm_calls": 1,
       "error": null,
-      "answer_excerpt": "I'd be happy to help you get scheduled. To set up your appointment, I'll need a few details:\n\n1. **Service type:** HVAC, plumbing, or electrical?\n2. **Job type:** What's the issue or request? (e.g., d",
-      "answer_full": "I'd be happy to help you get scheduled. To set up your appointment, I'll need a few details:\n\n1. **Service type:** HVAC, plumbing, or electrical?\n2. **Job type:** What's the issue or request? (e.g., diagnostic visit, AC repair, drain unclog, panel upgrade, etc.)\n3. **Location:** What's your 5-digit ZIP code?\n4. **Preferred date & time:** What date works best, and do you prefer a morning or afternoon window?\n5. **Contact info:** Your full name, phone number, and email address.\n\nOnce you share these, I'll check service availability for your area and confirm the booking details with you before finalizing."
+      "answer_excerpt": "I'd be happy to help you book a service! To get started, I'll need a few details:\n\n1. **Service type**: HVAC, plumbing, or electrical?\n2. **Job type**: What's the issue or service needed? (e.g., diagn",
+      "answer_full": "I'd be happy to help you book a service! To get started, I'll need a few details:\n\n1. **Service type**: HVAC, plumbing, or electrical?\n2. **Job type**: What's the issue or service needed? (e.g., diagnostic visit, AC repair, drain unclog, panel upgrade, etc.)\n3. **ZIP code**: Where is the service needed?\n4. **Preferred date**: What date would you like? (Must be within the next 60 days from today, June 11, 2026)\n5. **Preferred time window**: Morning or afternoon?\n6. **Your contact information**: Full name, phone number, and email address.\n\nPlease provide these details, and I'll check availability and create the booking for you."
     }
   ]
 }
