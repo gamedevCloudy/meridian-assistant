@@ -6,14 +6,74 @@ Services. Built as a take-home assignment per `resources/00_case_study.pdf`.
 ## What it does
 
 - Answers FAQs (hours, pricing, payments, booking, emergencies, warranty) with
-  inline `[source, p.X]` citations drawn from the Meridian knowledge pack.
-- Checks service-area eligibility by ZIP and trade (with branch-specific
-  notes for Loudoun, Prince George's County, Alexandria, UMD campus, etc.).
-- Creates and reschedules bookings via a mock REST API, including
-  cancellation-fee tiers and a per-customer 12-month waiver.
+  inline `[source, p.X]` citations from the Meridian knowledge pack.
+- Checks service-area eligibility by ZIP and trade, with branch-specific notes
+  for Loudoun, Prince George's County, Alexandria, and the UMD campus.
+- Creates and reschedules bookings via the mock REST API, applying
+  cancellation-fee tiers and the per-customer 12-month waiver.
 - Escalates to a human contact-centre agent for emergencies, commercial
-  accounts, billing disputes, complaints, or any low-confidence case — with
-  full conversation context attached.
+  accounts, billing disputes, complaints, and low-confidence cases — with the
+  full conversation attached.
+
+## Architecture
+
+```mermaid
+flowchart LR
+  User([Customer message<br/>chat · DM · email · voice transcript])
+
+  subgraph API[FastAPI · app/main.py]
+    Chat[/POST /chat/]
+    Bookings[/POST /api/v1/bookings/]
+    History[(SQLite<br/>chat_history.db)]
+  end
+
+  subgraph Agent[LangGraph agent · app/agents/graph.py]
+    Pre{Handoff keyword<br/>pre-filter}
+    Retrieve[retrieve_node<br/>first turn only]
+    LLM[llm_call_node<br/>MAX_LLM_CALLS = 5]
+    Tools[tool_node]
+  end
+
+  subgraph RAG[Retrieval · app/data_loader/]
+    Embed[HF embeddings<br/>all-MiniLM-L6-v2]
+    Chroma[(Chroma<br/>chroma_db/)]
+  end
+
+  subgraph Booking[Booking API · app/routers/bookings.py]
+    SQLite[(SQLite<br/>bookings.db)]
+    ZIP[Service-area map<br/>db.py:23]
+  end
+
+  LLMAPI[OpenRouter<br/>LLM_SM · LLM_MED]
+  HCM[Human contact-centre agent]
+
+  User --> Chat
+  Chat --> Pre
+  Pre -- match --> HCM
+  Pre -- no match --> Retrieve
+  Retrieve --> Chroma
+  Chroma --> Embed
+  Retrieve --> LLM
+  LLM -- tool call --> Tools
+  Tools -- retrieve_kb --> Chroma
+  Tools -- check_service_area --> Bookings
+  Tools -- create_booking / reschedule --> Bookings
+  Tools -- handoff_to_human --> HCM
+  Bookings --> SQLite
+  Bookings --> ZIP
+  Tools --> LLM
+  LLM -- final answer --> Chat
+  LLM <--> LLMAPI
+  Chat <--> History
+  Chat --> User
+```
+
+**Flow.** A customer message hits `POST /chat`. The handoff keyword pre-filter
+runs first; matches escalate immediately without an LLM call. Otherwise the
+agent retrieves KB context on the first turn, then enters the LLM ↔ tool loop
+(capped at 5 LLM calls). Tools hit the booking API, the vector store, or the
+handoff sink. Session history is persisted in SQLite; the final answer is
+streamed back to the user.
 
 ## Run it
 
@@ -58,23 +118,8 @@ uv run python -m eval.run_eval --no-gate
 ```
 
 See `eval/README.md` for metrics, targets, and methodology. Latest results
-in `eval/summary.md`.
-
-## Latest results
-
-| Stage | Metric | Value | Target | Status |
-|---|---|---|---|---|
-| Retrieval | hit@3 | 0.8462 | ≥0.85 | ⚠️ (0.003 below) |
-| | mrr | 0.8485 | ≥0.75 | ✅ |
-| Action | action_accuracy | 0.9333 | ≥0.85 | ✅ |
-| | action_accuracy_on_evaluated | 1.0 | ≥0.85 | ✅ |
-| | handoff_f1 | 1.0 | ≥0.90 | ✅ |
-| Judge | grounded | 1.0 | ≥0.80 | ✅ |
-| | correct | 0.975 | ≥0.80 | ✅ |
-| | cited | 0.85 | ≥0.80 | ✅ |
-
-28/30 action cases evaluated (2 rate-limited). All 8 handoffs triggered correctly.
-Judge skips handoff cases (covered by action eval) and uses `openai/gpt-4o-mini`.
+in `eval/summary.md` (28/30 action cases evaluated, 2 rate-limited; all 8
+handoffs triggered; judge uses `openai/gpt-4o-mini`).
 
 ## Layout
 
@@ -124,32 +169,32 @@ meridian-assistant/
 
 | Decision | Why |
 |---|---|
-| **LangGraph** | Spec §5 prescribes a graph; aligns with how the team already thinks about agent loops. ReAct-style tool use without it gets ugly fast. |
-| **Chroma + local HF embeddings** | No external accounts, no data leaving the box, runs offline. `all-MiniLM-L6-v2` is small enough for the prototype. |
-| **OpenRouter** | Lets reviewers run with any model they have a key for. Default is free tier; reviewers can swap `DEFAULT_LLM_SM` / `DEFAULT_LLM_MED` to test other models without code changes. |
-| **Retrieve-on-first-turn node + `retrieve_kb` tool** | The node guarantees a citation-backed answer for the initial message; the tool lets the agent pull more context for follow-ups. Best of both worlds. |
+| **LangGraph** | A graph-based agent loop keeps routing, retries, and termination explicit. ReAct-style tool use without it gets messy fast. |
+| **Chroma + local HF embeddings** | No external accounts, no data leaving the box, runs offline. `all-MiniLM-L6-v2` is small enough for the 13-doc corpus. |
+| **OpenRouter** | Reviewers run with any model they have a key for. Swap `DEFAULT_LLM_SM` / `DEFAULT_LLM_MED` to test other models without code changes. |
+| **Retrieve-on-first-turn node + `retrieve_kb` tool** | The node guarantees a citation-backed answer for the initial message; the tool lets the agent pull more context for follow-ups. |
 | **In-process tool calls to `db.py`** | Avoids a self-HTTP loop. The FastAPI router still exists and is independently testable. |
-| **Explicit `handoff_to_human` tool** | The LLM *says* it will hand off but doesn't always *call* the tool. The tool-call signal is the ground truth for handoff metrics. |
-| **Pydantic models everywhere** | Catches malformed payloads at the boundary. The booking schema mirrors the API spec (§3.1.2). |
-| **SQLite, not in-memory dict** | The mock DB is what the spec asks for; SQLite gives us persistence and a real DB query surface for the agent's `verify_booking_against_db` check. |
-| **Action eval calls the agent in-process, not via HTTP** | Faster, deterministic enough for the smoke-test set, and the same graph that backs `/chat`. Trade-off: doesn't catch transport bugs. Documented in `production_note.md`. |
-| **No framework (pydantic-evals, deepeval, etc.)** | Spec §7.1.3–7.4 prescribes plain `pytest` / `python eval/run_eval.py`. Framework is overkill at this scope. |
+| **Explicit `handoff_to_human` tool** | The LLM says it will hand off but doesn't always call the tool. The tool-call signal is the ground truth for handoff metrics. |
+| **Pydantic models everywhere** | Catches malformed payloads at the boundary. The booking schema mirrors the booking API contract in `12_booking_api_spec.pdf`. |
+| **SQLite, not in-memory dict** | The brief calls for a mock Booking API; SQLite gives persistence and a real query surface for the agent's `verify_booking_against_db` check. |
+| **Action eval calls the agent in-process, not via HTTP** | Faster, deterministic enough for the smoke-test set, same graph that backs `/chat`. Trade-off: misses transport bugs. |
+| **No framework (pydantic-evals, deepeval, etc.)** | Plain `pytest` / `python eval/run_eval.py` is enough at this scope. Production migration to DeepEval is in `production_note.md`. |
 
-## Deliberately left out (per spec §9)
+## Deliberately left out
 
-- **Streamlit UI.** Not required; `/chat` is curl-able.
+- **Streamlit UI.** `/chat` is curl-able.
 - **Docker / docker-compose.** `uv run` is enough for the prototype.
-- **DigitalOcean deploy.** Out of scope.
-- **Authentication / rate limiting.** Spec §6.1.x mentions session_id, which we have; API auth is in `production_note.md`.
-- **Persistent agent memory beyond session.** Sessions are in SQLite; we don't summarise past sessions into the prompt.
+- **DigitalOcean deploy.** Out of scope for the prototype; prod plan is in `production_note.md`.
+- **Authentication / rate limiting.** Sessions are identified by `session_id`; API auth is in `production_note.md`.
+- **Persistent agent memory beyond session.** Sessions are in SQLite; no past-session summarisation.
 - **PII masking.** Production concern; `production_note.md` covers it.
 - **Vector store rebuild on push.** Pipeline is a manual one-liner; CI is in `production_note.md`.
 
 ## Known issues / follow-ups
 
-- **30 cases is small.** Statistically meaningful thresholds need 200+. Coverage is stratified by intent but the per-class n is 1–2.
-- **Date arithmetic in the prompt.** The agent gets a `Current date:` line, but the model still occasionally misinterprets. Hardening idea: serve a tiny tool that returns `today()` instead of injecting text.
-- **Judge retrieves fresh context at eval time.** The KB chunks may differ from what the agent actually saw during the conversation, causing minor scoring drift.
+- **30 cases is small.** Statistically meaningful thresholds need 200+. Stratified by intent, but per-class n is 1–2.
+- **Date arithmetic in the prompt.** The agent gets a `Current date:` line, but the model still occasionally misinterprets it. Hardening idea: serve a tiny `today()` tool instead of injecting text.
+- **Judge retrieves fresh context at eval time.** The KB chunks may differ from what the agent saw during the conversation, causing minor scoring drift.
 
 ## How to debug
 
@@ -166,9 +211,3 @@ sqlite3 data/bookings.db "SELECT * FROM bookings ORDER BY id DESC LIMIT 5;"
 # Inspect a chat session
 sqlite3 data/chat_history.db "SELECT * FROM messages WHERE session_id='demo-1';"
 ```
-
-## More reading
-
-- `eval/README.md` — eval harness details, targets, methodology
-- `eval/summary.md` — latest run results
-- `production_note.md` — what I'd change to serve 11 branches at ~8,500 interactions/month
