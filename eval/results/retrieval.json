@@ -1,0 +1,349 @@
+{
+  "summary": {
+    "cases_evaluated": 13,
+    "cases_total": 30,
+    "hit_at_3": 0.8462,
+    "recall_at_3": 0.8462,
+    "hit_at_5": 0.8462,
+    "recall_at_5": 0.8462,
+    "mrr": 0.8485
+  },
+  "per_case": [
+    {
+      "id": 1,
+      "category": "faq_hours",
+      "expected_sources": [
+        "branch_hours.pdf"
+      ],
+      "retrieved_sources": [
+        "08_branch_hours.pdf",
+        "08_branch_hours.pdf",
+        "08_branch_hours.pdf",
+        "08_branch_hours.pdf",
+        "08_branch_hours.pdf"
+      ],
+      "first_relevant_rank": 1,
+      "hit_at_3": true,
+      "hit_at_5": true,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": 2,
+      "category": "service_area",
+      "expected_sources": [
+        "service_area"
+      ],
+      "retrieved_sources": [
+        "faqs/09_faq_booking.pdf",
+        "service-areas/02_service_area_central.pdf",
+        "service-areas/01_service_area_north.pdf",
+        "08_branch_hours.pdf",
+        "service-areas/02_service_area_central.pdf"
+      ],
+      "first_relevant_rank": 2,
+      "hit_at_3": true,
+      "hit_at_5": true,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": 3,
+      "category": "booking_new",
+      "expected_sources": [
+        "service_area"
+      ],
+      "retrieved_sources": [
+        "08_branch_hours.pdf",
+        "faqs/09_faq_booking.pdf",
+        "08_branch_hours.pdf",
+        "pricing/03_hvac_pricing.pdf",
+        "08_branch_hours.pdf"
+      ],
+      "first_relevant_rank": null,
+      "hit_at_3": false,
+      "hit_at_5": false,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0
+    },
+    {
+      "id": 4,
+      "skipped": true,
+      "reason": "no expected_sources"
+    },
+    {
+      "id": 5,
+      "skipped": true,
+      "reason": "no expected_sources"
+    },
+    {
+      "id": 6,
+      "category": "pricing",
+      "expected_sources": [
+        "plumbing_pricing.pdf"
+      ],
+      "retrieved_sources": [
+        "pricing/04_plumbing_pricing.pdf",
+        "pricing/04_plumbing_pricing.pdf",
+        "pricing/04_plumbing_pricing.pdf",
+        "pricing/03_hvac_pricing.pdf",
+        "pricing/04_plumbing_pricing.pdf"
+      ],
+      "first_relevant_rank": 1,
+      "hit_at_3": true,
+      "hit_at_5": true,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": 7,
+      "category": "warranty",
+      "expected_sources": [
+        "warranty_terms.pdf"
+      ],
+      "retrieved_sources": [
+        "faqs/09_faq_booking.pdf",
+        "faqs/11_faq_emergencies.pdf",
+        "tnc/06_warranty_terms.pdf",
+        "pricing/04_plumbing_pricing.pdf",
+        "08_branch_hours.pdf"
+      ],
+      "first_relevant_rank": 3,
+      "hit_at_3": true,
+      "hit_at_5": true,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": 8,
+      "skipped": true,
+      "reason": "no expected_sources"
+    },
+    {
+      "id": 9,
+      "category": "out_of_area",
+      "expected_sources": [
+        "service_area"
+      ],
+      "retrieved_sources": [
+        "service-areas/02_service_area_central.pdf",
+        "service-areas/02_service_area_central.pdf",
+        "service-areas/01_service_area_north.pdf",
+        "faqs/09_faq_booking.pdf",
+        "08_branch_hours.pdf"
+      ],
+      "first_relevant_rank": 1,
+      "hit_at_3": true,
+      "hit_at_5": true,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": 10,
+      "skipped": true,
+      "reason": "no expected_sources"
+    },
+    {
+      "id": 11,
+      "category": "pricing_plan",
+      "expected_sources": [
+        "hvac_pricing.pdf"
+      ],
+      "retrieved_sources": [
+        "tnc/06_warranty_terms.pdf",
+        "pricing/03_hvac_pricing.pdf",
+        "pricing/03_hvac_pricing.pdf",
+        "pricing/03_hvac_pricing.pdf",
+        "pricing/03_hvac_pricing.pdf"
+      ],
+      "first_relevant_rank": 2,
+      "hit_at_3": true,
+      "hit_at_5": true,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": 12,
+      "category": "booking_new",
+      "expected_sources": [
+        "service_area"
+      ],
+      "retrieved_sources": [
+        "faqs/09_faq_booking.pdf",
+        "faqs/09_faq_booking.pdf",
+        "pricing/05_electrical_pricing.pdf",
+        "08_branch_hours.pdf",
+        "08_branch_hours.pdf"
+      ],
+      "first_relevant_rank": null,
+      "hit_at_3": false,
+      "hit_at_5": false,
+      "recall_at_3": 0.0,
+      "recall_at_5": 0.0
+    },
+    {
+      "id": 13,
+      "skipped": true,
+      "reason": "no expected_sources"
+    },
+    {
+      "id": 14,
+      "category": "payment",
+      "expected_sources": [
+        "faq_payments.pdf"
+      ],
+      "retrieved_sources": [
+        "faqs/10_faq_payments.pdf",
+        "faqs/10_faq_payments.pdf",
+        "faqs/10_faq_payments.pdf",
+        "faqs/10_faq_payments.pdf",
+        "faqs/11_faq_emergencies.pdf"
+      ],
+      "first_relevant_rank": 1,
+      "hit_at_3": true,
+      "hit_at_5": true,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": 15,
+      "skipped": true,
+      "reason": "no expected_sources"
+    },
+    {
+      "id": 16,
+      "category": "pricing_surcharge",
+      "expected_sources": [
+        "hvac_pricing.pdf",
+        "plumbing_pricing.pdf",
+        "electrical_pricing.pdf"
+      ],
+      "retrieved_sources": [
+        "pricing/03_hvac_pricing.pdf",
+        "service-areas/01_service_area_north.pdf",
+        "tnc/07_cancellation_policy.pdf",
+        "faqs/09_faq_booking.pdf",
+        "tnc/07_cancellation_policy.pdf"
+      ],
+      "first_relevant_rank": 1,
+      "hit_at_3": true,
+      "hit_at_5": true,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": 17,
+      "skipped": true,
+      "reason": "no expected_sources"
+    },
+    {
+      "id": 18,
+      "skipped": true,
+      "reason": "no expected_sources"
+    },
+    {
+      "id": 19,
+      "category": "pricing_estimate",
+      "expected_sources": [
+        "electrical_pricing.pdf"
+      ],
+      "retrieved_sources": [
+        "pricing/05_electrical_pricing.pdf",
+        "pricing/05_electrical_pricing.pdf",
+        "pricing/05_electrical_pricing.pdf",
+        "pricing/03_hvac_pricing.pdf",
+        "pricing/05_electrical_pricing.pdf"
+      ],
+      "first_relevant_rank": 1,
+      "hit_at_3": true,
+      "hit_at_5": true,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": 20,
+      "skipped": true,
+      "reason": "no expected_sources"
+    },
+    {
+      "id": 21,
+      "skipped": true,
+      "reason": "no expected_sources"
+    },
+    {
+      "id": 22,
+      "skipped": true,
+      "reason": "no expected_sources"
+    },
+    {
+      "id": 23,
+      "category": "edge_warranty_booking",
+      "expected_sources": [
+        "warranty_terms.pdf"
+      ],
+      "retrieved_sources": [
+        "tnc/06_warranty_terms.pdf",
+        "tnc/06_warranty_terms.pdf",
+        "tnc/06_warranty_terms.pdf",
+        "tnc/06_warranty_terms.pdf",
+        "faqs/09_faq_booking.pdf"
+      ],
+      "first_relevant_rank": 1,
+      "hit_at_3": true,
+      "hit_at_5": true,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": 24,
+      "skipped": true,
+      "reason": "no expected_sources"
+    },
+    {
+      "id": 25,
+      "skipped": true,
+      "reason": "no expected_sources"
+    },
+    {
+      "id": 26,
+      "skipped": true,
+      "reason": "no expected_sources"
+    },
+    {
+      "id": 27,
+      "skipped": true,
+      "reason": "no expected_sources"
+    },
+    {
+      "id": 28,
+      "skipped": true,
+      "reason": "no expected_sources"
+    },
+    {
+      "id": 29,
+      "category": "edge_partial_zip",
+      "expected_sources": [
+        "hvac_pricing.pdf",
+        "plumbing_pricing.pdf",
+        "electrical_pricing.pdf"
+      ],
+      "retrieved_sources": [
+        "pricing/03_hvac_pricing.pdf",
+        "tnc/07_cancellation_policy.pdf",
+        "service-areas/01_service_area_north.pdf",
+        "pricing/04_plumbing_pricing.pdf",
+        "pricing/04_plumbing_pricing.pdf"
+      ],
+      "first_relevant_rank": 1,
+      "hit_at_3": true,
+      "hit_at_5": true,
+      "recall_at_3": 1.0,
+      "recall_at_5": 1.0
+    },
+    {
+      "id": 30,
+      "skipped": true,
+      "reason": "no expected_sources"
+    }
+  ]
+}

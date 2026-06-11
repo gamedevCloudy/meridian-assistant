@@ -1,0 +1,269 @@
+{
+  "version": "1.0",
+  "description": "30 cases: 20 from Meridian 'Example Customer Messages' (13_customer_messages.pdf v1.0, 2026-01-15) + 10 edge cases per spec §7.1.2.",
+  "cases": [
+    {
+      "id": 1,
+      "category": "faq_hours",
+      "user_message": "Hi, what time do you guys open on Saturdays? I need to call the Herndon branch specifically.",
+      "expected_action": "answer",
+      "expected_sources": ["branch_hours.pdf"],
+      "expected_keywords": ["saturday", "herndon"],
+      "expected_handoff": false
+    },
+    {
+      "id": 2,
+      "category": "service_area",
+      "user_message": "I'm at zip code 20147 — do you guys service this area for plumbing?",
+      "expected_action": "answer",
+      "expected_sources": ["service_area"],
+      "expected_keywords": ["20147", "plumbing", "loudoun"],
+      "expected_handoff": false
+    },
+    {
+      "id": 3,
+      "category": "booking_new",
+      "user_message": "Hi, I'd like to schedule an HVAC tune-up in Falls Church (22046). Any availability next Wednesday morning?",
+      "expected_action": "answer_or_confirm",
+      "expected_sources": ["service_area"],
+      "expected_keywords": ["22046", "hvac"],
+      "expected_handoff": false
+    },
+    {
+      "id": 4,
+      "category": "status_check",
+      "user_message": "I have an appointment tomorrow, booking BK-00391042. What time is the window and who's coming?",
+      "expected_action": "answer_or_handoff",
+      "expected_keywords": ["booking"],
+      "expected_handoff": true
+    },
+    {
+      "id": 5,
+      "category": "reschedule",
+      "user_message": "I need to move my appointment on the 22nd to Friday the 24th. Something came up.",
+      "expected_action": "answer_or_confirm",
+      "expected_keywords": ["reschedule", "fee"],
+      "expected_handoff": false
+    },
+    {
+      "id": 6,
+      "category": "pricing",
+      "user_message": "Roughly how much to replace a 40-gallon water heater? Just ballpark is fine.",
+      "expected_action": "answer",
+      "expected_sources": ["plumbing_pricing.pdf"],
+      "expected_keywords": ["water heater", "950", "1,400"],
+      "expected_handoff": false
+    },
+    {
+      "id": 7,
+      "category": "warranty",
+      "user_message": "Your tech fixed our faucet two weeks ago but it's dripping again. Is this covered?",
+      "expected_action": "answer_or_confirm",
+      "expected_sources": ["warranty_terms.pdf"],
+      "expected_keywords": ["warranty", "90", "labor"],
+      "expected_handoff": false
+    },
+    {
+      "id": 8,
+      "category": "fee_dispute",
+      "user_message": "I got charged $75 for a no-show but I called to cancel! I want that waived.",
+      "expected_action": "handoff",
+      "expected_handoff_reason": "fee_dispute",
+      "expected_handoff": true
+    },
+    {
+      "id": 9,
+      "category": "out_of_area",
+      "user_message": "Do you service Manassas, ZIP 20110? I need an electrician.",
+      "expected_action": "answer",
+      "expected_sources": ["service_area"],
+      "expected_keywords": ["20110", "out", "manassas"],
+      "expected_handoff": false
+    },
+    {
+      "id": 10,
+      "category": "emergency",
+      "user_message": "Water is pouring out from under my sink right now! I need someone immediately!",
+      "expected_action": "handoff",
+      "expected_handoff_reason": "emergency",
+      "expected_handoff": true
+    },
+    {
+      "id": 11,
+      "category": "pricing_plan",
+      "user_message": "What's the difference between Gold and Platinum HVAC plans? Is it worth upgrading?",
+      "expected_action": "answer",
+      "expected_sources": ["hvac_pricing.pdf"],
+      "expected_keywords": ["gold", "platinum"],
+      "expected_handoff": false
+    },
+    {
+      "id": 12,
+      "category": "booking_new",
+      "user_message": "I'd like to book an electrical panel inspection in Rockville (20814). Available slots next week?",
+      "expected_action": "answer_or_confirm",
+      "expected_sources": ["service_area"],
+      "expected_keywords": ["20814", "electrical"],
+      "expected_handoff": false
+    },
+    {
+      "id": 13,
+      "category": "status_check",
+      "user_message": "My window was 10–12 and it's 11:45. Has my technician left yet? Booking BK-00512883.",
+      "expected_action": "answer_or_handoff",
+      "expected_keywords": ["technician", "eta"],
+      "expected_handoff": true
+    },
+    {
+      "id": 14,
+      "category": "payment",
+      "user_message": "Do you take Zelle? I don't have my credit card with me.",
+      "expected_action": "answer",
+      "expected_sources": ["faq_payments.pdf"],
+      "expected_keywords": ["zelle", "payment"],
+      "expected_handoff": false
+    },
+    {
+      "id": 15,
+      "category": "complaint",
+      "user_message": "The technician left a huge mess in my garage. I want to speak to a manager.",
+      "expected_action": "handoff",
+      "expected_handoff_reason": "complaint",
+      "expected_handoff": true
+    },
+    {
+      "id": 16,
+      "category": "pricing_surcharge",
+      "user_message": "If I book for Sunday, is there an extra charge?",
+      "expected_action": "answer",
+      "expected_sources": ["hvac_pricing.pdf", "plumbing_pricing.pdf", "electrical_pricing.pdf"],
+      "expected_keywords": ["sunday", "surcharge", "125"],
+      "expected_handoff": false
+    },
+    {
+      "id": 17,
+      "category": "reschedule_same_day",
+      "user_message": "I need to cancel my 2 o'clock today and reschedule for next week.",
+      "expected_action": "answer_or_confirm",
+      "expected_keywords": ["fee", "75", "waiver"],
+      "expected_handoff": false
+    },
+    {
+      "id": 18,
+      "category": "commercial",
+      "user_message": "We manage 12 units and want net-30 invoicing and a volume discount. Who do I talk to?",
+      "expected_action": "handoff",
+      "expected_handoff_reason": "commercial_request",
+      "expected_handoff": true
+    },
+    {
+      "id": 19,
+      "category": "pricing_estimate",
+      "user_message": "Can you give me a price for replacing my breaker panel from 100A to 200A?",
+      "expected_action": "answer",
+      "expected_sources": ["electrical_pricing.pdf"],
+      "expected_keywords": ["panel", "1,800", "3,500"],
+      "expected_handoff": false
+    },
+    {
+      "id": 20,
+      "category": "preferred_tech",
+      "user_message": "Marcus Webb did a great job last time. Can I request him for my next appointment?",
+      "expected_action": "answer",
+      "expected_keywords": ["preferred", "tech", "request"],
+      "expected_handoff": false
+    },
+    {
+      "id": 21,
+      "category": "edge_out_of_area_zip",
+      "user_message": "Can someone come fix my AC? I live in 12345.",
+      "expected_action": "answer_or_handoff",
+      "expected_keywords": ["12345", "out"],
+      "expected_handoff": false,
+      "edge_case": "out_of_area_zip"
+    },
+    {
+      "id": 22,
+      "category": "edge_sunday_booking",
+      "user_message": "I want to book a plumber for this Sunday morning at 22030.",
+      "expected_action": "answer",
+      "expected_keywords": ["sunday", "surcharge", "emergency"],
+      "expected_handoff": false,
+      "edge_case": "sunday_surcharge"
+    },
+    {
+      "id": 23,
+      "category": "edge_warranty_booking",
+      "user_message": "My furnace stopped working. It was serviced by you 3 weeks ago, I think it's still under warranty.",
+      "expected_action": "answer_or_confirm",
+      "expected_sources": ["warranty_terms.pdf"],
+      "expected_keywords": ["warranty", "90", "labor"],
+      "expected_handoff": false,
+      "edge_case": "warranty_return_booking"
+    },
+    {
+      "id": 24,
+      "category": "edge_missing_zip",
+      "user_message": "I need an electrician to come look at a faulty outlet.",
+      "expected_action": "answer",
+      "expected_keywords": ["zip", "code"],
+      "expected_handoff": false,
+      "edge_case": "missing_zip_should_ask"
+    },
+    {
+      "id": 25,
+      "category": "edge_commercial",
+      "user_message": "We run a small office in 22030 and need a recurring maintenance contract.",
+      "expected_action": "handoff",
+      "expected_handoff_reason": "commercial_request",
+      "expected_handoff": true,
+      "edge_case": "commercial_net30"
+    },
+    {
+      "id": 26,
+      "category": "edge_electrical_outside_area",
+      "user_message": "I need an electrician at 20707 tomorrow morning.",
+      "expected_action": "answer",
+      "expected_keywords": ["20707", "electrical", "not available", "ecopower"],
+      "expected_handoff": false,
+      "edge_case": "electrical_not_licensed_pg_county"
+    },
+    {
+      "id": 27,
+      "category": "edge_umd_campus",
+      "user_message": "We have facilities work on the UMD campus in College Park, 20742. Need plumbing for a building.",
+      "expected_action": "answer_or_handoff",
+      "expected_keywords": ["20742", "umd", "facilities", "scheduler"],
+      "expected_handoff": true,
+      "edge_case": "umd_campus_special_zone"
+    },
+    {
+      "id": 28,
+      "category": "edge_gas_emergency",
+      "user_message": "I smell gas near my furnace. Should I call 911?",
+      "expected_action": "handoff",
+      "expected_handoff_reason": "emergency_gas_leak",
+      "expected_handoff": true,
+      "edge_case": "gas_emergency"
+    },
+    {
+      "id": 29,
+      "category": "edge_partial_zip",
+      "user_message": "What's the diagnostic fee? I forgot my zip but it's somewhere in Fairfax.",
+      "expected_action": "answer",
+      "expected_sources": ["hvac_pricing.pdf", "plumbing_pricing.pdf", "electrical_pricing.pdf"],
+      "expected_keywords": ["diagnostic", "fee"],
+      "expected_handoff": false,
+      "edge_case": "pricing_without_zip"
+    },
+    {
+      "id": 30,
+      "category": "edge_repeated_missing_info",
+      "user_message": "I want to book something.",
+      "expected_action": "answer",
+      "expected_keywords": ["what", "service", "zip"],
+      "expected_handoff": false,
+      "edge_case": "vague_request_should_ask_clarifying"
+    }
+  ]
+}
