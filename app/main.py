@@ -1,13 +1,10 @@
-import os
-
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from langchain_openrouter import ChatOpenRouter
 
+from app.config import Config
+
 load_dotenv()
-
-model = ChatOpenRouter(model="auto")
-
 app = FastAPI()
 
 
@@ -18,7 +15,7 @@ def health():
 
 @app.get("/llm-health")
 def llm():
-    agent = ChatOpenRouter(model="google/gemma-4-31b-it:free")
+    agent = ChatOpenRouter(model=Config.DEFAULT_LLM_SM)
 
     res = agent.invoke("hi there; return HELLO")
 
