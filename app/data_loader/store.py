@@ -49,3 +49,17 @@ def get_vector_store() -> Chroma:
                     persist_directory=Config.CHROMA_DB_PATH,
                 )
     return _vector_store
+
+
+def get_document_count() -> int:
+    store = get_vector_store()
+    try:
+        return len(store.get(include=[])["ids"])
+    except Exception:
+        return 0
+
+
+def reset_vector_store() -> None:
+    global _vector_store
+    with _chroma_lock:
+        _vector_store = None

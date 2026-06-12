@@ -1,5 +1,4 @@
 import logging
-import threading
 from contextlib import asynccontextmanager
 from collections.abc import AsyncIterator
 
@@ -10,7 +9,8 @@ from langchain_core.messages import HumanMessage
 
 from app.agents.chat_models import ChatRequest, ChatResponse
 from app.agents.graph import agent
-from app.data_loader.store import get_vector_store
+from app.data_loader.pipeline import run_pipeline
+from app.data_loader.store import get_document_count
 from app.db import DB_PATH, init_db
 from app.history import (
     append_history,
@@ -27,20 +27,27 @@ logger = logging.getLogger(__name__)
 load_dotenv()
 
 
-def _warm_vector_store() -> None:
-    """Load embeddings + chroma in background so first request is fast."""
+def _ensure_vector_store() -> None:
+    """Open the vector store; if empty, run the ingestion pipeline so the
+    knowledge base is always available — even after a filesystem reset on
+    platforms like DigitalOcean App Platform."""
     try:
-        get_vector_store()
-        logger.info("Vector store pre-loaded")
+        count = get_document_count()
+        if count == 0:
+            logger.info("Vector store is empty — running ingestion pipeline")
+            added = run_pipeline()
+            logger.info("Ingestion complete: %d new chunks added", added)
+        else:
+            logger.info("Vector store pre-loaded (%d chunks)", count)
     except Exception:
-        logger.exception("Failed to pre-load vector store")
+        logger.exception("Failed to initialise vector store")
 
 
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     init_db()
     ensure_history()
-    threading.Thread(target=_warm_vector_store, daemon=True).start()
+    _ensure_vector_store()
     logger.info("Meridian Assistant started; bookings DB=%s", DB_PATH)
     yield
 
@@ -58,7 +65,8 @@ def index():
 
 @app.get("/health")
 def health():
-    return {"status": "healthy"}
+    count = get_document_count()
+    return {"status": "healthy", "vector_store_chunks": count}
 
 
 @app.post("/chat", response_model=ChatResponse)
