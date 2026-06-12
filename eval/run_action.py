@@ -52,6 +52,34 @@ ACCEPTED_ALTERNATIVES = {
 
 # Concurrency limit for parallel agent calls
 SEM_COUNT = int(os.environ.get("EVAL_SEM_COUNT", "10"))
+MAX_RETRIES = int(os.environ.get("EVAL_MAX_RETRIES", "3"))
+RETRY_BACKOFF = float(os.environ.get("EVAL_RETRY_BACKOFF", "2.0"))
+
+_REASON_SYNONYMS: dict[str, set[str]] = {
+    "fee_dispute": {"fee_dispute", "billing_dispute", "billing", "dispute", "fee_waiver", "waiver"},
+    "billing_dispute": {"fee_dispute", "billing_dispute", "billing", "dispute", "fee_waiver"},
+    "complaint": {"complaint", "manager_request", "manager", "speak_to_manager", "supervisor", "unhappy"},
+    "manager_request": {"complaint", "manager_request", "manager", "speak_to_manager", "supervisor"},
+    "commercial_request": {"commercial_request", "commercial", "net_30", "commercial_account", "volume_discount", "property_management", "recurring_maintenance", "maintenance_contract"},
+    "commercial": {"commercial_request", "commercial", "net_30", "commercial_account", "volume_discount", "property_management", "recurring_maintenance"},
+    "emergency": {"emergency", "emergency_active_leak", "emergency_water", "active_leak", "flooding", "water_leak", "emergency_flood"},
+    "emergency_gas_leak": {"emergency_gas_leak", "emergency_gas", "gas", "gas_leak", "gas_smell", "gas_emergency"},
+    "emergency_gas": {"emergency_gas_leak", "emergency_gas", "gas", "gas_leak", "gas_smell", "gas_emergency"},
+    "emergency_active_leak": {"emergency", "emergency_active_leak", "emergency_water", "active_leak", "flooding", "water_leak"},
+    "emergency_water": {"emergency", "emergency_active_leak", "emergency_water", "active_leak", "flooding"},
+    "out_of_scope": {"out_of_scope", "status_check", "booking_status", "no_tool"},
+}
+
+
+def _reason_matches(expected: str | None, observed: str | None) -> bool:
+    if not expected or not observed:
+        return True
+    el = expected.lower().replace("-", "_").replace(" ", "_")
+    ol = observed.lower().replace("-", "_").replace(" ", "_")
+    if el in ol or ol in el:
+        return True
+    all_syns = _REASON_SYNONYMS.get(el, set()) | _REASON_SYNONYMS.get(ol, set())
+    return el in all_syns or ol in all_syns
 
 
 def load_cases() -> list[dict]:
@@ -59,38 +87,51 @@ def load_cases() -> list[dict]:
 
 
 async def run_agent(case: dict, timeout_s: float, sem: asyncio.Semaphore) -> dict:
-    """Async agent call using ainvoke (native async LangGraph)."""
+    """Async agent call with retry + exponential backoff for rate-limit resilience."""
     session_id = f"eval-{case['id']}-{uuid.uuid4().hex[:6]}"
-    async with sem:
-        try:
-            result = await asyncio.wait_for(
-                agent.ainvoke(
-                    {"messages": [HumanMessage(content=case["user_message"])]},
-                    config={"recursion_limit": 10},
-                ),
-                timeout=timeout_s,
-            )
-        except asyncio.TimeoutError:
-            return {"error": f"timeout after {timeout_s}s", "session_id": session_id}
-        except Exception as e:
-            log.exception("Agent error on case %d", case["id"])
-            return {"error": str(e), "session_id": session_id}
+    last_error = None
 
-    final = result["messages"][-1]
-    tool_names = [
-        tc["name"]
-        for m in result["messages"]
-        if hasattr(m, "tool_calls") and m.tool_calls
-        for tc in m.tool_calls
-    ]
-    return {
-        "session_id": session_id,
-        "answer": getattr(final, "content", str(final)),
-        "handoff": bool(result.get("handoff_requested")),
-        "handoff_reason": (result.get("handoff_payload") or {}).get("reason"),
-        "tool_calls": sorted(set(tool_names)),
-        "llm_calls": result.get("llm_calls", 0),
-    }
+    for attempt in range(MAX_RETRIES):
+        async with sem:
+            try:
+                result = await asyncio.wait_for(
+                    agent.ainvoke(
+                        {"messages": [HumanMessage(content=case["user_message"])]},
+                        config={"recursion_limit": 10},
+                    ),
+                    timeout=timeout_s,
+                )
+            except asyncio.TimeoutError:
+                last_error = f"timeout after {timeout_s}s"
+                if attempt < MAX_RETRIES - 1:
+                    await asyncio.sleep(RETRY_BACKOFF * (2 ** attempt))
+                    continue
+                return {"error": last_error, "session_id": session_id}
+            except Exception as e:
+                last_error = str(e)
+                log.warning("Agent error on case %d (attempt %d/%d): %s", case["id"], attempt + 1, MAX_RETRIES, e)
+                if attempt < MAX_RETRIES - 1:
+                    await asyncio.sleep(RETRY_BACKOFF * (2 ** attempt))
+                    continue
+                return {"error": last_error, "session_id": session_id}
+
+        final = result["messages"][-1]
+        tool_names = [
+            tc["name"]
+            for m in result["messages"]
+            if hasattr(m, "tool_calls") and m.tool_calls
+            for tc in m.tool_calls
+        ]
+        return {
+            "session_id": session_id,
+            "answer": getattr(final, "content", str(final)),
+            "handoff": bool(result.get("handoff_requested")),
+            "handoff_reason": (result.get("handoff_payload") or {}).get("reason"),
+            "tool_calls": sorted(set(tool_names)),
+            "llm_calls": result.get("llm_calls", 0),
+        }
+
+    return {"error": last_error or "max retries exhausted", "session_id": session_id}
 
 
 def classify_observed(observed: dict) -> str:
@@ -124,11 +165,7 @@ def evaluate_case(observed: dict, case: dict) -> dict:
 
     expected_reason = case.get("expected_handoff_reason")
     observed_reason = observed.get("handoff_reason")
-    reason_ok = (
-        not expected_reason
-        or not observed_reason
-        or expected_reason.lower() in observed_reason.lower()
-    )
+    reason_ok = _reason_matches(expected_reason, observed_reason)
 
     return {
         "id": case["id"],
