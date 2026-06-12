@@ -1,0 +1,753 @@
+{
+  "summary": {
+    "cases": 30,
+    "cases_evaluated": 24,
+    "cases_errored": 6,
+    "action_accuracy": 0.7667,
+    "action_accuracy_on_evaluated": 0.9583,
+    "handoff_accuracy": 0.9333,
+    "handoff_precision": 0.875,
+    "handoff_recall": 1.0,
+    "handoff_f1": 0.9333,
+    "by_category": {
+      "faq_hours": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "service_area": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "booking_new": {
+        "n": 2,
+        "action_ok": 0,
+        "handoff_ok": 2,
+        "reason_ok": 2,
+        "action_accuracy": 0.0
+      },
+      "status_check": {
+        "n": 2,
+        "action_ok": 0,
+        "handoff_ok": 0,
+        "reason_ok": 2,
+        "action_accuracy": 0.0
+      },
+      "reschedule": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "pricing": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "warranty": {
+        "n": 1,
+        "action_ok": 0,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 0.0
+      },
+      "fee_dispute": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "out_of_area": {
+        "n": 1,
+        "action_ok": 0,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 0.0
+      },
+      "emergency": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "pricing_plan": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "payment": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "complaint": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "pricing_surcharge": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "reschedule_same_day": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "commercial": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "pricing_estimate": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "preferred_tech": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_out_of_area_zip": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_sunday_booking": {
+        "n": 1,
+        "action_ok": 0,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 0.0
+      },
+      "edge_warranty_booking": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_missing_zip": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_commercial": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_electrical_outside_area": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_umd_campus": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_gas_emergency": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_partial_zip": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_repeated_missing_info": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      }
+    },
+    "observed_action_distribution": {
+      "answer": 16,
+      "error": 6,
+      "handoff": 8
+    }
+  },
+  "per_case": [
+    {
+      "id": 1,
+      "category": "faq_hours",
+      "expected_action": "answer",
+      "observed_action": "answer",
+      "action_ok": true,
+      "handoff_expected": false,
+      "handoff_observed": false,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [],
+      "llm_calls": 1,
+      "error": null,
+      "answer_excerpt": " The Herndon branch opens at 8:00 am on Saturdays and closes at 2:00 pm [2].",
+      "answer_full": " The Herndon branch opens at 8:00 am on Saturdays and closes at 2:00 pm [2]."
+    },
+    {
+      "id": 2,
+      "category": "service_area",
+      "expected_action": "answer",
+      "observed_action": "answer",
+      "action_ok": true,
+      "handoff_expected": false,
+      "handoff_observed": false,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [
+        "check_service_area"
+      ],
+      "llm_calls": 2,
+      "error": null,
+      "answer_excerpt": " I\u2019m sorry, but ZIP code 20147 is not currently in our service area for plumbing. Our coverage map shows Loudoun County as pending, with no active service there yet [2].\n\nIf you\u2019d like, I can check a ",
+      "answer_full": " I\u2019m sorry, but ZIP code 20147 is not currently in our service area for plumbing. Our coverage map shows Loudoun County as pending, with no active service there yet [2].\n\nIf you\u2019d like, I can check a nearby ZIP code, or you can call our main line at 1-800-555-0190 to see if anything has changed since the last update."
+    },
+    {
+      "id": 3,
+      "category": "booking_new",
+      "expected_action": "answer_or_confirm",
+      "observed_action": "error",
+      "action_ok": false,
+      "handoff_expected": false,
+      "handoff_observed": false,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [],
+      "llm_calls": 0,
+      "error": "timeout after 45.0s",
+      "answer_excerpt": "",
+      "answer_full": ""
+    },
+    {
+      "id": 4,
+      "category": "status_check",
+      "expected_action": "answer_or_handoff",
+      "observed_action": "error",
+      "action_ok": false,
+      "handoff_expected": true,
+      "handoff_observed": false,
+      "handoff_ok": false,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [],
+      "llm_calls": 0,
+      "error": "timeout after 45.0s",
+      "answer_excerpt": "",
+      "answer_full": ""
+    },
+    {
+      "id": 5,
+      "category": "reschedule",
+      "expected_action": "answer_or_confirm",
+      "observed_action": "answer",
+      "action_ok": true,
+      "handoff_expected": false,
+      "handoff_observed": false,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [],
+      "llm_calls": 1,
+      "error": null,
+      "answer_excerpt": " I can help you reschedule. To move your appointment from the 22nd to the 24th, I\u2019ll need two things:\n\n1. Your booking ID (it starts with BK- followed by numbers)\n2. Whether you prefer the **morning**",
+      "answer_full": " I can help you reschedule. To move your appointment from the 22nd to the 24th, I\u2019ll need two things:\n\n1. Your booking ID (it starts with BK- followed by numbers)\n2. Whether you prefer the **morning** or **afternoon** window on the 24th\n\nOnce I have those details, I can process the move. Please note that our reschedule fees are:\n- **More than 24 hours** before the original appointment: no fee\n- **2 to 24 hours** before: $35\n- **Less than 2 hours** before: $75\n\nIf a fee applies, you also have the option to use your one waiver per 12-month period.\n\nWhat\u2019s your booking ID, and which time window works better for you on the 24th?"
+    },
+    {
+      "id": 6,
+      "category": "pricing",
+      "expected_action": "answer",
+      "observed_action": "answer",
+      "action_ok": true,
+      "handoff_expected": false,
+      "handoff_observed": false,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [],
+      "llm_calls": 1,
+      "error": null,
+      "answer_excerpt": " For a standard 40-gallon water heater replacement, the ballpark range is **$950 \u2013 $1,400**, with parts included for standard models [1]. If you were considering tankless, that would require a custom ",
+      "answer_full": " For a standard 40-gallon water heater replacement, the ballpark range is **$950 \u2013 $1,400**, with parts included for standard models [1]. If you were considering tankless, that would require a custom quote instead [1]."
+    },
+    {
+      "id": 7,
+      "category": "warranty",
+      "expected_action": "answer_or_confirm",
+      "observed_action": "error",
+      "action_ok": false,
+      "handoff_expected": false,
+      "handoff_observed": false,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [],
+      "llm_calls": 0,
+      "error": "timeout after 45.0s",
+      "answer_excerpt": "",
+      "answer_full": ""
+    },
+    {
+      "id": 8,
+      "category": "fee_dispute",
+      "expected_action": "handoff",
+      "observed_action": "handoff",
+      "action_ok": true,
+      "handoff_expected": true,
+      "handoff_observed": true,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [
+        "handoff_to_human"
+      ],
+      "llm_calls": 1,
+      "error": null,
+      "answer_excerpt": "{\"handoff\": true, \"reason\": \"billing_dispute\", \"context\": \"Customer is disputing a $75 no-show fee, stating they called to cancel the appointment and are requesting the fee be waived. Per policy, fee ",
+      "answer_full": "{\"handoff\": true, \"reason\": \"billing_dispute\", \"context\": \"Customer is disputing a $75 no-show fee, stating they called to cancel the appointment and are requesting the fee be waived. Per policy, fee disputes must be escalated to the Branch Manager.\"}"
+    },
+    {
+      "id": 9,
+      "category": "out_of_area",
+      "expected_action": "answer",
+      "observed_action": "error",
+      "action_ok": false,
+      "handoff_expected": false,
+      "handoff_observed": false,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [],
+      "llm_calls": 0,
+      "error": "timeout after 45.0s",
+      "answer_excerpt": "",
+      "answer_full": ""
+    },
+    {
+      "id": 10,
+      "category": "emergency",
+      "expected_action": "handoff",
+      "observed_action": "handoff",
+      "action_ok": true,
+      "handoff_expected": true,
+      "handoff_observed": true,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [
+        "handoff_to_human"
+      ],
+      "llm_calls": 1,
+      "error": null,
+      "answer_excerpt": "{\"handoff\": true, \"reason\": \"emergency_flooding\", \"context\": \"Customer reports an active emergency: water is pouring out from under their sink right now and they need immediate assistance. This qualif",
+      "answer_full": "{\"handoff\": true, \"reason\": \"emergency_flooding\", \"context\": \"Customer reports an active emergency: water is pouring out from under their sink right now and they need immediate assistance. This qualifies as an active water leak/flooding emergency requiring urgent dispatch.\"}"
+    },
+    {
+      "id": 11,
+      "category": "pricing_plan",
+      "expected_action": "answer",
+      "observed_action": "answer",
+      "action_ok": true,
+      "handoff_expected": false,
+      "handoff_observed": false,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [],
+      "llm_calls": 1,
+      "error": null,
+      "answer_excerpt": " Here is how the Gold and Platinum HVAC maintenance plans compare:\n\n**Gold \u2014 $249/year**\n- 2 tune-ups annually\n- 15% discount on repairs\n- Priority scheduling\n- Repairs warranted for up to 1 year [1][",
+      "answer_full": " Here is how the Gold and Platinum HVAC maintenance plans compare:\n\n**Gold \u2014 $249/year**\n- 2 tune-ups annually\n- 15% discount on repairs\n- Priority scheduling\n- Repairs warranted for up to 1 year [1][2]\n\n**Platinum \u2014 $399/year**\n- Unlimited tune-ups\n- 20% discount on repairs\n- Same-day priority scheduling\n- Free Tier 1 repairs\n- Repairs warranted for up to 1 year, plus additional coverage items that are not included with Gold [2][4]\n\n**Is upgrading worth it?**  \nIf your system is older, needs frequent attention, or you want the peace of mind of same-day priority and unlimited tune-ups, Platinum can offset its higher cost quickly\u2014especially since T1 repairs are covered at no charge [4]. If your equipment is newer and generally reliable, Gold still provides solid protection with priority scheduling and a 15% repair discount [1]."
+    },
+    {
+      "id": 12,
+      "category": "booking_new",
+      "expected_action": "answer_or_confirm",
+      "observed_action": "error",
+      "action_ok": false,
+      "handoff_expected": false,
+      "handoff_observed": false,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [],
+      "llm_calls": 0,
+      "error": "timeout after 45.0s",
+      "answer_excerpt": "",
+      "answer_full": ""
+    },
+    {
+      "id": 13,
+      "category": "status_check",
+      "expected_action": "answer_or_handoff",
+      "observed_action": "error",
+      "action_ok": false,
+      "handoff_expected": true,
+      "handoff_observed": false,
+      "handoff_ok": false,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [],
+      "llm_calls": 0,
+      "error": "timeout after 45.0s",
+      "answer_excerpt": "",
+      "answer_full": ""
+    },
+    {
+      "id": 14,
+      "category": "payment",
+      "expected_action": "answer",
+      "observed_action": "answer",
+      "action_ok": true,
+      "handoff_expected": false,
+      "handoff_observed": false,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [],
+      "llm_calls": 1,
+      "error": null,
+      "answer_excerpt": " Yes, we do accept Zelle for residential customers, with a limit of up to $500 per transaction [1]. If your bill exceeds that amount, we can also take personal checks, or you can pay with a card once ",
+      "answer_full": " Yes, we do accept Zelle for residential customers, with a limit of up to $500 per transaction [1]. If your bill exceeds that amount, we can also take personal checks, or you can pay with a card once you have it available [2]."
+    },
+    {
+      "id": 15,
+      "category": "complaint",
+      "expected_action": "handoff",
+      "observed_action": "handoff",
+      "action_ok": true,
+      "handoff_expected": true,
+      "handoff_observed": true,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [
+        "handoff_to_human"
+      ],
+      "llm_calls": 1,
+      "error": null,
+      "answer_excerpt": "{\"handoff\": true, \"reason\": \"manager_request\", \"context\": \"The technician left a huge mess in my garage. I want to speak to a manager.\"}",
+      "answer_full": "{\"handoff\": true, \"reason\": \"manager_request\", \"context\": \"The technician left a huge mess in my garage. I want to speak to a manager.\"}"
+    },
+    {
+      "id": 16,
+      "category": "pricing_surcharge",
+      "expected_action": "answer",
+      "observed_action": "answer",
+      "action_ok": true,
+      "handoff_expected": false,
+      "handoff_observed": false,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [
+        "retrieve_kb"
+      ],
+      "llm_calls": 3,
+      "error": null,
+      "answer_excerpt": " Yes, for some services. \n\n- **HVAC:** There is a **$125 surcharge on Sundays and federal holidays** [6].  \n- **Plumbing:** After-hours surcharges follow the same policy as HVAC [7], so the Sunday sur",
+      "answer_full": " Yes, for some services. \n\n- **HVAC:** There is a **$125 surcharge on Sundays and federal holidays** [6].  \n- **Plumbing:** After-hours surcharges follow the same policy as HVAC [7], so the Sunday surcharge applies there as well.  \n\nI don\u2019t have a specific Sunday surcharge listed for electrical work in the retrieved pricing documents. If you\u2019d like, I can look up more details or help you check availability for a specific trade and ZIP code."
+    },
+    {
+      "id": 17,
+      "category": "reschedule_same_day",
+      "expected_action": "answer_or_confirm",
+      "observed_action": "answer",
+      "action_ok": true,
+      "handoff_expected": false,
+      "handoff_observed": false,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [],
+      "llm_calls": 1,
+      "error": null,
+      "answer_excerpt": " I can help you reschedule. Since your appointment is today, I\u2019ll need a few details first.\n\nCould you please provide:\n1. Your **booking ID** (starts with BK-)\n2. The **specific date** next week you p",
+      "answer_full": " I can help you reschedule. Since your appointment is today, I\u2019ll need a few details first.\n\nCould you please provide:\n1. Your **booking ID** (starts with BK-)\n2. The **specific date** next week you prefer\n3. **Morning or afternoon** window?\n\nAlso, because this is a same-day change, I need to mention the fee: same-day reschedules where the new slot is not today are treated as a late-cancel [1]. If we\u2019re more than 2 hours from your 2:00 PM window, a **$35 late-cancel fee** applies; if we\u2019re within 2 hours, it\u2019s a **$75 no-show fee** [2]. (You do get one $75 waiver per 12-month period if needed [2].)\n\nOnce you give me the booking ID and preferred slot, I\u2019ll let you know the exact fee before I make the change."
+    },
+    {
+      "id": 18,
+      "category": "commercial",
+      "expected_action": "handoff",
+      "observed_action": "handoff",
+      "action_ok": true,
+      "handoff_expected": true,
+      "handoff_observed": true,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [
+        "handoff_to_human"
+      ],
+      "llm_calls": 1,
+      "error": null,
+      "answer_excerpt": "{\"handoff\": true, \"reason\": \"commercial\", \"context\": \"We manage 12 units and want net-30 invoicing and a volume discount. Who do I talk to?\"}",
+      "answer_full": "{\"handoff\": true, \"reason\": \"commercial\", \"context\": \"We manage 12 units and want net-30 invoicing and a volume discount. Who do I talk to?\"}"
+    },
+    {
+      "id": 19,
+      "category": "pricing_estimate",
+      "expected_action": "answer",
+      "observed_action": "answer",
+      "action_ok": true,
+      "handoff_expected": false,
+      "handoff_observed": false,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [],
+      "llm_calls": 1,
+      "error": null,
+      "answer_excerpt": " A full panel upgrade from 100A to 200A typically runs between **$1,800 and $3,500** [1][3]. These figures cover labor only unless materials are specifically noted [4].\n\nIf you'd like to move forward,",
+      "answer_full": " A full panel upgrade from 100A to 200A typically runs between **$1,800 and $3,500** [1][3]. These figures cover labor only unless materials are specifically noted [4].\n\nIf you'd like to move forward, I can check whether we service your area and help you book an appointment. Just let me know your ZIP code."
+    },
+    {
+      "id": 20,
+      "category": "preferred_tech",
+      "expected_action": "answer",
+      "observed_action": "answer",
+      "action_ok": true,
+      "handoff_expected": false,
+      "handoff_observed": false,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [],
+      "llm_calls": 1,
+      "error": null,
+      "answer_excerpt": " Yes, you can request Marcus Webb when you book your next appointment. Just let us know he\u2019s your preferred technician, and we\u2019ll do our best to assign him. If he\u2019s unavailable for the date or window ",
+      "answer_full": " Yes, you can request Marcus Webb when you book your next appointment. Just let us know he\u2019s your preferred technician, and we\u2019ll do our best to assign him. If he\u2019s unavailable for the date or window you choose, the system will notify you so you can decide how to proceed [1].\n\nWould you like to schedule something now? If so, I\u2019ll need a few details from you."
+    },
+    {
+      "id": 21,
+      "category": "edge_out_of_area_zip",
+      "expected_action": "answer_or_handoff",
+      "observed_action": "answer",
+      "action_ok": true,
+      "handoff_expected": false,
+      "handoff_observed": false,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [
+        "check_service_area"
+      ],
+      "llm_calls": 3,
+      "error": null,
+      "answer_excerpt": " I\u2019m sorry, but ZIP code 12345 does not appear to be within our current service areas. Our branches cover select ZIP codes in Central Maryland (Montgomery, Howard, and Prince George\u2019s counties) and No",
+      "answer_full": " I\u2019m sorry, but ZIP code 12345 does not appear to be within our current service areas. Our branches cover select ZIP codes in Central Maryland (Montgomery, Howard, and Prince George\u2019s counties) and Northern Virginia (Fairfax, Arlington, Alexandria, and Loudoun counties) [3][4]. Additionally, our service-area lookup is temporarily unavailable, so I can\u2019t verify coverage or schedule a booking at this address right now.\n\nIf you have another property in one of those regions, I\u2019d be happy to help book AC service there. Otherwise, I can connect you with a human agent who may be able to assist you further."
+    },
+    {
+      "id": 22,
+      "category": "edge_sunday_booking",
+      "expected_action": "answer",
+      "observed_action": "handoff",
+      "action_ok": false,
+      "handoff_expected": false,
+      "handoff_observed": true,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [
+        "check_service_area",
+        "handoff_to_human"
+      ],
+      "llm_calls": 3,
+      "error": null,
+      "answer_excerpt": "{\"handoff\": true, \"reason\": \"low_confidence\", \"context\": \"Customer wants to book a plumber for Sunday morning at ZIP 22030. The automated service-area check is returning a connection error, so eligibi",
+      "answer_full": "{\"handoff\": true, \"reason\": \"low_confidence\", \"context\": \"Customer wants to book a plumber for Sunday morning at ZIP 22030. The automated service-area check is returning a connection error, so eligibility could not be verified. Customer needs assistance verifying coverage and completing the booking for this Sunday (2026-06-14 or 2026-06-21) morning.\"}"
+    },
+    {
+      "id": 23,
+      "category": "edge_warranty_booking",
+      "expected_action": "answer_or_confirm",
+      "observed_action": "answer",
+      "action_ok": true,
+      "handoff_expected": false,
+      "handoff_observed": false,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [],
+      "llm_calls": 1,
+      "error": null,
+      "answer_excerpt": " I\u2019m sorry your furnace stopped working so soon after service. Let\u2019s get this sorted out.\n\nIf we performed the furnace installation, it carries a **1-year labor warranty** [1]. If we replaced any part",
+      "answer_full": " I\u2019m sorry your furnace stopped working so soon after service. Let\u2019s get this sorted out.\n\nIf we performed the furnace installation, it carries a **1-year labor warranty** [1]. If we replaced any parts during the service three weeks ago, those Meridian-supplied parts are covered by the manufacturer\u2019s passed-through warranty, typically 1\u20135 years [1].\n\nTo check your coverage and schedule a **warranty return** visit, I\u2019ll need a few details:\n\n1. What type of service did we perform three weeks ago? (e.g., new install, repair, tune-up)\n2. What is your ZIP code?\n3. What date and time window works best for you? We offer morning and afternoon slots up to 60 days out.\n\nOnce I have this information, I can verify your service area and set up the appointment."
+    },
+    {
+      "id": 24,
+      "category": "edge_missing_zip",
+      "expected_action": "answer",
+      "observed_action": "answer",
+      "action_ok": true,
+      "handoff_expected": false,
+      "handoff_observed": false,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [],
+      "llm_calls": 1,
+      "error": null,
+      "answer_excerpt": " I can help you schedule an electrician to take a look at that faulty outlet. To get this set up, I'll need a few details from you:\n\n1. What is your ZIP code?\n2. What date works best for you?\n3. Would",
+      "answer_full": " I can help you schedule an electrician to take a look at that faulty outlet. To get this set up, I'll need a few details from you:\n\n1. What is your ZIP code?\n2. What date works best for you?\n3. Would you prefer a morning or afternoon appointment window?\n4. Is this a standard diagnostic visit, or do you already know the outlet needs to be replaced?\n\nOnce I have this information, I can check availability in your area and walk you through the next steps."
+    },
+    {
+      "id": 25,
+      "category": "edge_commercial",
+      "expected_action": "handoff",
+      "observed_action": "handoff",
+      "action_ok": true,
+      "handoff_expected": true,
+      "handoff_observed": true,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [
+        "handoff_to_human"
+      ],
+      "llm_calls": 1,
+      "error": null,
+      "answer_excerpt": "{\"handoff\": true, \"reason\": \"commercial\", \"context\": \"We run a small office in 22030 and need a recurring maintenance contract.\"}",
+      "answer_full": "{\"handoff\": true, \"reason\": \"commercial\", \"context\": \"We run a small office in 22030 and need a recurring maintenance contract.\"}"
+    },
+    {
+      "id": 26,
+      "category": "edge_electrical_outside_area",
+      "expected_action": "answer",
+      "observed_action": "answer",
+      "action_ok": true,
+      "handoff_expected": false,
+      "handoff_observed": false,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [
+        "check_service_area"
+      ],
+      "llm_calls": 2,
+      "error": null,
+      "answer_excerpt": " I\u2019m sorry, but Meridian is not currently licensed to provide electrical services in Prince George\u2019s County, including ZIP code 20707 [4]. For electrical work in your area, we refer customers to our s",
+      "answer_full": " I\u2019m sorry, but Meridian is not currently licensed to provide electrical services in Prince George\u2019s County, including ZIP code 20707 [4]. For electrical work in your area, we refer customers to our sister contractor, EcoPower.\n\nIf you need HVAC or plumbing service in 20707, we can absolutely help with that. Would you like assistance with either of those instead?"
+    },
+    {
+      "id": 27,
+      "category": "edge_umd_campus",
+      "expected_action": "answer_or_handoff",
+      "observed_action": "handoff",
+      "action_ok": true,
+      "handoff_expected": true,
+      "handoff_observed": true,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [
+        "handoff_to_human"
+      ],
+      "llm_calls": 1,
+      "error": null,
+      "answer_excerpt": "{\"handoff\": true, \"reason\": \"commercial_request\", \"context\": \"Customer is requesting plumbing service for facilities work on the University of Maryland campus in College Park, ZIP 20742. They referenc",
+      "answer_full": "{\"handoff\": true, \"reason\": \"commercial_request\", \"context\": \"Customer is requesting plumbing service for facilities work on the University of Maryland campus in College Park, ZIP 20742. They referenced work needed 'for a building,' indicating this is commercial/institutional rather than residential. Meridian's service-area notes flag that UMD campus jobs require facilities-office coordination before booking. Customer needs assistance from a commercial-capable agent.\"}"
+    },
+    {
+      "id": 28,
+      "category": "edge_gas_emergency",
+      "expected_action": "handoff",
+      "observed_action": "handoff",
+      "action_ok": true,
+      "handoff_expected": true,
+      "handoff_observed": true,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [
+        "handoff_to_human"
+      ],
+      "llm_calls": 1,
+      "error": null,
+      "answer_excerpt": "{\"handoff\": true, \"reason\": \"emergency_gas\", \"context\": \"I smell gas near my furnace. Should I call 911?\"}",
+      "answer_full": "{\"handoff\": true, \"reason\": \"emergency_gas\", \"context\": \"I smell gas near my furnace. Should I call 911?\"}"
+    },
+    {
+      "id": 29,
+      "category": "edge_partial_zip",
+      "expected_action": "answer",
+      "observed_action": "answer",
+      "action_ok": true,
+      "handoff_expected": false,
+      "handoff_observed": false,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [],
+      "llm_calls": 1,
+      "error": null,
+      "answer_excerpt": " The diagnostic fee is **$89 flat**, and it\u2019s waived if you book the repair on the same day as the diagnostic [3].\n\nSince you mentioned Fairfax, that area is covered by Meridian for HVAC, plumbing, an",
+      "answer_full": " The diagnostic fee is **$89 flat**, and it\u2019s waived if you book the repair on the same day as the diagnostic [3].\n\nSince you mentioned Fairfax, that area is covered by Meridian for HVAC, plumbing, and electrical services [2]. If you\u2019d like to check a specific ZIP code or schedule a visit, just let me know your ZIP and I can confirm eligibility and help you book."
+    },
+    {
+      "id": 30,
+      "category": "edge_repeated_missing_info",
+      "expected_action": "answer",
+      "observed_action": "answer",
+      "action_ok": true,
+      "handoff_expected": false,
+      "handoff_observed": false,
+      "handoff_ok": true,
+      "handoff_reason_ok": true,
+      "booking_db_ok": true,
+      "tool_calls": [],
+      "llm_calls": 1,
+      "error": null,
+      "answer_excerpt": " I\u2019d be happy to help you schedule an appointment. To get started, I\u2019ll need a few details:\n\n1. What type of service do you need \u2014 HVAC, plumbing, or electrical?\n2. What kind of job is this (for examp",
+      "answer_full": " I\u2019d be happy to help you schedule an appointment. To get started, I\u2019ll need a few details:\n\n1. What type of service do you need \u2014 HVAC, plumbing, or electrical?\n2. What kind of job is this (for example, AC repair, drain unclog, diagnostic visit, etc.)?\n3. What\u2019s your ZIP code?\n4. What date works best for you?\n5. Would you prefer a morning or afternoon window?\n\nOnce I have this information, I can check availability and confirm everything with you before booking."
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # Meridian Assistant — Eval Results
 
-_Generated: 2026-06-12T15:31:26+00:00_
+_Generated: 2026-06-12T15:47:23+00:00_
 
 ## 1. Retrieval
 
@@ -23,8 +23,8 @@ _Generated: 2026-06-12T15:31:26+00:00_
 | action_accuracy | 1.0 |
 | action_accuracy_on_evaluated | 1.0 |
 | handoff_precision | 1.0 |
-| handoff_recall | 1.0 |
-| handoff_f1 | 1.0 |
+| handoff_recall | 0.8889 |
+| handoff_f1 | 0.9412 |
 
 ### By category
 
@@ -61,8 +61,8 @@ _Generated: 2026-06-12T15:31:26+00:00_
 
 ### Observed action distribution
 
-- `answer`: 21
-- `handoff`: 9
+- `answer`: 22
+- `handoff`: 8
 
 ## How to interpret
 

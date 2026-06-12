@@ -127,7 +127,7 @@ uv run python -m eval.benchmark_models
 uv run python -m eval.benchmark_models --models xiaomi/mimo-v2.5,google/gemini-2.5-flash
 ```
 
-### Latest results (2026-06-12)
+### Latest results (xiaomi/mimo-v2.5)
 
 | Stage | Metric | Value | Target | Gate |
 |---|---|---|---|---|
@@ -135,14 +135,16 @@ uv run python -m eval.benchmark_models --models xiaomi/mimo-v2.5,google/gemini-2
 | Retrieval | hit@5 | **1.00** | ≥ 0.95 | ✅ |
 | Retrieval | MRR | **0.88** | ≥ 0.75 | ✅ |
 | Action | action_accuracy | **1.00** (30/30) | ≥ 0.85 | ✅ |
-| Action | handoff_f1 | **1.00** | ≥ 0.90 | ✅ |
+| Action | handoff_f1 | **0.94** | ≥ 0.90 | ✅ |
 | Action | errored | **0** | — | ✅ |
-| Judge | grounded | **0.93** | ≥ 0.80 | ✅ |
-| Judge | correct | **0.88** | ≥ 0.80 | ✅ |
-| Judge | cited | **0.88** | ≥ 0.80 | ✅ |
+| Judge | grounded | **1.00** | ≥ 0.80 | ✅ |
+| Judge | correct | **0.98** | ≥ 0.80 | ✅ |
+| Judge | cited | **1.00** | ≥ 0.80 | ✅ |
 
-The action stage includes retry with exponential backoff for rate-limit
-resilience. Set `EVAL_MAX_RETRIES` and `EVAL_RETRY_BACKOFF` to tune.
+Default model is `xiaomi/mimo-v2.5`, selected after benchmarking 3 models
+(`xiaomi/mimo-v2.5`, `google/gemini-2.5-flash`, `moonshotai/kimi-k2.6`)
+against the 30-case action eval. Winner: xiaomi had perfect accuracy, highest
+handoff F1 (0.94), and zero errors. Override with `AGENT_MODEL` env var.
 
 See `eval/README.md` for metrics, targets, and methodology.
 
@@ -200,7 +202,7 @@ meridian-assistant/
 |---|---|---|
 | **LangGraph** | A graph-based agent loop keeps routing, retries, and termination explicit. ReAct-style tool use without it gets messy fast. |
 | **Chroma + OpenRouter embeddings (bge-base-en-v1.5)** | Chroma is embedded and needs no server. Embeddings go through OpenRouter for consistency with the LLM provider, and `bge-base-en-v1.5` gives good quality on the 12-doc corpus. Swap `EMBEDDING_MODEL` in `config.py` for a different embedding model. |
-| **OpenRouter** | Reviewers run with any model they have a key for. Set `AGENT_MODEL` to swap the LLM without code changes. Use `eval/benchmark_models.py` to A/B test models. |
+| **OpenRouter** | Reviewers run with any model they have a key for. Default is `xiaomi/mimo-v2.5` (picked by benchmarking 3 models against the 30-case action eval). Set `AGENT_MODEL` to swap without code changes. Use `eval/benchmark_models.py` to A/B test. |
 | **Auto-populate vector store on startup** | No manual pipeline step. The app checks `data/chroma_db/` on boot; if empty, runs the full PDF → chunks → Chroma pipeline before accepting requests. Survives ephemeral filesystems (DO App Platform). |
 | **Retrieve-on-first-turn node + `retrieve_kb` tool** | The node guarantees a citation-backed answer for the initial message; the tool lets the agent pull more context for follow-ups. |
 | **In-process tool calls to `db.py`** | Avoids a self-HTTP loop. The FastAPI router still exists and is independently testable. |

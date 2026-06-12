@@ -1,0 +1,651 @@
+{
+  "xiaomi/mimo-v2.5": {
+    "cases": 30,
+    "cases_evaluated": 30,
+    "cases_errored": 0,
+    "action_accuracy": 1.0,
+    "action_accuracy_on_evaluated": 1.0,
+    "handoff_accuracy": 0.9667,
+    "handoff_precision": 1.0,
+    "handoff_recall": 0.8889,
+    "handoff_f1": 0.9412,
+    "by_category": {
+      "faq_hours": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "service_area": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "booking_new": {
+        "n": 2,
+        "action_ok": 2,
+        "handoff_ok": 2,
+        "reason_ok": 2,
+        "action_accuracy": 1.0
+      },
+      "status_check": {
+        "n": 2,
+        "action_ok": 2,
+        "handoff_ok": 1,
+        "reason_ok": 2,
+        "action_accuracy": 1.0
+      },
+      "reschedule": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "pricing": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "warranty": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "fee_dispute": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "out_of_area": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "emergency": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "pricing_plan": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "payment": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "complaint": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "pricing_surcharge": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "reschedule_same_day": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "commercial": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "pricing_estimate": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "preferred_tech": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_out_of_area_zip": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_sunday_booking": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_warranty_booking": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_missing_zip": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_commercial": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_electrical_outside_area": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_umd_campus": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_gas_emergency": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_partial_zip": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_repeated_missing_info": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      }
+    },
+    "observed_action_distribution": {
+      "answer": 22,
+      "handoff": 8
+    },
+    "model": "xiaomi/mimo-v2.5",
+    "elapsed_s": 50.2,
+    "exit_code": 0
+  },
+  "moonshotai/kimi-k2.6": {
+    "cases": 30,
+    "cases_evaluated": 24,
+    "cases_errored": 6,
+    "action_accuracy": 0.7667,
+    "action_accuracy_on_evaluated": 0.9583,
+    "handoff_accuracy": 0.9333,
+    "handoff_precision": 0.875,
+    "handoff_recall": 1.0,
+    "handoff_f1": 0.9333,
+    "by_category": {
+      "faq_hours": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "service_area": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "booking_new": {
+        "n": 2,
+        "action_ok": 0,
+        "handoff_ok": 2,
+        "reason_ok": 2,
+        "action_accuracy": 0.0
+      },
+      "status_check": {
+        "n": 2,
+        "action_ok": 0,
+        "handoff_ok": 0,
+        "reason_ok": 2,
+        "action_accuracy": 0.0
+      },
+      "reschedule": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "pricing": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "warranty": {
+        "n": 1,
+        "action_ok": 0,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 0.0
+      },
+      "fee_dispute": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "out_of_area": {
+        "n": 1,
+        "action_ok": 0,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 0.0
+      },
+      "emergency": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "pricing_plan": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "payment": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "complaint": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "pricing_surcharge": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "reschedule_same_day": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "commercial": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "pricing_estimate": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "preferred_tech": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_out_of_area_zip": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_sunday_booking": {
+        "n": 1,
+        "action_ok": 0,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 0.0
+      },
+      "edge_warranty_booking": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_missing_zip": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_commercial": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_electrical_outside_area": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_umd_campus": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_gas_emergency": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_partial_zip": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_repeated_missing_info": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      }
+    },
+    "observed_action_distribution": {
+      "answer": 16,
+      "error": 6,
+      "handoff": 8
+    },
+    "model": "moonshotai/kimi-k2.6",
+    "elapsed_s": 284.0,
+    "exit_code": 0
+  },
+  "google/gemini-2.5-flash": {
+    "cases": 30,
+    "cases_evaluated": 30,
+    "cases_errored": 0,
+    "action_accuracy": 1.0,
+    "action_accuracy_on_evaluated": 1.0,
+    "handoff_accuracy": 0.9,
+    "handoff_precision": 1.0,
+    "handoff_recall": 0.6667,
+    "handoff_f1": 0.8,
+    "by_category": {
+      "faq_hours": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "service_area": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "booking_new": {
+        "n": 2,
+        "action_ok": 2,
+        "handoff_ok": 2,
+        "reason_ok": 2,
+        "action_accuracy": 1.0
+      },
+      "status_check": {
+        "n": 2,
+        "action_ok": 2,
+        "handoff_ok": 0,
+        "reason_ok": 2,
+        "action_accuracy": 1.0
+      },
+      "reschedule": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "pricing": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "warranty": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "fee_dispute": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "out_of_area": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "emergency": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "pricing_plan": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "payment": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "complaint": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "pricing_surcharge": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "reschedule_same_day": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "commercial": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "pricing_estimate": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "preferred_tech": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_out_of_area_zip": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_sunday_booking": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_warranty_booking": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_missing_zip": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_commercial": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_electrical_outside_area": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_umd_campus": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 0,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_gas_emergency": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_partial_zip": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      },
+      "edge_repeated_missing_info": {
+        "n": 1,
+        "action_ok": 1,
+        "handoff_ok": 1,
+        "reason_ok": 1,
+        "action_accuracy": 1.0
+      }
+    },
+    "observed_action_distribution": {
+      "answer": 24,
+      "handoff": 6
+    },
+    "model": "google/gemini-2.5-flash",
+    "elapsed_s": 33.4,
+    "exit_code": 0
+  }
+}
