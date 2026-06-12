@@ -34,6 +34,7 @@
       "category": "status_check",
       "user_message": "I have an appointment tomorrow, booking BK-00391042. What time is the window and who's coming?",
       "expected_action": "answer_or_handoff",
+      "expected_sources": ["booking"],
       "expected_keywords": ["booking"],
       "expected_handoff": true
     },
@@ -42,6 +43,7 @@
       "category": "reschedule",
       "user_message": "I need to move my appointment on the 22nd to Friday the 24th. Something came up.",
       "expected_action": "answer_or_confirm",
+      "expected_sources": ["cancellation"],
       "expected_keywords": ["reschedule", "fee"],
       "expected_handoff": false
     },
@@ -68,6 +70,7 @@
       "category": "fee_dispute",
       "user_message": "I got charged $75 for a no-show but I called to cancel! I want that waived.",
       "expected_action": "handoff",
+      "expected_sources": ["cancellation"],
       "expected_handoff_reason": "fee_dispute",
       "expected_handoff": true
     },
@@ -85,6 +88,7 @@
       "category": "emergency",
       "user_message": "Water is pouring out from under my sink right now! I need someone immediately!",
       "expected_action": "handoff",
+      "expected_sources": ["emergencies"],
       "expected_handoff_reason": "emergency",
       "expected_handoff": true
     },
@@ -111,6 +115,7 @@
       "category": "status_check",
       "user_message": "My window was 10–12 and it's 11:45. Has my technician left yet? Booking BK-00512883.",
       "expected_action": "answer_or_handoff",
+      "expected_sources": ["booking"],
       "expected_keywords": ["technician", "eta"],
       "expected_handoff": true
     },
@@ -136,7 +141,7 @@
       "category": "pricing_surcharge",
       "user_message": "If I book for Sunday, is there an extra charge?",
       "expected_action": "answer",
-      "expected_sources": ["hvac_pricing.pdf", "plumbing_pricing.pdf", "electrical_pricing.pdf"],
+      "expected_sources": ["hvac_pricing", "plumbing_pricing", "electrical_pricing"],
       "expected_keywords": ["sunday", "surcharge", "125"],
       "expected_handoff": false
     },
@@ -145,6 +150,7 @@
       "category": "reschedule_same_day",
       "user_message": "I need to cancel my 2 o'clock today and reschedule for next week.",
       "expected_action": "answer_or_confirm",
+      "expected_sources": ["cancellation"],
       "expected_keywords": ["fee", "75", "waiver"],
       "expected_handoff": false
     },
@@ -153,6 +159,7 @@
       "category": "commercial",
       "user_message": "We manage 12 units and want net-30 invoicing and a volume discount. Who do I talk to?",
       "expected_action": "handoff",
+      "expected_sources": ["payments"],
       "expected_handoff_reason": "commercial_request",
       "expected_handoff": true
     },
@@ -170,6 +177,7 @@
       "category": "preferred_tech",
       "user_message": "Marcus Webb did a great job last time. Can I request him for my next appointment?",
       "expected_action": "answer",
+      "expected_sources": ["faq_booking"],
       "expected_keywords": ["preferred", "tech", "request"],
       "expected_handoff": false
     },
@@ -178,6 +186,7 @@
       "category": "edge_out_of_area_zip",
       "user_message": "Can someone come fix my AC? I live in 12345.",
       "expected_action": "answer_or_handoff",
+      "expected_sources": ["service_area"],
       "expected_keywords": ["12345", "out"],
       "expected_handoff": false,
       "edge_case": "out_of_area_zip"
@@ -187,6 +196,7 @@
       "category": "edge_sunday_booking",
       "user_message": "I want to book a plumber for this Sunday morning at 22030.",
       "expected_action": "answer",
+      "expected_sources": ["hvac_pricing", "branch_hours"],
       "expected_keywords": ["sunday", "surcharge", "emergency"],
       "expected_handoff": false,
       "edge_case": "sunday_surcharge"
@@ -206,6 +216,7 @@
       "category": "edge_missing_zip",
       "user_message": "I need an electrician to come look at a faulty outlet.",
       "expected_action": "answer",
+      "expected_sources": ["faq_booking"],
       "expected_keywords": ["zip", "code"],
       "expected_handoff": false,
       "edge_case": "missing_zip_should_ask"
@@ -215,6 +226,7 @@
       "category": "edge_commercial",
       "user_message": "We run a small office in 22030 and need a recurring maintenance contract.",
       "expected_action": "handoff",
+      "expected_sources": ["payments"],
       "expected_handoff_reason": "commercial_request",
       "expected_handoff": true,
       "edge_case": "commercial_net30"
@@ -224,6 +236,7 @@
       "category": "edge_electrical_outside_area",
       "user_message": "I need an electrician at 20707 tomorrow morning.",
       "expected_action": "answer",
+      "expected_sources": ["service_area"],
       "expected_keywords": ["20707", "electrical", "not available", "ecopower"],
       "expected_handoff": false,
       "edge_case": "electrical_not_licensed_pg_county"
@@ -233,6 +246,7 @@
       "category": "edge_umd_campus",
       "user_message": "We have facilities work on the UMD campus in College Park, 20742. Need plumbing for a building.",
       "expected_action": "answer_or_handoff",
+      "expected_sources": ["service_area"],
       "expected_keywords": ["20742", "umd", "facilities", "scheduler"],
       "expected_handoff": true,
       "edge_case": "umd_campus_special_zone"
@@ -242,6 +256,7 @@
       "category": "edge_gas_emergency",
       "user_message": "I smell gas near my furnace. Should I call 911?",
       "expected_action": "handoff",
+      "expected_sources": ["emergencies"],
       "expected_handoff_reason": "emergency_gas_leak",
       "expected_handoff": true,
       "edge_case": "gas_emergency"
@@ -261,6 +276,7 @@
       "category": "edge_repeated_missing_info",
       "user_message": "I want to book something.",
       "expected_action": "answer",
+      "expected_sources": ["faq_booking"],
       "expected_keywords": ["what", "service", "zip"],
       "expected_handoff": false,
       "edge_case": "vague_request_should_ask_clarifying"

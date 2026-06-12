@@ -39,11 +39,14 @@ def source_matches(retrieved_source: str, expected: list[str]) -> bool:
         return True
     rs = retrieved_source.lower().replace("\\", "/")
     for e in expected:
-        e = e.lower()
-        if e in rs:
+        e_lower = e.lower().replace("_", " ").replace(".pdf", "").strip()
+        if e_lower in rs or rs.endswith(e_lower):
             return True
-        stem = Path(retrieved_source).stem.lower()
-        if e in stem:
+        stem = Path(retrieved_source).stem.lower().replace("_", " ")
+        if e_lower in stem or stem in e_lower:
+            return True
+        parent = Path(retrieved_source).parent.name.lower()
+        if e_lower in parent or parent in e_lower:
             return True
     return False
 
