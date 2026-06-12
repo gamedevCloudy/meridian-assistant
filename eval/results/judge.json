@@ -1,7 +1,7 @@
 {
   "summary": {
     "cases_evaluated": 22,
-    "grounded_mean": 1.0,
+    "grounded_mean": 0.9773,
     "correct_mean": 0.9773,
     "cited_mean": 1.0
   },
@@ -41,7 +41,7 @@
       "grounded": 1.0,
       "correct": 1.0,
       "cited": 1.0,
-      "explanation": "The assistant's response is fully grounded in the provided context, correctly addresses the customer's request to reschedule, and includes a citation regarding the cancellation fee."
+      "explanation": "The assistant's response is fully grounded in the context, directly addresses the customer's request to reschedule, and provides accurate information about the cancellation policy with proper citation."
     },
     {
       "id": 6,
@@ -57,7 +57,7 @@
       "grounded": 1.0,
       "correct": 1.0,
       "cited": 1.0,
-      "explanation": "The assistant's response is fully grounded in the context, correctly addresses the customer's question about warranty coverage, and provides accurate information about the return visit and parts warranty, all supported by citations."
+      "explanation": "The assistant's response is fully grounded in the context, accurately addresses the customer's question about warranty coverage, and provides proper citations for the claims made."
     },
     {
       "id": 8,
@@ -83,7 +83,7 @@
       "grounded": 1.0,
       "correct": 1.0,
       "cited": 1.0,
-      "explanation": "The answer accurately compares the Gold and Platinum plans using information from the KB context and directly addresses the customer's question. It also includes proper citations for the claims made."
+      "explanation": "The answer provides a detailed comparison of the Gold and Platinum plans based on the retrieved context, directly addressing the customer's question and citing sources appropriately."
     },
     {
       "id": 12,
@@ -91,7 +91,7 @@
       "grounded": 1.0,
       "correct": 1.0,
       "cited": 1.0,
-      "explanation": "The assistant's response is fully grounded in the provided context, accurately addresses the customer's request for available slots, and includes proper citations for the pricing and booking window."
+      "explanation": "The assistant's response is fully grounded in the provided context, directly addresses the customer's request for available slots, and includes relevant citations for pricing and booking window."
     },
     {
       "id": 13,
@@ -107,7 +107,7 @@
       "grounded": 1.0,
       "correct": 1.0,
       "cited": 1.0,
-      "explanation": "The answer is fully grounded in the provided context, directly addresses the customer's question about Zelle, and includes proper citations for the information given."
+      "explanation": "The answer is fully grounded in the provided context, accurately addresses the customer's question about Zelle, and includes proper citations for the information given."
     },
     {
       "id": 15,
@@ -120,7 +120,7 @@
       "grounded": 1.0,
       "correct": 1.0,
       "cited": 1.0,
-      "explanation": "The answer is fully grounded in the context, correctly states the surcharge for Sunday bookings, and provides a citation for the claim."
+      "explanation": "The answer is fully grounded in the context, correctly states the surcharge for Sunday bookings, and provides a citation for the information."
     },
     {
       "id": 17,
@@ -128,7 +128,7 @@
       "grounded": 1.0,
       "correct": 1.0,
       "cited": 1.0,
-      "explanation": "The assistant's response is fully grounded in the provided context, accurately explains the rescheduling policy, and directly addresses the customer's request while asking for necessary details. It also includes proper citations for the policy information."
+      "explanation": "The assistant's response is fully grounded in the provided context regarding the cancellation and rescheduling policies. It correctly addresses the customer's request and cites relevant policy details appropriately."
     },
     {
       "id": 18,
@@ -141,7 +141,7 @@
       "grounded": 1.0,
       "correct": 1.0,
       "cited": 1.0,
-      "explanation": "The answer is fully grounded in the provided context, directly addresses the customer's question about pricing, and includes proper citations for the information given."
+      "explanation": "The answer accurately provides the price range for the panel upgrade from 100A to 200A, is fully grounded in the context, and includes proper citations for the information provided."
     },
     {
       "id": 20,
@@ -149,7 +149,7 @@
       "grounded": 1.0,
       "correct": 1.0,
       "cited": 1.0,
-      "explanation": "The response is fully grounded in the provided context, directly answers the customer's question about requesting a specific technician, and includes proper citations."
+      "explanation": "The assistant's response is fully grounded in the provided context, directly answers the customer's question about requesting a specific technician, and includes proper citations."
     },
     {
       "id": 21,
@@ -157,7 +157,7 @@
       "grounded": 1.0,
       "correct": 1.0,
       "cited": 1.0,
-      "explanation": "The assistant accurately states that ZIP code 12345 is not in the service area and provides a complete list of covered ZIP codes, citing the sources correctly."
+      "explanation": "The assistant accurately identifies that ZIP code 12345 is not in the service area and provides a complete list of covered ZIP codes, citing the sources correctly."
     },
     {
       "id": 22,
@@ -170,10 +170,10 @@
     {
       "id": 23,
       "category": "edge_warranty_booking",
-      "grounded": 1.0,
+      "grounded": 0.5,
       "correct": 1.0,
       "cited": 1.0,
-      "explanation": "The assistant accurately references the warranty terms from the KB context, directly addresses the customer's concern about the warranty, and provides proper citations."
+      "explanation": "The response contains some accurate information about the warranty terms but incorrectly states the labor warranty duration as 90 days instead of 1 year for major installs. It cites the source correctly."
     },
     {
       "id": 24,
@@ -181,7 +181,7 @@
       "grounded": 1.0,
       "correct": 1.0,
       "cited": 1.0,
-      "explanation": "The response is grounded in the context as it addresses the customer's request for an electrician to look at a faulty outlet. It asks for necessary details to proceed with the booking, which is appropriate for the situation."
+      "explanation": "The response is grounded in the context as it addresses the customer's request for an electrician to look at a faulty outlet. It asks for necessary details to proceed with scheduling, which is appropriate for the situation."
     },
     {
       "id": 25,
@@ -194,7 +194,7 @@
       "grounded": 1.0,
       "correct": 1.0,
       "cited": 1.0,
-      "explanation": "The response accurately addresses the customer's request for an electrician in 20707, correctly stating that Meridian is not licensed for electrical services in that area and providing a referral to EcoPower. It cites the relevant information properly."
+      "explanation": "The response accurately addresses the customer's request for an electrician in 20707, correctly stating the licensing issue and providing an alternative contact. It cites the source of the information properly."
     },
     {
       "id": 27,
@@ -212,7 +212,7 @@
       "grounded": 1.0,
       "correct": 1.0,
       "cited": 1.0,
-      "explanation": "The answer accurately states the diagnostic fee and its waiver condition, both of which are supported by the KB context. It also provides a helpful note about verifying service eligibility, which is relevant to the customer's situation."
+      "explanation": "The answer accurately states the diagnostic fee and its waiver condition, both of which are supported by the KB context. It also provides a clear path for the customer to verify service eligibility."
     },
     {
       "id": 30,
