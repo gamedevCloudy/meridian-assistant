@@ -1,7 +1,8 @@
 """
 eval.run_eval
 
-Thin orchestrator. Runs the three eval stages as subprocesses and stitches
+Thin orchestrator. Runs retrieval and action stages in parallel (they are
+independent), then the judge stage (depends on action output), and stitches
 their JSON outputs into a single summary.md.
 
 Usage:
@@ -14,8 +15,8 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import asyncio
 import json
-import subprocess
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
@@ -24,9 +25,10 @@ EVAL_DIR = Path(__file__).parent
 RESULTS_DIR = EVAL_DIR / "results"
 
 
-def run_stage(label: str, cmd: list[str], output: Path) -> dict:
+async def _run_subprocess(label: str, cmd: list[str], output: Path) -> dict:
     print(f"\n>>> {label}")
-    rc = subprocess.call(cmd)
+    proc = await asyncio.create_subprocess_exec(*cmd)
+    rc = await proc.wait()
     if not output.exists():
         print(f"  ! {label} produced no output ({output})")
         return {}
@@ -34,6 +36,16 @@ def run_stage(label: str, cmd: list[str], output: Path) -> dict:
     summary = data.get("summary", {})
     print(f"  exit={rc}  cases={summary.get('cases', summary.get('cases_evaluated', '?'))}")
     return data
+
+
+async def _run_parallel(gate_flag: list[str], action_args: list[str]) -> tuple[dict, dict]:
+    retrieval_cmd = [sys.executable, "-m", "eval.run_retrieval", *gate_flag]
+    action_cmd = [sys.executable, "-m", "eval.run_action", *gate_flag, *action_args]
+
+    retrieval_task = _run_subprocess("retrieval", retrieval_cmd, RESULTS_DIR / "retrieval.json")
+    action_task = _run_subprocess("action", action_cmd, RESULTS_DIR / "actions.json")
+    retrieval, action = await asyncio.gather(retrieval_task, action_task)
+    return retrieval, action
 
 
 def main() -> int:
@@ -44,29 +56,17 @@ def main() -> int:
     args = parser.parse_args()
 
     gate_flag = ["--no-gate"] if args.no_gate else []
-    rc_total = 0
+    action_args = args.action_args.split() if args.action_args else []
 
-    retrieval = run_stage(
-        "retrieval",
-        [sys.executable, "-m", "eval.run_retrieval", *gate_flag],
-        RESULTS_DIR / "retrieval.json",
-    )
-    action = run_stage(
-        "action",
-        [sys.executable, "-m", "eval.run_action", *gate_flag, *args.action_args.split()],
-        RESULTS_DIR / "actions.json",
-    )
+    retrieval, action = asyncio.run(_run_parallel(gate_flag, action_args))
 
     judge = {}
     if not args.skip_judge:
-        judge = run_stage(
-            "judge",
-            [sys.executable, "-m", "eval.run_judge", *gate_flag],
-            RESULTS_DIR / "judge.json",
-        )
+        judge_cmd = [sys.executable, "-m", "eval.run_judge", *gate_flag]
+        proc = asyncio.run(_run_subprocess("judge", judge_cmd, RESULTS_DIR / "judge.json"))
 
     write_summary(retrieval.get("summary"), action.get("summary"), judge.get("summary"))
-    return rc_total
+    return 0
 
 
 def write_summary(retrieval, action, judge) -> None:
