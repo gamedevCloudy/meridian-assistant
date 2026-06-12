@@ -137,7 +137,7 @@ uv run python -m eval.benchmark_models --models xiaomi/mimo-v2.5,google/gemini-2
 | Action | action_accuracy | **1.00** (30/30) | ≥ 0.85 | ✅ |
 | Action | handoff_f1 | **0.94** | ≥ 0.90 | ✅ |
 | Action | errored | **0** | — | ✅ |
-| Judge | grounded | **1.00** | ≥ 0.80 | ✅ |
+| Judge | grounded | **0.98** | ≥ 0.80 | ✅ |
 | Judge | correct | **0.98** | ≥ 0.80 | ✅ |
 | Judge | cited | **1.00** | ≥ 0.80 | ✅ |
 
