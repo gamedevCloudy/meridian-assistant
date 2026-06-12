@@ -37,8 +37,6 @@ async def _run_action_for_model(model: str, gate_flag: list[str], timeout_s: int
 
     env = os.environ.copy()
     env["AGENT_MODEL"] = model
-    env["LLM_MODEL_SM"] = model
-    env["LLM_MODEL_MED"] = model
 
     cmd = [
         sys.executable, "-m", "eval.run_action",

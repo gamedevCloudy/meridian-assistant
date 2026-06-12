@@ -9,6 +9,7 @@ from langchain_core.messages import HumanMessage
 
 from app.agents.chat_models import ChatRequest, ChatResponse
 from app.agents.graph import agent
+from app.config import Config
 from app.data_loader.pipeline import run_pipeline
 from app.data_loader.store import get_document_count
 from app.db import DB_PATH, init_db
@@ -48,7 +49,7 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     init_db()
     ensure_history()
     _ensure_vector_store()
-    logger.info("Meridian Assistant started; bookings DB=%s", DB_PATH)
+    logger.info("Meridian Assistant started  model=%s  bookings_db=%s", Config.AGENT_MODEL, DB_PATH)
     yield
 
 

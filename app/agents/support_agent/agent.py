@@ -6,7 +6,7 @@ from app.agents.support_agent.prompt import SYSTEM_PROMPT_TEMPLATE
 from app.agents.tools import tools
 from app.config import Config
 
-model = ChatOpenRouter(model=Config.DEFAULT_LLM_SM, temperature=0.2, max_retries=3)
+model = ChatOpenRouter(model=Config.AGENT_MODEL, temperature=0.2, max_retries=3)
 model_with_tools = model.bind_tools(tools)
 
 
