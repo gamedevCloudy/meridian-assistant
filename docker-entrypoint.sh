@@ -4,7 +4,7 @@ set -euo pipefail
 echo "=== Meridian Assistant entrypoint ==="
 echo "Checking vector store..."
 
-python -c "
+uv run python -c "
 from app.data_loader.store import get_document_count
 from app.data_loader.pipeline import run_pipeline
 from app.logger import setup_logging
