@@ -35,7 +35,7 @@ flowchart LR
   end
 
   subgraph RAG[Retrieval · app/data_loader/]
-    Embed[HF embeddings<br/>all-MiniLM-L6-v2]
+    Embed[OpenRouter embeddings<br/>baai/bge-base-en-v1.5]
     Chroma[(Chroma<br/>chroma_db/)]
   end
 
@@ -85,16 +85,22 @@ uv sync
 cp .env.example .env
 # edit .env and paste your OPENROUTER_API_KEY
 
-# 3. build the vector store (one-time; reads data/**/*.pdf)
-uv run python -c "from app.data_loader.pipeline import run_pipeline; run_pipeline()"
-
-# 4. start the server
+# 3. start the server (vector store auto-populates on first run)
 uv run uvicorn app.main:app --reload --port 8000
 
-# 5. chat
+# 4. chat
 curl -s -X POST http://127.0.0.1:8000/chat \
   -H 'Content-Type: application/json' \
   -d '{"message":"How much does a plumbing diagnostic cost?","session_id":"demo-1"}'
+```
+
+The knowledge base builds itself on startup — no manual pipeline step needed.
+To rebuild from scratch, delete `data/chroma_db/` and restart.
+
+### Docker
+
+```bash
+docker compose up --build
 ```
 
 OpenAPI docs at `http://127.0.0.1:8000/docs`.
@@ -102,7 +108,7 @@ OpenAPI docs at `http://127.0.0.1:8000/docs`.
 ## Run the eval harness
 
 ```bash
-# all three stages (retrieval, action, judge)
+# all three stages (retrieval + action run in parallel)
 uv run python -m eval.run_eval
 
 # skip the LLM judge (faster)
@@ -113,13 +119,32 @@ uv run python -m eval.run_retrieval
 uv run python -m eval.run_action
 uv run python -m eval.run_judge
 
-# run with pass/fail gates disabled (collect numbers without exit-1)
+# collect numbers without failing the build
 uv run python -m eval.run_eval --no-gate
+
+# benchmark multiple LLM models
+uv run python -m eval.benchmark_models
+uv run python -m eval.benchmark_models --models xiaomi/mimo-v2.5,google/gemini-2.5-flash
 ```
 
-See `eval/README.md` for metrics, targets, and methodology. Latest results
-in `eval/summary.md` (28/30 action cases evaluated, 2 rate-limited; all 8
-handoffs triggered; judge uses `openai/gpt-4o-mini`).
+### Latest results (2026-06-12)
+
+| Stage | Metric | Value | Target | Gate |
+|---|---|---|---|---|
+| Retrieval | hit@3 | **0.90** | ≥ 0.85 | ✅ |
+| Retrieval | hit@5 | **1.00** | ≥ 0.95 | ✅ |
+| Retrieval | MRR | **0.88** | ≥ 0.75 | ✅ |
+| Action | action_accuracy | **1.00** (30/30) | ≥ 0.85 | ✅ |
+| Action | handoff_f1 | **1.00** | ≥ 0.90 | ✅ |
+| Action | errored | **0** | — | ✅ |
+| Judge | grounded | **0.93** | ≥ 0.80 | ✅ |
+| Judge | correct | **0.88** | ≥ 0.80 | ✅ |
+| Judge | cited | **0.88** | ≥ 0.80 | ✅ |
+
+The action stage includes retry with exponential backoff for rate-limit
+resilience. Set `EVAL_MAX_RETRIES` and `EVAL_RETRY_BACKOFF` to tune.
+
+See `eval/README.md` for metrics, targets, and methodology.
 
 ## Layout
 
@@ -133,7 +158,7 @@ meridian-assistant/
 │   ├── routers/bookings.py     # /api/v1/bookings CRUD
 │   ├── data_loader/
 │   │   ├── pipeline.py         # PDF -> chunks -> Chroma
-│   │   ├── store.py            # Chroma + HF embeddings (cached singletons)
+│   │   ├── store.py            # Chroma + OpenRouter embeddings (cached singletons)
 │   │   └── retriever.py        # similarity_search wrapper
 │   └── agents/
 │       ├── graph.py            # StateGraph: retrieve -> llm_call <-> tool_node
@@ -143,13 +168,14 @@ meridian-assistant/
 │           ├── prompt.py       # system prompt (date-aware, citation format)
 │           └── agent.py        # model binding + prompt formatter
 ├── eval/
-│   ├── test_set.json           # 30 cases
+│   ├── test_set.json           # 30 cases (20 verbatim + 10 edge)
 │   ├── run_retrieval.py        # deterministic, no LLM
 │   ├── run_action.py           # live agent vs expected_action + DB check
 │   ├── run_judge.py            # LLM-as-judge (grounded/correct/cited)
-│   ├── run_eval.py             # orchestrator -> summary.md
+│   ├── run_eval.py             # orchestrator (retrieval + action parallel)
+│   ├── benchmark_models.py     # A/B test multiple LLMs for action accuracy
 │   ├── README.md
-│   └── results/                # JSON outputs + summary.md
+│   └── results/                # JSON outputs + summary.md + benchmarks/
 ├── data/                       # PDFs (gitignored for chroma_db, kept for sources)
 │   ├── faqs/                   # 09, 10, 11
 │   ├── pricing/                # 03, 04, 05
@@ -159,6 +185,9 @@ meridian-assistant/
 │   ├── bookings.db             # SQLite mock
 │   ├── chat_history.db         # /chat session memory
 │   └── chroma_db/              # vector store (gitignored)
+├── Dockerfile
+├── docker-compose.yml
+├── docker-entrypoint.sh
 ├── pyproject.toml
 ├── .env.example
 ├── production_note.md          # path-to-production memo
@@ -168,46 +197,52 @@ meridian-assistant/
 ## Design decisions
 
 | Decision | Why |
-|---|---|
+|---|---|---|
 | **LangGraph** | A graph-based agent loop keeps routing, retries, and termination explicit. ReAct-style tool use without it gets messy fast. |
-| **Chroma + local HF embeddings** | No external accounts, no data leaving the box, runs offline. `all-MiniLM-L6-v2` is small enough for the 13-doc corpus. |
-| **OpenRouter** | Reviewers run with any model they have a key for. Swap `DEFAULT_LLM_SM` / `DEFAULT_LLM_MED` to test other models without code changes. |
+| **Chroma + OpenRouter embeddings (bge-base-en-v1.5)** | Chroma is embedded and needs no server. Embeddings go through OpenRouter for consistency with the LLM provider, and `bge-base-en-v1.5` gives good quality on the 12-doc corpus. Swap `EMBEDDING_MODEL` in `config.py` for a different embedding model. |
+| **OpenRouter** | Reviewers run with any model they have a key for. Set `AGENT_MODEL` to swap the LLM without code changes. Use `eval/benchmark_models.py` to A/B test models. |
+| **Auto-populate vector store on startup** | No manual pipeline step. The app checks `data/chroma_db/` on boot; if empty, runs the full PDF → chunks → Chroma pipeline before accepting requests. Survives ephemeral filesystems (DO App Platform). |
 | **Retrieve-on-first-turn node + `retrieve_kb` tool** | The node guarantees a citation-backed answer for the initial message; the tool lets the agent pull more context for follow-ups. |
 | **In-process tool calls to `db.py`** | Avoids a self-HTTP loop. The FastAPI router still exists and is independently testable. |
 | **Explicit `handoff_to_human` tool** | The LLM says it will hand off but doesn't always call the tool. The tool-call signal is the ground truth for handoff metrics. |
 | **Pydantic models everywhere** | Catches malformed payloads at the boundary. The booking schema mirrors the booking API contract in `12_booking_api_spec.pdf`. |
 | **SQLite, not in-memory dict** | The brief calls for a mock Booking API; SQLite gives persistence and a real query surface for the agent's `verify_booking_against_db` check. |
 | **Action eval calls the agent in-process, not via HTTP** | Faster, deterministic enough for the smoke-test set, same graph that backs `/chat`. Trade-off: misses transport bugs. |
-| **No framework (pydantic-evals, deepeval, etc.)** | Plain `pytest` / `python eval/run_eval.py` is enough at this scope. Production migration to DeepEval is in `production_note.md`. |
+| **No eval framework (pydantic-evals, deepeval, etc.)** | Plain `python -m eval.run_eval` is enough at this scope. Production migration to DeepEval is in `production_note.md`. |
+| **Retry with exponential backoff in eval** | Action eval hits live LLMs; rate limits cause flaky errors. Three retries with 2×/4×/8× backoff absorbs transient failures. |
 
 ## Deliberately left out
 
-- **Streamlit UI.** `/chat` is curl-able.
-- **Docker / docker-compose.** `uv run` is enough for the prototype.
-- **DigitalOcean deploy.** Out of scope for the prototype; prod plan is in `production_note.md`.
+- **Streamlit UI.** `/chat` is curl-able; the static HTML page at `/` serves as a basic chat UI.
+- **DigitalOcean deploy.** Docker support exists (`Dockerfile`, `docker-compose.yml`, `docker-entrypoint.sh`) but no DO app-spec YAML. The app self-heals on ephemeral filesystems via auto-population on startup.
 - **Authentication / rate limiting.** Sessions are identified by `session_id`; API auth is in `production_note.md`.
 - **Persistent agent memory beyond session.** Sessions are in SQLite; no past-session summarisation.
 - **PII masking.** Production concern; `production_note.md` covers it.
-- **Vector store rebuild on push.** Pipeline is a manual one-liner; CI is in `production_note.md`.
 
 ## Known issues / follow-ups
 
 - **30 cases is small.** Statistically meaningful thresholds need 200+. Stratified by intent, but per-class n is 1–2.
 - **Date arithmetic in the prompt.** The agent gets a `Current date:` line, but the model still occasionally misinterprets it. Hardening idea: serve a tiny `today()` tool instead of injecting text.
 - **Judge retrieves fresh context at eval time.** The KB chunks may differ from what the agent saw during the conversation, causing minor scoring drift.
+- **Embeddings require OpenRouter API.** Local embeddings (`sentence-transformers`) were originally planned but not implemented. The `EMBEDDING_MODEL` in `config.py` can point to any OpenRouter-compatible embedding model.
+- **check_service_area requires a running booking API.** The eval harness hits `http://localhost:8001` for the mock booking API; if it's not running, those cases will get connection-refused warnings (the agent still produces a correct answer from KB context).
 
 ## How to debug
 
 ```bash
-# Is the server up?
+# Is the server up and is the vector store populated?
 curl http://127.0.0.1:8000/health
+# → {"status":"healthy","vector_store_chunks":107}
 
-# Is the LLM reachable?
-curl http://127.0.0.1:8000/llm-health
+# Inspect the vector store
+uv run python -c "from app.data_loader.store import get_document_count; print(get_document_count())"
 
 # Inspect a booking
 sqlite3 data/bookings.db "SELECT * FROM bookings ORDER BY id DESC LIMIT 5;"
 
 # Inspect a chat session
 sqlite3 data/chat_history.db "SELECT * FROM messages WHERE session_id='demo-1';"
+
+# Rebuild the vector store from scratch
+rm -rf data/chroma_db && uv run python -c "from app.data_loader.pipeline import run_pipeline; run_pipeline()"
 ```
